@@ -3,8 +3,8 @@ import { ArrowDown } from 'lucide-react';
 const Hero = () => {
   return (
     <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted to-background relative overflow-hidden">
-      {/* Matrix-style code rain */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Matrix-style code rain - Dark mode only */}
+      <div className="absolute inset-0 overflow-hidden dark:block hidden">
         <div className="absolute top-0 left-[10%] text-green-400/20 text-xs font-mono animate-pulse">
           <div className="animate-slide-down">01100001 01101001</div>
         </div>
@@ -19,13 +19,29 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Spider web effect */}
-      <div className="absolute inset-0">
+      {/* Light mode floating particles */}
+      <div className="absolute inset-0 overflow-hidden block dark:hidden">
+        <div className="absolute top-0 left-[10%] text-blue-400/30 text-xs font-mono animate-pulse">
+          <div className="animate-slide-down">AI</div>
+        </div>
+        <div className="absolute top-0 left-[30%] text-purple-400/30 text-xs font-mono animate-pulse delay-1000">
+          <div className="animate-slide-down delay-500">ML</div>
+        </div>
+        <div className="absolute top-0 left-[60%] text-cyan-400/30 text-xs font-mono animate-pulse delay-2000">
+          <div className="animate-slide-down delay-1000">CV</div>
+        </div>
+        <div className="absolute top-0 left-[80%] text-green-400/30 text-xs font-mono animate-pulse delay-1500">
+          <div className="animate-slide-down delay-300">LLM</div>
+        </div>
+      </div>
+
+      {/* Spider web effect - Dark mode */}
+      <div className="absolute inset-0 dark:block hidden">
         <svg className="w-full h-full opacity-10" viewBox="0 0 800 600">
           <defs>
             <pattern id="web" patternUnits="userSpaceOnUse" width="100" height="100">
-              <path d="M 0 50 L 100 50 M 50 0 L 50 100 M 20 20 L 80 80 M 80 20 L 20 80" 
-                    stroke="url(#gradient)" strokeWidth="0.5" opacity="0.3"/>
+              <path d="M 0 50 L 100 50 M 50 0 L 50 100 M 20 20 L 80 80 M 80 20 L 20 80"
+                stroke="url(#gradient)" strokeWidth="0.5" opacity="0.3" />
             </pattern>
             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#3b82f6" />
@@ -34,7 +50,7 @@ const Hero = () => {
             </linearGradient>
           </defs>
           <rect width="100%" height="100%" fill="url(#web)" className="animate-pulse" />
-          
+
           {/* Animated connection lines */}
           <line x1="100" y1="100" x2="300" y2="200" stroke="#3b82f6" strokeWidth="1" opacity="0.2" className="animate-pulse delay-500">
             <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite" />
@@ -48,48 +64,81 @@ const Hero = () => {
         </svg>
       </div>
 
-      {/* Floating neural network nodes */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-blue-500/40 rounded-full animate-pulse">
+      {/* Light mode geometric patterns */}
+      <div className="absolute inset-0 block dark:hidden">
+        <svg className="w-full h-full opacity-5" viewBox="0 0 800 600">
+          <defs>
+            <pattern id="geometric" patternUnits="userSpaceOnUse" width="80" height="80">
+              <circle cx="40" cy="40" r="2" fill="#3b82f6" opacity="0.3" />
+              <rect x="35" y="35" width="10" height="10" fill="none" stroke="#8b5cf6" strokeWidth="0.5" opacity="0.2" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#geometric)" className="animate-pulse" />
+        </svg>
+      </div>
+
+      {/* Floating neural network nodes - Dark mode */}
+      <div className="absolute inset-0 dark:block hidden">
+        <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-blue-500/40 rounded-full animate-dark-float">
           <div className="w-full h-full bg-blue-400 rounded-full animate-ping"></div>
         </div>
-        <div className="absolute top-1/3 right-1/3 w-2 h-2 bg-purple-500/40 rounded-full animate-pulse delay-1000">
+        <div className="absolute top-1/3 right-1/3 w-2 h-2 bg-purple-500/40 rounded-full animate-dark-float delay-1000">
           <div className="w-full h-full bg-purple-400 rounded-full animate-ping delay-500"></div>
         </div>
-        <div className="absolute bottom-1/3 left-1/2 w-4 h-4 bg-cyan-500/40 rounded-full animate-pulse delay-2000">
+        <div className="absolute bottom-1/3 left-1/2 w-4 h-4 bg-cyan-500/40 rounded-full animate-dark-float delay-2000">
           <div className="w-full h-full bg-cyan-400 rounded-full animate-ping delay-1000"></div>
         </div>
-        <div className="absolute top-2/3 right-1/4 w-2 h-2 bg-green-500/40 rounded-full animate-pulse delay-500">
+        <div className="absolute top-2/3 right-1/4 w-2 h-2 bg-green-500/40 rounded-full animate-dark-float delay-500">
           <div className="w-full h-full bg-green-400 rounded-full animate-ping delay-200"></div>
         </div>
       </div>
 
-      {/* Glowing orbs with circuit patterns */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-indigo-500/4 rounded-full blur-3xl animate-drift"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-cyan-500/3 rounded-full blur-3xl animate-float delay-1000"></div>
+      {/* Light mode floating elements */}
+      <div className="absolute inset-0 block dark:hidden">
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400/30 rounded-full animate-light-float">
+          <div className="w-full h-full bg-blue-300 rounded-full animate-ping"></div>
+        </div>
+        <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-400/30 rounded-full animate-light-float delay-1000">
+          <div className="w-full h-full bg-purple-300 rounded-full animate-ping delay-500"></div>
+        </div>
+        <div className="absolute bottom-1/3 left-1/2 w-2 h-2 bg-cyan-400/30 rounded-full animate-light-float delay-2000">
+          <div className="w-full h-full bg-cyan-300 rounded-full animate-ping delay-1000"></div>
+        </div>
+        <div className="absolute top-2/3 right-1/4 w-3 h-3 bg-green-400/30 rounded-full animate-light-float delay-500">
+          <div className="w-full h-full bg-green-300 rounded-full animate-ping delay-200"></div>
+        </div>
       </div>
 
-      {/* Circuit board pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iY2lyY3VpdCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDMwIDAgTCAzMCAzMCBMIDYwIDMwIE0gMCAzMCBMIDMwIDMwIE0gMzAgMzAgTCAzMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LCAxMzAsIDI0NiwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjIiIGZpbGw9InJnYmEoNTksIDEzMCwgMjQ2LCAwLjEpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2NpcmN1aXQpIi8+PC9zdmc+')] opacity-15"></div>
+      {/* Glowing orbs with circuit patterns - Dark mode */}
+      <div className="absolute inset-0 overflow-hidden dark:block hidden">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl animate-dark-float"></div>
+        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-indigo-500/4 rounded-full blur-3xl animate-drift"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-cyan-500/3 rounded-full blur-3xl animate-dark-float delay-1000"></div>
+      </div>
+
+      {/* Light mode subtle gradients */}
+      <div className="absolute inset-0 overflow-hidden block dark:hidden">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-400/3 rounded-full blur-3xl animate-light-float"></div>
+        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-purple-400/2 rounded-full blur-3xl animate-drift"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-cyan-400/3 rounded-full blur-3xl animate-light-float delay-1000"></div>
+      </div>
+
+      {/* Circuit board pattern - Dark mode */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iY2lyY3VpdCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDMwIDAgTCAzMCAzMCBMIDYwIDMwIE0gMCAzMCBMIDMwIDMwIE0gMzAgMzAgTCAzMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LCAxMzAsIDI0NiwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjIiIGZpbGw9InJnYmEoNTksIDEzMCwgMjQ2LCAwLjEpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2NpcmN1aXQpIi8+PC9zdmc+')] opacity-15 dark:block hidden"></div>
+
+      {/* Light mode dot pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZG90cyIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSJyZ2JhKDU5LCAxMzAsIDI0NiwgMC4xKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNkb3RzKSIvPjwvc3ZnPg==')] opacity-10 block dark:hidden"></div>
 
       <div className="container mx-auto px-6 text-center relative z-10 max-w-4xl">
         <div className="animate-fade-in">
           <h1 className="text-6xl md:text-7xl font-bold mb-8 text-foreground leading-tight">
-            <span className="inline-block animate-pulse">Shubham</span>{' '}
-            <span className="bg-gradient-to-r from-blue-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent animate-pulse delay-500">
-              Chougale
-            </span>
+            <div className="text-center">
+              <span className="inline-block animate-pulse">Shubham Chougale</span>
+              <span className="block text-3xl animate-pulse">- AI Engineer</span>
+            </div>
+
           </h1>
-          
-          <h2 className="text-2xl md:text-3xl mb-8">
-            <span className="bg-gradient-to-r from-blue-300 via-indigo-300 to-cyan-300 bg-clip-text text-transparent font-semibold relative">
-              <span className="animate-pulse">AI Engineer</span> <span className="animate-pulse delay-300">Data Scientist</span>
-              <div className="absolute -top-2 -right-4 w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
-            </span>
-          </h2>
-          
+
           <div className="space-y-4 mb-12 text-muted-foreground">
             <p className="text-xl md:text-2xl flex items-center justify-center gap-3 animate-fade-in delay-500">
               <span className="animate-bounce"></span>
@@ -100,7 +149,7 @@ const Hero = () => {
               <span>Specializing in Computer Vision, LLMs, and Edge AI.</span>
             </p>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in delay-1000">
             <a
               href="#projects"

@@ -100,6 +100,12 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Smooth transitions for theme changes */
+  * {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   }
 }
 
@@ -158,6 +164,37 @@ All colors MUST be HSL.
   }
 }
 
+/* Theme-aware animations */
+@keyframes light-float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  33% { 
+    transform: translateY(-10px) rotate(1deg);
+    opacity: 0.5;
+  }
+  66% { 
+    transform: translateY(5px) rotate(-1deg);
+    opacity: 0.4;
+  }
+}
+
+@keyframes dark-float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.4;
+  }
+  33% { 
+    transform: translateY(-15px) rotate(1deg);
+    opacity: 0.6;
+  }
+  66% { 
+    transform: translateY(8px) rotate(-1deg);
+    opacity: 0.5;
+  }
+}
+
 @layer utilities {
   .animate-float {
     animation: float 6s ease-in-out infinite;
@@ -182,6 +219,24 @@ All colors MUST be HSL.
   .animate-circuit-flow {
     animation: circuit-flow 20s linear infinite;
   }
+
+  /* Theme-aware animation utilities */
+  .animate-light-float {
+    animation: light-float 6s ease-in-out infinite;
+  }
+  
+  .animate-dark-float {
+    animation: dark-float 6s ease-in-out infinite;
+  }
+
+  /* Theme-specific display utilities */
+  .theme-light {
+    @apply block dark:hidden;
+  }
+  
+  .theme-dark {
+    @apply hidden dark:block;
+  }
 }
 
 /* Custom scrollbar for the AI feel */
@@ -200,4 +255,23 @@ All colors MUST be HSL.
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #2563eb, #7c3aed);
+}
+
+/* Smooth theme transition overlay */
+.theme-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: hsl(var(--background));
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.theme-transition.active {
+  opacity: 1;
+  pointer-events: auto;
 }
