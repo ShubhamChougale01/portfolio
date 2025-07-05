@@ -164,19 +164,19 @@ All colors MUST be HSL.
   }
 }
 
-/* Theme-aware animations */
+/* Theme-aware animations - Enhanced */
 @keyframes light-float {
   0%, 100% { 
     transform: translateY(0px) rotate(0deg);
-    opacity: 0.3;
+    opacity: 0.6;
   }
   33% { 
-    transform: translateY(-10px) rotate(1deg);
-    opacity: 0.5;
+    transform: translateY(-12px) rotate(2deg);
+    opacity: 0.8;
   }
   66% { 
-    transform: translateY(5px) rotate(-1deg);
-    opacity: 0.4;
+    transform: translateY(6px) rotate(-2deg);
+    opacity: 0.7;
   }
 }
 
@@ -192,6 +192,24 @@ All colors MUST be HSL.
   66% { 
     transform: translateY(8px) rotate(-1deg);
     opacity: 0.5;
+  }
+}
+
+/* Enhanced light mode slide-down animation */
+@keyframes light-slide-down {
+  0% { 
+    transform: translateY(-80px); 
+    opacity: 0; 
+  }
+  20% { 
+    opacity: 0.8; 
+  }
+  80% { 
+    opacity: 0.8; 
+  }
+  100% { 
+    transform: translateY(80vh); 
+    opacity: 0; 
   }
 }
 
@@ -220,13 +238,17 @@ All colors MUST be HSL.
     animation: circuit-flow 20s linear infinite;
   }
 
-  /* Theme-aware animation utilities */
+  /* Theme-aware animation utilities - Enhanced */
   .animate-light-float {
-    animation: light-float 6s ease-in-out infinite;
+    animation: light-float 5s ease-in-out infinite;
   }
   
   .animate-dark-float {
     animation: dark-float 6s ease-in-out infinite;
+  }
+
+  .animate-light-slide-down {
+    animation: light-slide-down 8s linear infinite;
   }
 
   /* Theme-specific display utilities */
