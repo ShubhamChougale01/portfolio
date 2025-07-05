@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Github, Linkedin } from 'lucide-react';
 
@@ -24,7 +23,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-slate-900">
+    <section id="contact" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
           <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -36,10 +35,10 @@ const Contact = () => {
           {/* Contact Info */}
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-bold text-white mb-4">
+              <h3 className="text-2xl font-bold text-foreground mb-4">
                 Ready to collaborate?
               </h3>
-              <p className="text-slate-300 leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed">
                 I'm always interested in discussing new opportunities, innovative AI projects, 
                 and potential collaborations. Whether you're looking for an AI engineer to join 
                 your team or need consultation on ML implementations, let's talk!
@@ -51,7 +50,7 @@ const Contact = () => {
                 <h4 className="text-lg font-semibold text-blue-400 mb-2">
                   What I'm looking for:
                 </h4>
-                <ul className="text-slate-300 space-y-2">
+                <ul className="text-muted-foreground space-y-2">
                   <li>• Senior AI/ML Engineering roles</li>
                   <li>• Computer Vision project collaborations</li>
                   <li>• LLM integration consulting</li>
@@ -63,7 +62,7 @@ const Contact = () => {
                 <h4 className="text-lg font-semibold text-purple-400 mb-2">
                   My expertise includes:
                 </h4>
-                <ul className="text-slate-300 space-y-2">
+                <ul className="text-muted-foreground space-y-2">
                   <li>• End-to-end ML pipeline development</li>
                   <li>• Production AI system deployment</li>
                   <li>• Cross-platform mobile AI solutions</li>
@@ -76,14 +75,14 @@ const Contact = () => {
             <div className="flex space-x-4">
               <a
                 href="https://github.com"
-                className="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg border border-slate-600 hover:border-blue-500 transition-all duration-300"
+                className="flex items-center space-x-2 bg-muted hover:bg-muted/80 text-foreground px-4 py-2 rounded-lg border border-border hover:border-blue-500 transition-all duration-300"
               >
                 <Github size={20} />
                 <span>GitHub</span>
               </a>
               <a
                 href="https://linkedin.com"
-                className="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg border border-slate-600 hover:border-blue-500 transition-all duration-300"
+                className="flex items-center space-x-2 bg-muted hover:bg-muted/80 text-foreground px-4 py-2 rounded-lg border border-border hover:border-blue-500 transition-all duration-300"
               >
                 <Linkedin size={20} />
                 <span>LinkedIn</span>
@@ -92,10 +91,10 @@ const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-slate-800 p-8 rounded-xl border border-slate-700">
+          <div className="bg-card p-8 rounded-xl border border-border">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-slate-300 font-medium mb-2">
+                <label htmlFor="name" className="block text-foreground font-medium mb-2">
                   Name
                 </label>
                 <input
@@ -104,14 +103,14 @@ const Contact = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   placeholder="Your name"
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-slate-300 font-medium mb-2">
+                <label htmlFor="email" className="block text-foreground font-medium mb-2">
                   Email
                 </label>
                 <input
@@ -120,14 +119,14 @@ const Contact = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   placeholder="your.email@example.com"
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-slate-300 font-medium mb-2">
+                <label htmlFor="subject" className="block text-foreground font-medium mb-2">
                   Subject
                 </label>
                 <input
@@ -136,14 +135,14 @@ const Contact = () => {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   placeholder="What's this about?"
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-slate-300 font-medium mb-2">
+                <label htmlFor="message" className="block text-foreground font-medium mb-2">
                   Message
                 </label>
                 <textarea
@@ -152,7 +151,7 @@ const Contact = () => {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"
                   placeholder="Tell me about your project or opportunity..."
                   required
                 ></textarea>

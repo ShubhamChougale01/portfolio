@@ -1,4 +1,3 @@
-
 const Skills = () => {
   const skillCategories = [
     {
@@ -70,7 +69,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-20 bg-slate-800">
+    <section id="skills" className="py-20 bg-muted/30">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
           <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -82,7 +81,7 @@ const Skills = () => {
           {skillCategories.map((category, categoryIndex) => (
             <div
               key={categoryIndex}
-              className="bg-slate-900 p-6 rounded-xl border border-slate-700 hover:border-slate-600 transition-all duration-300 hover:transform hover:scale-105"
+              className="bg-card p-6 rounded-xl border border-border hover:border-border/80 transition-all duration-300 hover:transform hover:scale-105"
             >
               <h3 className={`text-xl font-bold mb-6 bg-gradient-to-r ${category.color} bg-clip-text text-transparent`}>
                 {category.title}
@@ -92,14 +91,14 @@ const Skills = () => {
                 {category.skills.map((skill, skillIndex) => (
                   <div key={skillIndex} className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-slate-300 font-medium text-sm">
+                      <span className="text-foreground font-medium text-sm">
                         {skill.name}
                       </span>
-                      <span className="text-slate-400 text-xs">
+                      <span className="text-muted-foreground text-xs">
                         {skill.level}%
                       </span>
                     </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2">
+                    <div className="w-full bg-muted rounded-full h-2">
                       <div
                         className={`bg-gradient-to-r ${category.color} h-2 rounded-full transition-all duration-1000 ease-out`}
                         style={{ width: `${skill.level}%` }}
@@ -114,7 +113,7 @@ const Skills = () => {
 
         {/* Certifications Section */}
         <div className="mt-20">
-          <h3 className="text-3xl font-bold text-center mb-12 text-white">
+          <h3 className="text-3xl font-bold text-center mb-12 text-foreground">
             Certifications & Achievements
           </h3>
           
@@ -127,15 +126,15 @@ const Skills = () => {
             ].map((cert, index) => (
               <div
                 key={index}
-                className="bg-slate-900 p-4 rounded-lg border border-slate-700 text-center hover:border-blue-500/50 transition-all duration-300"
+                className="bg-card p-4 rounded-lg border border-border text-center hover:border-blue-500/50 transition-all duration-300"
               >
                 <div className="text-blue-400 font-semibold text-sm mb-1">
                   {cert.name}
                 </div>
-                <div className="text-slate-400 text-xs mb-1">
+                <div className="text-muted-foreground text-xs mb-1">
                   {cert.provider}
                 </div>
-                <div className="text-slate-500 text-xs">
+                <div className="text-muted-foreground/70 text-xs">
                   {cert.year}
                 </div>
               </div>

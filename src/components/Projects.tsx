@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Github } from 'lucide-react';
 
@@ -75,7 +74,7 @@ const Projects = () => {
     : projects.filter(project => project.category === activeFilter);
 
   return (
-    <section id="projects" className="py-20 bg-slate-900">
+    <section id="projects" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
           <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -92,7 +91,7 @@ const Projects = () => {
               className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
                 activeFilter === category
                   ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
               }`}
             >
               {category}
@@ -105,7 +104,7 @@ const Projects = () => {
           {filteredProjects.map((project, index) => (
             <div
               key={index}
-              className={`bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl ${
+              className={`bg-card rounded-xl overflow-hidden border border-border hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl ${
                 project.featured ? 'ring-2 ring-blue-500/20' : ''
               }`}
             >
@@ -115,18 +114,18 @@ const Projects = () => {
                 </div>
               )}
               
-              <div className="h-48 bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
-                <div className="text-slate-400 text-4xl font-bold opacity-20">
+              <div className="h-48 bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center">
+                <div className="text-muted-foreground text-4xl font-bold opacity-20">
                   {project.category.split(' ')[0]}
                 </div>
               </div>
               
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-3 hover:text-blue-400 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-3 hover:text-blue-400 transition-colors">
                   {project.title}
                 </h3>
                 
-                <p className="text-slate-300 text-sm mb-4 leading-relaxed">
+                <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
                   {project.description}
                 </p>
                 
@@ -134,7 +133,7 @@ const Projects = () => {
                   {project.tech.map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className="px-2 py-1 bg-slate-700 text-slate-300 text-xs rounded-md border border-slate-600"
+                      className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md border border-border"
                     >
                       {tech}
                     </span>
@@ -144,7 +143,7 @@ const Projects = () => {
                 <div className="flex space-x-3">
                   <a
                     href={project.github}
-                    className="flex items-center space-x-2 text-slate-300 hover:text-blue-400 transition-colors text-sm"
+                    className="flex items-center space-x-2 text-muted-foreground hover:text-blue-400 transition-colors text-sm"
                   >
                     <Github size={16} />
                     <span>Code</span>
@@ -164,7 +163,7 @@ const Projects = () => {
         <div className="text-center mt-12">
           <a
             href="https://github.com"
-            className="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-lg border border-slate-600 hover:border-blue-500 transition-all duration-300"
+            className="inline-flex items-center space-x-2 bg-muted hover:bg-muted/80 text-foreground px-6 py-3 rounded-lg border border-border hover:border-blue-500 transition-all duration-300"
           >
             <Github size={20} />
             <span>View All Projects on GitHub</span>

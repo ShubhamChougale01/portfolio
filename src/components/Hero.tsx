@@ -1,9 +1,8 @@
-
 import { ArrowDown } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted to-background relative overflow-hidden">
       {/* Matrix-style code rain */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-[10%] text-green-400/20 text-xs font-mono animate-pulse">
@@ -77,7 +76,7 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 text-center relative z-10 max-w-4xl">
         <div className="animate-fade-in">
-          <h1 className="text-6xl md:text-7xl font-bold mb-8 text-slate-100 leading-tight">
+          <h1 className="text-6xl md:text-7xl font-bold mb-8 text-foreground leading-tight">
             <span className="inline-block animate-pulse">Shubham</span>{' '}
             <span className="bg-gradient-to-r from-blue-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent animate-pulse delay-500">
               Chougale
@@ -86,12 +85,12 @@ const Hero = () => {
           
           <h2 className="text-2xl md:text-3xl mb-8">
             <span className="bg-gradient-to-r from-blue-300 via-indigo-300 to-cyan-300 bg-clip-text text-transparent font-semibold relative">
-              <span className="animate-pulse">AI Engineer</span> & <span className="animate-pulse delay-300">Data Scientist</span>
+              <span className="animate-pulse">AI Engineer</span> <span className="animate-pulse delay-300">Data Scientist</span>
               <div className="absolute -top-2 -right-4 w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
             </span>
           </h2>
           
-          <div className="space-y-4 mb-12 text-slate-300">
+          <div className="space-y-4 mb-12 text-muted-foreground">
             <p className="text-xl md:text-2xl flex items-center justify-center gap-3 animate-fade-in delay-500">
               <span className="animate-bounce"></span>
               <span>Turning data into solutions, and AI into impact.</span>
@@ -112,7 +111,7 @@ const Hero = () => {
             </a>
             <a
               href="#contact"
-              className="border border-slate-500 hover:border-blue-400 text-slate-300 hover:text-blue-300 px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:bg-slate-800/50 backdrop-blur-sm relative group"
+              className="border border-border hover:border-blue-400 text-muted-foreground hover:text-blue-300 px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
             >
               <span className="relative z-10">Get In Touch</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -124,7 +123,7 @@ const Hero = () => {
       {/* Animated scroll indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
         <div className="flex flex-col items-center gap-2">
-          <ArrowDown className="text-slate-400 animate-pulse" size={24} />
+          <ArrowDown className="text-muted-foreground animate-pulse" size={24} />
           <div className="w-1 h-8 bg-gradient-to-b from-blue-400 to-transparent rounded-full animate-pulse"></div>
         </div>
       </div>

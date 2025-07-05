@@ -1,4 +1,3 @@
-
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import About from '../components/About';
@@ -10,7 +9,7 @@ import AIChatbot from '../components/AIChatbot';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Header />
       <Hero />
       <About />
