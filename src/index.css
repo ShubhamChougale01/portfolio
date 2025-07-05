@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -101,6 +107,8 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
     transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Inter', 'Times New Roman', 'Times', serif;
+    scroll-behavior: smooth;
   }
 
   /* Smooth transitions for theme changes */
@@ -296,4 +304,203 @@ All colors MUST be HSL.
 .theme-transition.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* Rich Typography Classes */
+.font-times {
+  font-family: 'Times New Roman', 'Times', serif;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+}
+
+.font-merriweather {
+  font-family: 'Merriweather', 'Times New Roman', serif;
+}
+
+.font-source-sans {
+  font-family: 'Source Sans Pro', 'Arial', sans-serif;
+}
+
+.font-roboto-slab {
+  font-family: 'Roboto Slab', 'Times New Roman', serif;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -30px, 0);
+  }
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+/* Specialization Card Hover Effects */
+.specialization-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.6, 1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.specialization-card:hover {
+  transform: translateY(-8px) rotateX(5deg) rotateY(5deg);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(59, 130, 246, 0.1);
+}
+
+.specialization-card:hover .card-icon {
+  transform: scale(1.2) rotate(10deg);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.specialization-card:hover .card-title {
+  color: hsl(var(--primary));
+  transform: translateY(-2px);
+}
+
+.specialization-card:hover .card-description {
+  color: hsl(var(--foreground));
+}
+
+/* Card Icon Animation */
+.card-icon {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.6, 1);
+  display: inline-block;
+}
+
+/* Card Title Animation */
+.card-title {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Card Description Animation */
+.card-description {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Highlight Items Hover Effects */
+.highlight-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.highlight-item:hover {
+  background: hsl(var(--muted));
+  transform: translateX(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.highlight-item:hover .highlight-icon {
+  transform: scale(1.3) rotate(15deg);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.highlight-icon {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+  display: inline-block;
+}
+
+/* Intro Text Typography */
+.intro-text {
+  font-family: 'Merriweather', 'Times New Roman', serif;
+  line-height: 1.8;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.intro-text strong {
+  font-weight: 700;
+  color: hsl(var(--primary));
+}
+
+/* Hero Title Typography */
+.hero-title {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-family: 'Roboto Slab', 'Times New Roman', serif;
+  font-weight: 500;
+}
+
+/* Section Headers */
+.section-header {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Impact Statement */
+.impact-statement {
+  font-family: 'Merriweather', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* Specialization Section */
+.specialization-section {
+  font-family: 'Source Sans Pro', 'Arial', sans-serif;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+  
+  .intro-text {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .impact-statement {
+    font-size: 1.1rem;
+  }
 }

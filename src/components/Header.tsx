@@ -8,13 +8,13 @@ const Header = () => {
   const navItems = [
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
-    { name: 'Project', href: '#project' },
+    { name: 'Projects', href: '#projects' },
     { name: 'Skills', href: '#skills' },
     { name: 'Contact', href: '#contact' },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Profile and Social Links */}
@@ -23,7 +23,12 @@ const Header = () => {
               <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center">
                 <User size={16} className="text-white" />
               </div>
-              <span className="text-sm font-medium text-foreground">Shubham Chougale</span>
+              <a 
+                href="#home" 
+                className="text-sm font-medium text-foreground hover:text-blue-400 transition-colors duration-200 cursor-pointer font-times"
+              >
+                Shubham Chougale
+              </a>
             </div>
             <div className="hidden sm:flex items-center space-x-3">
               <a
@@ -51,7 +56,7 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-foreground/80 hover:text-blue-400 transition-colors duration-200 font-medium"
+                className="text-foreground/80 hover:text-blue-400 transition-colors duration-200 font-medium font-source-sans"
               >
                 {item.name}
               </a>
@@ -71,7 +76,7 @@ const Header = () => {
                 <Github size={18} />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/shubham-chougale/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors duration-200"
@@ -97,7 +102,7 @@ const Header = () => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-foreground/80 hover:text-blue-400 transition-colors duration-200 font-medium"
+                  className="text-foreground/80 hover:text-blue-400 transition-colors duration-200 font-medium font-source-sans"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}

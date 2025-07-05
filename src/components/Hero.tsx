@@ -1,8 +1,62 @@
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Download, MapPin, GraduationCap, Brain, Eye, Mic, Zap, Link, Package } from 'lucide-react';
+import IconA from './IconA';
+import IconB from './IconB';
+import { useState, useRef, useEffect } from 'react';
+
+const summaryText = (
+  <>
+    <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed mb-2">
+      Hi! I'm Shubham — an AI Engineer at <strong>64 Squares LLC</strong>, where I design real-time, production-ready systems powered by AI Agents, LLMs, computer vision, and speech AI.
+    </p>
+    <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed">
+      With hands-on experience in YOLOv8, RAG, CoreML, Deepgram, Langchain, and OpenAI, I've created tools that detect defects in buildings, automate property workflows, and enable voice-driven assistants. My passion lies in solving real-world problems through intelligent automation, whether it's on-device inference or cloud-based AI pipelines.
+    </p>
+  </>
+);
+
+const specializeText = (
+  <div className="text-left space-y-3">
+    <div>
+      <span className="font-semibold">AI Agents & LLMs:</span> Langchain, RAG, OpenAI API, contextual memory
+    </div>
+    <div>
+      <span className="font-semibold">Computer Vision:</span> YOLOv8, AVFoundation, CoreML, image/video inference
+    </div>
+    <div>
+      <span className="font-semibold">Voice Interfaces:</span> Deepgram STT, TTS, Whisper — for smart assistants
+    </div>
+    <div>
+      <span className="font-semibold">92% accurate real-time defect detection on iOS</span>
+    </div>
+    <div>
+      <span className="font-semibold">Seamless integration between backend, frontend, and AI Agents</span>
+    </div>
+    <div>
+      <span className="font-semibold">Containerized ML workflows for easy deployment</span>
+    </div>
+  </div>
+);
 
 const Hero = () => {
+  const [openBox, setOpenBox] = useState<'summary' | 'specialize' | null>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (boxRef.current && !boxRef.current.contains(event.target as Node)) {
+        setOpenBox(null);
+      }
+    }
+    if (openBox) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openBox]);
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted to-background relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted to-background relative overflow-hidden pt-20">
       {/* Matrix-style code rain - Dark mode only */}
       <div className="absolute inset-0 overflow-hidden dark:block hidden">
         <div className="absolute top-0 left-[10%] text-green-400/20 text-xs font-mono animate-pulse">
@@ -162,31 +216,80 @@ const Hero = () => {
       {/* Light mode dot pattern - Enhanced */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZG90cyIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48Y2lyY2xlIGN4PSIxNSIgY3k9IjE1IiByPSIxLjUiIGZpbGw9InJnYmEoNTksIDEzMCwgMjQ2LCAwLjIpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2RvdHMpIi8+PC9zdmc+')] opacity-20 block dark:hidden"></div>
 
-      <div className="container mx-auto px-6 text-center relative z-10 max-w-4xl">
+      <div className="container mx-auto px-6 text-center relative z-10 max-w-5xl">
         <div className="animate-fade-in">
-          <h1 className="text-6xl md:text-7xl font-bold mb-8 text-foreground leading-tight">
-            <div className="text-center">
-              <span className="inline-block animate-pulse">Shubham Chougale</span>
-              <span className="block text-3xl animate-pulse">AI Engineer</span>
-              <span className="inline-flex text-xl animate-pulse"> AI Agents | Computer Vision | LLMs </span>
-            </div>
-
+          {/* Hero Section */}
+          <h1 className="hero-title text-6xl md:text-7xl mb-4 text-foreground leading-tight">
+            <span className="inline-block animate-pulse">Shubham Chougale</span>
           </h1>
+          
+          <h2 className="hero-subtitle text-3xl md:text-4xl mb-4 text-foreground">
+            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
+              AI Engineer
+            </span>
+          </h2>
+          
+          <p className="font-source-sans text-xl md:text-2xl mb-6 text-muted-foreground font-medium">
+            AI Agents • Computer Vision • LLMs
+          </p>
+          
+          {/* Location and Education */}
+          <div className="flex items-center justify-center gap-6 mb-8 text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <MapPin size={18} />
+              <span className="font-times">Pune, India</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <GraduationCap size={18} />
+              <span className="font-times">MCA in Data Science</span>
+            </div>
+          </div>
 
-          <div className="space-y-4 mb-12 text-muted-foreground">
-            <p className="text-xl md:text-2xl flex items-center justify-center gap-3 animate-fade-in delay-500">
-              <span className="animate-bounce"></span>
-              <span>Turning data into solutions, and AI into impact.</span>
-            </p>
-            <p className="text-xl md:text-2xl flex items-center justify-center gap-3 animate-fade-in delay-700">
-              <span className="animate-bounce delay-200"></span>
-              <span>Specializing in Computer Vision, LLMs, and Edge AI.</span>
+          {/* ICONS FOR POPUP BOXES */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-8 mb-10">
+            <div className="relative flex flex-col items-center">
+              <button
+                aria-label="Show summary"
+                className={`rounded-full p-4 bg-card border border-border shadow-md hover:scale-110 transition-transform duration-200 ${openBox === 'summary' ? 'ring-2 ring-primary' : ''}`}
+                onClick={() => setOpenBox(openBox === 'summary' ? null : 'summary')}
+              >
+                <IconA className="w-12 h-12 text-blue-500" />
+              </button>
+              <span className="mt-2 text-xs text-muted-foreground">About Me</span>
+              {openBox === 'summary' && (
+                <div ref={boxRef} className="absolute left-1/2 top-full z-20 w-80 -translate-x-1/2 mt-4 bg-background border border-border rounded-xl shadow-xl p-6 text-left animate-fade-in">
+                  {summaryText}
+                </div>
+              )}
+            </div>
+            <div className="relative flex flex-col items-center">
+              <button
+                aria-label="Show specialization"
+                className={`rounded-full p-4 bg-card border border-border shadow-md hover:scale-110 transition-transform duration-200 ${openBox === 'specialize' ? 'ring-2 ring-primary' : ''}`}
+                onClick={() => setOpenBox(openBox === 'specialize' ? null : 'specialize')}
+              >
+                <IconB className="w-12 h-12 text-purple-500" />
+              </button>
+              <span className="mt-2 text-xs text-muted-foreground">Specialties</span>
+              {openBox === 'specialize' && (
+                <div ref={boxRef} className="absolute left-1/2 top-full z-20 w-80 -translate-x-1/2 mt-4 bg-background border border-border rounded-xl shadow-xl p-6 text-left animate-fade-in">
+                  {specializeText}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Impact Statement */}
+          <div className="mb-8">
+            <p className="impact-statement text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+              I build intelligent, scalable systems using Gen AI, Vision, and Voice tech — to Langchain-driven AI assistants.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in delay-1000">
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <a
-              href="#project"
+              href="#projects"
               className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative overflow-hidden group"
             >
               <span className="relative z-10">View My Work</span>
@@ -199,6 +302,78 @@ const Hero = () => {
               <span className="relative z-10">Get In Touch</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 border border-border hover:border-green-400 text-muted-foreground hover:text-green-300 px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
+            >
+              <Download size={18} />
+              <span className="relative z-10">Download Resume</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-green-400/10 to-emerald-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </a>
+          </div>
+
+          {/* Brief Intro Paragraph */}
+          <div className="mb-12 max-w-4xl mx-auto">
+            <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed">
+              Hi! I'm Shubham — an AI Engineer at <strong>64 Squares LLC</strong>, where I design real-time, production-ready systems powered by AI Agents, LLMs, computer vision, and speech AI.
+            </p>
+            <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed mt-4">
+              With hands-on experience in YOLOv8, RAG, CoreML, Deepgram, Langchain, and OpenAI, I've created tools that detect defects in buildings, automate property workflows, and enable voice-driven assistants. My passion lies in solving real-world problems through intelligent automation, whether it's on-device inference or cloud-based AI pipelines.
+            </p>
+          </div>
+
+          {/* What I Specialize In */}
+          <div className="mb-12 specialization-section">
+            <h3 className="section-header text-2xl md:text-3xl font-bold mb-8 text-foreground">What I Specialize In</h3>
+            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-blue-400/50 transition-all duration-300">
+                <div className="card-icon text-blue-500 mb-3">
+                  <Brain size={32} />
+                </div>
+                <h4 className="card-title text-lg font-semibold mb-2 text-foreground">AI Agents & LLMs</h4>
+                <p className="card-description text-muted-foreground text-sm">Langchain, RAG, OpenAI API, contextual memory</p>
+              </div>
+              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-purple-400/50 transition-all duration-300">
+                <div className="card-icon text-purple-500 mb-3">
+                  <Eye size={32} />
+                </div>
+                <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Computer Vision</h4>
+                <p className="card-description text-muted-foreground text-sm">YOLOv8, AVFoundation, CoreML, image/video inference</p>
+              </div>
+              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-cyan-400/50 transition-all duration-300">
+                <div className="card-icon text-cyan-500 mb-3">
+                  <Mic size={32} />
+                </div>
+                <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Voice Interfaces</h4>
+                <p className="card-description text-muted-foreground text-sm">Deepgram STT, TTS, Whisper — for smart assistants</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Mini Highlights */}
+          <div className="mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-muted-foreground">
+              <div className="highlight-item flex items-center gap-2">
+                <span className="highlight-icon text-green-400">
+                  <Zap size={20} />
+                </span>
+                <span className="font-times">92% accurate real-time defect detection on iOS</span>
+              </div>
+              <div className="highlight-item flex items-center gap-2">
+                <span className="highlight-icon text-blue-400">
+                  <Link size={20} />
+                </span>
+                <span className="font-times">Seamless integration between backend, frontend, and AI Agents</span>
+              </div>
+              <div className="highlight-item flex items-center gap-2">
+                <span className="highlight-icon text-purple-400">
+                  <Package size={20} />
+                </span>
+                <span className="font-times">Containerized ML workflows for easy deployment</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
