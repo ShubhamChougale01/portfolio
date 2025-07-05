@@ -1,73 +1,127 @@
-# Welcome to your Lovable project
+# 🧠 Git & GitHub Commands Cheat Sheet
 
-## Project info
+> A quick reference guide to essential Git and GitHub CLI (`gh`) commands, with clear explanations to help you manage your projects effectively.
 
-**URL**: https://lovable.dev/projects/066be0d6-80a1-4857-ad7f-fc23965dc077
+---
 
-## How can I edit this code?
+## 🔐 Authentication
 
-There are several ways of editing your application.
+### `gh auth login`
 
-**Use Lovable**
+Log in to GitHub using the terminal. Supports browser-based login or token-based authentication.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/066be0d6-80a1-4857-ad7f-fc23965dc077) and start prompting.
+### `gh auth logout`
 
-Changes made via Lovable will be committed automatically to this repo.
+Logs you out of GitHub CLI on the current machine.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📦 Repository Initialization & Setup
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### `git init`
 
-Follow these steps:
+Initialize a new Git repository in the current directory.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### `git remote add origin <repo-url>`
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Link your local repository to a remote repository hosted on GitHub.
 
-# Step 3: Install the necessary dependencies.
-npm i
+### `git remote -v`
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+View the current configured remote URLs for fetch and push.
+
+### `git remote set-url origin <new-url>`
+
+Change the remote repository URL (e.g., switch from HTTPS to SSH).
+
+### `rm -rf .git`
+
+Remove Git tracking from the current directory to start fresh.
+
+---
+
+## 📝 Adding & Committing Changes
+
+### `git add .`
+
+Stage all changes (new, modified, and deleted files) for the next commit.
+
+### `git commit -m "Your message"`
+
+Commit staged changes with a descriptive message.
+
+### `git status`
+
+Show the status of changes: staged, unstaged, and untracked files.
+
+### `git log`
+
+View the commit history in the current branch.
+
+---
+
+## 🚀 Pushing & Pulling Code
+
+### `git push -u origin main`
+
+Push local commits to the remote `main` branch and set upstream tracking.
+
+### `git pull origin main`
+
+Fetch and merge the latest changes from the remote `main` branch.
+
+---
+
+## 🌿 Branching
+
+### `git branch`
+
+List all local branches in the repository.
+
+### `git checkout -b new-branch`
+
+Create and switch to a new branch.
+
+### `git checkout main`
+
+Switch back to the `main` branch.
+
+### `git merge <branch-name>`
+
+Merge a specified branch into the current branch.
+
+---
+
+## ♻️ Undoing & Resetting
+
+### `git reset --soft HEAD~1`
+
+Undo the last commit but keep the changes staged.
+
+### `git reset --hard HEAD~1`
+
+Completely remove the last commit and discard all changes.
+
+### `git rm --cached <file>`
+
+Untrack a file from Git without deleting it from your filesystem. Useful for removing accidentally committed files or submodules.
+
+---
+
+## 📁 Ignoring Files
+
+### `.gitignore`
+
+Defines which files and directories Git should ignore in the repository.
+
+**Example:**
+
+```
+node_modules/
+dist/
+.env
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/066be0d6-80a1-4857-ad7f-fc23965dc077) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Need advanced commands like rebasing, stashing, or resolving conflicts? Let me know, and I’ll expand this guide!
