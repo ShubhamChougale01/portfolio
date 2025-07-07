@@ -226,9 +226,9 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 text-center relative z-10 max-w-5xl">
         <div className="animate-fade-in flex flex-col items-center">
-          {/* Profile Picture with Upload */}
-          <div className="relative mb-8">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-blue-400/50 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer" onClick={triggerFileInput}>
+          {/* Profile Picture with Upload - centered and larger */}
+          <div className="relative mb-10 flex justify-center w-full">
+            <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-blue-400/50 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer" onClick={triggerFileInput}>
               {profileImage ? (
                 <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
               ) : (
@@ -246,122 +246,117 @@ const Hero = () => {
             </div>
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-500/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
-
-          {/* Hero Section */}
-          <h1 className="hero-title text-5xl md:text-6xl mb-4 text-foreground leading-tight font-bold">
-            <span className="inline-block animate-pulse">Shubham Chougale</span>
-          </h1>
-          
-          <h2 className="hero-subtitle text-2xl md:text-3xl mb-4 text-foreground">
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
-              AI Engineer
-            </span>
-          </h2>
-          
-          <p className="font-source-sans text-lg md:text-xl mb-6 text-muted-foreground font-medium max-w-3xl">
-            AI Agents • Computer Vision • LLMs
-          </p>
-          
-          {/* Location and Education */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <MapPin size={18} />
-              <span className="font-times">Pune, India</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <GraduationCap size={18} />
-              <span className="font-times">MCA in Data Science</span>
-            </div>
-          </div>
-
-          {/* Impact Statement */}
-          <div className="mb-10 max-w-3xl mx-auto">
-            <p className="impact-statement text-lg md:text-xl text-muted-foreground leading-relaxed">
-              I build intelligent, scalable systems using Gen AI, Vision, and Voice tech — to Langchain-driven AI assistants.
+          {/* Main Hero Content - centered below image */}
+          <div className="flex-1 flex flex-col items-center w-full">
+            {/* Hero Section */}
+            <h1 className="hero-title text-5xl md:text-6xl mb-4 text-foreground leading-tight font-bold md:text-left">
+              <span className="inline-block animate-pulse">Shubham Chougale</span>
+            </h1>
+            
+            <h2 className="hero-subtitle text-2xl md:text-3xl mb-4 text-foreground md:text-left">
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
+                AI Engineer
+              </span>
+            </h2>
+            
+            <p className="font-source-sans text-lg md:text-xl mb-6 text-muted-foreground font-medium max-w-3xl md:text-left">
+             AI Agents - Computer Vision - LLM
             </p>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <a
-              href="#projects"
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative overflow-hidden group"
-            >
-              <span className="relative z-10">View My Work</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            </a>
-            <a
-              href="#contact"
-              className="border border-border hover:border-blue-400 text-muted-foreground hover:text-blue-300 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
-            >
-              <span className="relative z-10">Get In Touch</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </a>
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 border border-border hover:border-green-400 text-muted-foreground hover:text-green-300 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
-            >
-              <Download size={18} />
-              <span className="relative z-10">Download Resume</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-green-400/10 to-emerald-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </a>
-          </div>
-
-          {/* Brief Intro Paragraph */}
-          <div className="mb-12 max-w-4xl mx-auto px-4">
-            {summaryText}
-          </div>
-
-          {/* What I Specialize In */}
-          <div className="mb-12 specialization-section max-w-4xl mx-auto px-4">
-            <h3 className="section-header text-2xl md:text-3xl font-bold mb-8 text-foreground">What I Specialize In</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-blue-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
-                <div className="card-icon text-blue-500 mb-3">
-                  <Brain size={32} />
-                </div>
-                <h4 className="card-title text-lg font-semibold mb-2 text-foreground">AI Agents & LLMs</h4>
-                <p className="card-description text-muted-foreground text-sm leading-relaxed">Langchain, RAG, OpenAI API, contextual memory</p>
+            
+            {/* Location and Education */}
+            <div className="flex flex-col sm:flex-row items-center md:items-start md:justify-start gap-6 mb-8 text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <MapPin size={18} />
+                <span className="font-times">Pune, India</span>
               </div>
-              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-purple-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
-                <div className="card-icon text-purple-500 mb-3">
-                  <Eye size={32} />
-                </div>
-                <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Computer Vision</h4>
-                <p className="card-description text-muted-foreground text-sm leading-relaxed">YOLOv8, AVFoundation, CoreML, image/video inference</p>
-              </div>
-              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-cyan-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
-                <div className="card-icon text-cyan-500 mb-3">
-                  <Mic size={32} />
-                </div>
-                <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Voice Interfaces</h4>
-                <p className="card-description text-muted-foreground text-sm leading-relaxed">Deepgram STT, TTS, Whisper — for smart assistants</p>
+              <div className="flex items-center gap-2">
+                <GraduationCap size={18} />
+                <span className="font-times">MCA in Data Science</span>
               </div>
             </div>
-          </div>
 
-          {/* Mini Highlights */}
-          <div className="mb-12 max-w-4xl mx-auto px-4">
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-muted-foreground">
-              <div className="highlight-item flex items-center gap-2">
-                <span className="highlight-icon text-green-400">
-                  <Zap size={20} />
-                </span>
-                <span className="font-times">92% accurate real-time defect detection on iOS</span>
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center mb-12">
+              <a
+                href="#projects"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative overflow-hidden group"
+              >
+                <span className="relative z-10">View My Work</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+              </a>
+              <a
+                href="#contact"
+                className="border border-border hover:border-blue-400 text-muted-foreground hover:text-blue-300 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
+              >
+                <span className="relative z-10">Get In Touch</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </a>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 border border-border hover:border-green-400 text-muted-foreground hover:text-green-300 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
+              >
+                <Download size={18} />
+                <span className="relative z-10">Download Resume</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-green-400/10 to-emerald-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </a>
+            </div>
+            
+            {/* Brief Intro Paragraph */}
+            <div className="mb-12 max-w-4xl mx-auto md:mx-0 px-4 md:px-0">
+              {summaryText}
+            </div>
+            
+            {/* What I Specialize In */}
+            <div className="mb-12 specialization-section max-w-4xl mx-auto md:mx-0 px-4 md:px-0">
+              <h3 className="section-header text-2xl md:text-3xl font-bold mb-8 text-foreground">What I Specialize In</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-blue-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
+                  <div className="card-icon text-blue-500 mb-3">
+                    <Brain size={32} />
+                  </div>
+                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">AI Agents & LLMs</h4>
+                  <p className="card-description text-muted-foreground text-sm leading-relaxed">Langchain, RAG, OpenAI API, contextual memory</p>
+                </div>
+                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-purple-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
+                  <div className="card-icon text-purple-500 mb-3">
+                    <Eye size={32} />
+                  </div>
+                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Computer Vision</h4>
+                  <p className="card-description text-muted-foreground text-sm leading-relaxed">YOLOv8, AVFoundation, CoreML, image/video inference</p>
+                </div>
+                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-cyan-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
+                  <div className="card-icon text-cyan-500 mb-3">
+                    <Mic size={32} />
+                  </div>
+                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Voice Interfaces</h4>
+                  <p className="card-description text-muted-foreground text-sm leading-relaxed">Deepgram STT, TTS, Whisper — for smart assistants</p>
+                </div>
               </div>
-              <div className="highlight-item flex items-center gap-2">
-                <span className="highlight-icon text-blue-400">
-                  <Link size={20} />
-                </span>
-                <span className="font-times">Seamless integration between backend, frontend, and AI Agents</span>
-              </div>
-              <div className="highlight-item flex items-center gap-2">
-                <span className="highlight-icon text-purple-400">
-                  <Package size={20} />
-                </span>
-                <span className="font-times">Containerized ML workflows for easy deployment</span>
+            </div>
+            
+            {/* Mini Highlights */}
+            <div className="mb-20 max-w-4xl mx-auto md:mx-0 px-4 md:px-0">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center text-sm text-muted-foreground">
+                <div className="highlight-item flex items-center gap-2">
+                  <span className="highlight-icon text-green-400">
+                    <Zap size={20} />
+                  </span>
+                  <span className="font-times">92% accurate real-time defect detection on iOS</span>
+                </div>
+                <div className="highlight-item flex items-center gap-2">
+                  <span className="highlight-icon text-blue-400">
+                    <Link size={20} />
+                  </span>
+                  <span className="font-times">Seamless integration between backend, frontend, and AI Agents</span>
+                </div>
+                <div className="highlight-item flex items-center gap-2">
+                  <span className="highlight-icon text-purple-400">
+                    <Package size={20} />
+                  </span>
+                  <span className="font-times">Containerized ML workflows for easy deployment</span>
+                </div>
               </div>
             </div>
           </div>
@@ -369,7 +364,7 @@ const Hero = () => {
       </div>
 
       {/* Animated scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 animate-bounce">
         <div className="flex flex-col items-center gap-2">
           <ArrowDown className="text-muted-foreground animate-pulse" size={24} />
           <div className="w-1 h-8 bg-gradient-to-b from-blue-400 to-transparent rounded-full animate-pulse"></div>

@@ -86,7 +86,7 @@ const Skills = () => {
               <h3 className={`text-xl font-bold mb-6 bg-gradient-to-r ${category.color} bg-clip-text text-transparent`}>
                 {category.title}
               </h3>
-              
+
               <div className="space-y-4">
                 {category.skills.map((skill, skillIndex) => (
                   <div key={skillIndex} className="space-y-2">
@@ -113,10 +113,15 @@ const Skills = () => {
 
         {/* Certifications Section */}
         <div className="mt-20">
-          <h3 className="text-3xl font-bold text-center mb-12 text-foreground">
+          {/* <h3 className="text-3xl font-bold text-center mb-12 text-foreground">
             Certifications & Achievements
-          </h3>
-          
+          </h3> */}
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Certifications & Achievements
+            </span>
+          </h2>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {[
               { name: "AWS Machine Learning", provider: "Amazon", year: "2023" },

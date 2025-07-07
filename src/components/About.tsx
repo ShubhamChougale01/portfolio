@@ -19,12 +19,12 @@ const About = () => {
                 With over 1.5 years of experience in AI and Machine Learning, I specialize in building 
                 practical AI solutions that solve real-world problems. My journey started with traditional 
                 software development and evolved into deep expertise in computer vision, natural language 
-                processing, and edge AI implementations.
+                processing, and AI implementations.
               </p>
               
               <p className="text-muted-foreground leading-relaxed">
                 I've successfully deployed AI systems for property management, defect detection, 
-                and intelligent automation across various industries. My passion lies in bridging 
+                and intelligent automation. My passion lies in bridging 
                 the gap between cutting-edge AI research and production-ready applications.
               </p>
               
@@ -32,10 +32,10 @@ const About = () => {
                 <div className="bg-card/50 p-4 rounded-lg border border-border">
                   <h4 className="text-blue-400 font-semibold mb-2">Focus Areas</h4>
                   <ul className="text-muted-foreground text-sm space-y-1">
-                    <li>• Computer Vision</li>
-                    <li>• Large Language Models</li>
-                    <li>• Edge AI & Mobile ML</li>
+                    <li>• Python</li>
                     <li>• Generative AI</li>
+                    <li>• Large Language Model</li>
+                    <li>• Computer Vision</li>
                   </ul>
                 </div>
                 
@@ -43,7 +43,7 @@ const About = () => {
                   <h4 className="text-purple-400 font-semibold mb-2">Industries</h4>
                   <ul className="text-muted-foreground text-sm space-y-1">
                     <li>• Real Estate Tech</li>
-                    <li>• Manufacturing</li>
+                    <li>• Voice Assistants</li>
                     <li>• Healthcare</li>
                     <li>• Automation</li>
                   </ul>
@@ -56,7 +56,7 @@ const About = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">AI/ML Engineering</span>
-                    <span className="text-blue-400 font-semibold">95%</span>
+                    <span className="text-blue-400 font-semibold">90%</span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-2">
                     <div className="bg-gradient-to-r from-blue-400 to-blue-500 h-2 rounded-full w-[95%]"></div>
@@ -64,7 +64,7 @@ const About = () => {
                   
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Computer Vision</span>
-                    <span className="text-purple-400 font-semibold">90%</span>
+                    <span className="text-purple-400 font-semibold">85%</span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-2">
                     <div className="bg-gradient-to-r from-purple-400 to-purple-500 h-2 rounded-full w-[90%]"></div>
@@ -72,7 +72,7 @@ const About = () => {
                   
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">LLM Integration</span>
-                    <span className="text-green-400 font-semibold">85%</span>
+                    <span className="text-green-400 font-semibold">90%</span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-2">
                     <div className="bg-gradient-to-r from-green-400 to-green-500 h-2 rounded-full w-[85%]"></div>
@@ -80,7 +80,7 @@ const About = () => {
                   
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Cloud & DevOps</span>
-                    <span className="text-yellow-400 font-semibold">88%</span>
+                    <span className="text-yellow-400 font-semibold">70%</span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-2">
                     <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-2 rounded-full w-[88%]"></div>

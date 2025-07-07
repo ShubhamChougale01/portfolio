@@ -32,7 +32,7 @@ const Header = () => {
             </div>
             <div className="hidden sm:flex items-center space-x-3">
               <a
-                href="https://github.com"
+                href="https://github.com/ShubhamChougale01"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors duration-200"

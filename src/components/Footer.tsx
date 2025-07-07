@@ -7,13 +7,10 @@ const Footer = () => {
             Shubham Chougale
           </div>
           <p className="text-muted-foreground mb-4">
-            AI Engineer • Data Scientist • Problem Solver
-          </p>
-          <p className="text-muted-foreground/70 text-sm mb-6 italic">
-            "Exploring the frontiers of AI, one model at a time."
+          • AI Engineer • Data Scientist 
           </p>
           <p className="text-muted-foreground/70 text-sm">
-            © 2024 Shubham Chougale. All rights reserved. • Built with passion for AI and innovation.
+            © Shubham Chougale 2025 • Built with passion for AI and innovation.
           </p>
         </div>
       </div>
