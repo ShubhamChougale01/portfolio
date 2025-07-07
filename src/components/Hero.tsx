@@ -1,7 +1,6 @@
 import { ArrowDown, Download, MapPin, GraduationCap, Brain, Eye, Mic, Zap, Link, Package } from 'lucide-react';
-import IconA from './IconA';
-import IconB from './IconB';
 import { useState, useRef, useEffect } from 'react';
+import DefaultProfileImage from '/src/assets/Profile.jpeg';
 
 const summaryText = (
   <>
@@ -39,11 +38,13 @@ const specializeText = (
 
 const Hero = () => {
   const [openBox, setOpenBox] = useState<'summary' | 'specialize' | null>(null);
-  const boxRef = useRef<HTMLDivElement>(null);
+  const [profileImage, setProfileImage] = useState(DefaultProfileImage);
+  const boxRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (boxRef.current && !boxRef.current.contains(event.target as Node)) {
+    function handleClickOutside(event) {
+      if (boxRef.current && !boxRef.current.contains(event.target)) {
         setOpenBox(null);
       }
     }
@@ -54,6 +55,19 @@ const Hero = () => {
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [openBox]);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => setProfileImage(e.target.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted to-background relative overflow-hidden pt-20">
@@ -73,7 +87,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Light mode floating particles - Enhanced */}
+      {/* Light mode floating particles */}
       <div className="absolute inset-0 overflow-hidden block dark:hidden">
         <div className="absolute top-0 left-[10%] text-blue-500/60 text-sm font-mono animate-pulse font-bold">
           <div className="animate-slide-down">AI</div>
@@ -87,8 +101,6 @@ const Hero = () => {
         <div className="absolute top-0 left-[80%] text-green-500/60 text-sm font-mono animate-pulse delay-1500 font-bold">
           <div className="animate-slide-down delay-300">LLM</div>
         </div>
-        
-        {/* Additional floating tech terms */}
         <div className="absolute top-1/4 left-[15%] text-indigo-500/50 text-xs font-mono animate-pulse delay-300">
           <div className="animate-slide-down delay-700">TensorFlow</div>
         </div>
@@ -118,8 +130,6 @@ const Hero = () => {
             </linearGradient>
           </defs>
           <rect width="100%" height="100%" fill="url(#web)" className="animate-pulse" />
-
-          {/* Animated connection lines */}
           <line x1="100" y1="100" x2="300" y2="200" stroke="#3b82f6" strokeWidth="1" opacity="0.2" className="animate-pulse delay-500">
             <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite" />
           </line>
@@ -132,7 +142,7 @@ const Hero = () => {
         </svg>
       </div>
 
-      {/* Light mode geometric patterns - Enhanced */}
+      {/* Light mode geometric patterns */}
       <div className="absolute inset-0 block dark:hidden">
         <svg className="w-full h-full opacity-15" viewBox="0 0 800 600">
           <defs>
@@ -151,7 +161,7 @@ const Hero = () => {
         </svg>
       </div>
 
-      {/* Floating neural network nodes - Dark mode */}
+      {/* Floating neural network nodes - Darkទ Dark mode */}
       <div className="absolute inset-0 dark:block hidden">
         <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-blue-500/40 rounded-full animate-dark-float">
           <div className="w-full h-full bg-blue-400 rounded-full animate-ping"></div>
@@ -167,7 +177,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Light mode floating elements - Enhanced */}
+      {/* Light mode floating elements */}
       <div className="absolute inset-0 block dark:hidden">
         <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-blue-500/50 rounded-full animate-light-float shadow-lg shadow-blue-500/30">
           <div className="w-full h-full bg-blue-400 rounded-full animate-ping"></div>
@@ -181,8 +191,6 @@ const Hero = () => {
         <div className="absolute top-2/3 right-1/4 w-4 h-4 bg-green-500/50 rounded-full animate-light-float delay-500 shadow-lg shadow-green-500/30">
           <div className="w-full h-full bg-green-400 rounded-full animate-ping delay-200"></div>
         </div>
-        
-        {/* Additional floating elements */}
         <div className="absolute top-1/6 left-2/3 w-2 h-2 bg-indigo-500/50 rounded-full animate-light-float delay-300 shadow-lg shadow-indigo-500/30">
           <div className="w-full h-full bg-indigo-400 rounded-full animate-ping delay-300"></div>
         </div>
@@ -201,7 +209,7 @@ const Hero = () => {
         <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-cyan-500/3 rounded-full blur-3xl animate-dark-float delay-1000"></div>
       </div>
 
-      {/* Light mode subtle gradients - Enhanced */}
+      {/* Light mode subtle gradients */}
       <div className="absolute inset-0 overflow-hidden block dark:hidden">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-400/8 rounded-full blur-3xl animate-light-float shadow-2xl shadow-blue-400/20"></div>
         <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-purple-400/6 rounded-full blur-3xl animate-drift shadow-2xl shadow-purple-400/20"></div>
@@ -213,28 +221,49 @@ const Hero = () => {
       {/* Circuit board pattern - Dark mode */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iY2lyY3VpdCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDMwIDAgTCAzMCAzMCBMIDYwIDMwIE0gMCAzMCBMIDMwIDMwIE0gMzAgMzAgTCAzMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LCAxMzAsIDI0NiwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjIiIGZpbGw9InJnYmEoNTksIDEzMCwgMjQ2LCAwLjEpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2NpcmN1aXQpIi8+PC9zdmc+')] opacity-15 dark:block hidden"></div>
 
-      {/* Light mode dot pattern - Enhanced */}
+      {/* Light mode dot pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZG90cyIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48Y2lyY2xlIGN4PSIxNSIgY3k9IjE1IiByPSIxLjUiIGZpbGw9InJnYmEoNTksIDEzMCwgMjQ2LCAwLjIpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2RvdHMpIi8+PC9zdmc+')] opacity-20 block dark:hidden"></div>
 
       <div className="container mx-auto px-6 text-center relative z-10 max-w-5xl">
-        <div className="animate-fade-in">
+        <div className="animate-fade-in flex flex-col items-center">
+          {/* Profile Picture with Upload */}
+          <div className="relative mb-8">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-blue-400/50 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer" onClick={triggerFileInput}>
+              {profileImage ? (
+                <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground group-hover:bg-blue-400/10 transition-colors duration-300">
+                  <span className="text-sm font-medium">Upload Image</span>
+                </div>
+              )}
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-500/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+
           {/* Hero Section */}
-          <h1 className="hero-title text-6xl md:text-7xl mb-4 text-foreground leading-tight">
+          <h1 className="hero-title text-5xl md:text-6xl mb-4 text-foreground leading-tight font-bold">
             <span className="inline-block animate-pulse">Shubham Chougale</span>
           </h1>
           
-          <h2 className="hero-subtitle text-3xl md:text-4xl mb-4 text-foreground">
+          <h2 className="hero-subtitle text-2xl md:text-3xl mb-4 text-foreground">
             <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
               AI Engineer
             </span>
           </h2>
           
-          <p className="font-source-sans text-xl md:text-2xl mb-6 text-muted-foreground font-medium">
+          <p className="font-source-sans text-lg md:text-xl mb-6 text-muted-foreground font-medium max-w-3xl">
             AI Agents • Computer Vision • LLMs
           </p>
           
           {/* Location and Education */}
-          <div className="flex items-center justify-center gap-6 mb-8 text-muted-foreground">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 text-muted-foreground">
             <div className="flex items-center gap-2">
               <MapPin size={18} />
               <span className="font-times">Pune, India</span>
@@ -245,43 +274,9 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* ICONS FOR POPUP BOXES */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-8 mb-10">
-            <div className="relative flex flex-col items-center">
-              <button
-                aria-label="Show summary"
-                className={`rounded-full p-4 bg-card border border-border shadow-md hover:scale-110 transition-transform duration-200 ${openBox === 'summary' ? 'ring-2 ring-primary' : ''}`}
-                onClick={() => setOpenBox(openBox === 'summary' ? null : 'summary')}
-              >
-                <IconA className="w-12 h-12 text-blue-500" />
-              </button>
-              <span className="mt-2 text-xs text-muted-foreground">About Me</span>
-              {openBox === 'summary' && (
-                <div ref={boxRef} className="absolute left-1/2 top-full z-20 w-80 -translate-x-1/2 mt-4 bg-background border border-border rounded-xl shadow-xl p-6 text-left animate-fade-in">
-                  {summaryText}
-                </div>
-              )}
-            </div>
-            <div className="relative flex flex-col items-center">
-              <button
-                aria-label="Show specialization"
-                className={`rounded-full p-4 bg-card border border-border shadow-md hover:scale-110 transition-transform duration-200 ${openBox === 'specialize' ? 'ring-2 ring-primary' : ''}`}
-                onClick={() => setOpenBox(openBox === 'specialize' ? null : 'specialize')}
-              >
-                <IconB className="w-12 h-12 text-purple-500" />
-              </button>
-              <span className="mt-2 text-xs text-muted-foreground">Specialties</span>
-              {openBox === 'specialize' && (
-                <div ref={boxRef} className="absolute left-1/2 top-full z-20 w-80 -translate-x-1/2 mt-4 bg-background border border-border rounded-xl shadow-xl p-6 text-left animate-fade-in">
-                  {specializeText}
-                </div>
-              )}
-            </div>
-          </div>
-
           {/* Impact Statement */}
-          <div className="mb-8">
-            <p className="impact-statement text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+          <div className="mb-10 max-w-3xl mx-auto">
+            <p className="impact-statement text-lg md:text-xl text-muted-foreground leading-relaxed">
               I build intelligent, scalable systems using Gen AI, Vision, and Voice tech — to Langchain-driven AI assistants.
             </p>
           </div>
@@ -290,14 +285,14 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <a
               href="#projects"
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative overflow-hidden group"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative overflow-hidden group"
             >
               <span className="relative z-10">View My Work</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
             </a>
             <a
               href="#contact"
-              className="border border-border hover:border-blue-400 text-muted-foreground hover:text-blue-300 px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
+              className="border border-border hover:border-blue-400 text-muted-foreground hover:text-blue-300 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
             >
               <span className="relative z-10">Get In Touch</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -306,7 +301,7 @@ const Hero = () => {
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 border border-border hover:border-green-400 text-muted-foreground hover:text-green-300 px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
+              className="flex items-center gap-2 border border-border hover:border-green-400 text-muted-foreground hover:text-green-300 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
             >
               <Download size={18} />
               <span className="relative z-10">Download Resume</span>
@@ -315,45 +310,40 @@ const Hero = () => {
           </div>
 
           {/* Brief Intro Paragraph */}
-          <div className="mb-12 max-w-4xl mx-auto">
-            <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Hi! I'm Shubham — an AI Engineer at <strong>64 Squares LLC</strong>, where I design real-time, production-ready systems powered by AI Agents, LLMs, computer vision, and speech AI.
-            </p>
-            <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed mt-4">
-              With hands-on experience in YOLOv8, RAG, CoreML, Deepgram, Langchain, and OpenAI, I've created tools that detect defects in buildings, automate property workflows, and enable voice-driven assistants. My passion lies in solving real-world problems through intelligent automation, whether it's on-device inference or cloud-based AI pipelines.
-            </p>
+          <div className="mb-12 max-w-4xl mx-auto px-4">
+            {summaryText}
           </div>
 
           {/* What I Specialize In */}
-          <div className="mb-12 specialization-section">
+          <div className="mb-12 specialization-section max-w-4xl mx-auto px-4">
             <h3 className="section-header text-2xl md:text-3xl font-bold mb-8 text-foreground">What I Specialize In</h3>
-            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-blue-400/50 transition-all duration-300">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-blue-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
                 <div className="card-icon text-blue-500 mb-3">
                   <Brain size={32} />
                 </div>
                 <h4 className="card-title text-lg font-semibold mb-2 text-foreground">AI Agents & LLMs</h4>
-                <p className="card-description text-muted-foreground text-sm">Langchain, RAG, OpenAI API, contextual memory</p>
+                <p className="card-description text-muted-foreground text-sm leading-relaxed">Langchain, RAG, OpenAI API, contextual memory</p>
               </div>
-              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-purple-400/50 transition-all duration-300">
+              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-purple-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
                 <div className="card-icon text-purple-500 mb-3">
                   <Eye size={32} />
                 </div>
                 <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Computer Vision</h4>
-                <p className="card-description text-muted-foreground text-sm">YOLOv8, AVFoundation, CoreML, image/video inference</p>
+                <p className="card-description text-muted-foreground text-sm leading-relaxed">YOLOv8, AVFoundation, CoreML, image/video inference</p>
               </div>
-              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-cyan-400/50 transition-all duration-300">
+              <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-cyan-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
                 <div className="card-icon text-cyan-500 mb-3">
                   <Mic size={32} />
                 </div>
                 <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Voice Interfaces</h4>
-                <p className="card-description text-muted-foreground text-sm">Deepgram STT, TTS, Whisper — for smart assistants</p>
+                <p className="card-description text-muted-foreground text-sm leading-relaxed">Deepgram STT, TTS, Whisper — for smart assistants</p>
               </div>
             </div>
           </div>
 
           {/* Mini Highlights */}
-          <div className="mb-12">
+          <div className="mb-12 max-w-4xl mx-auto px-4">
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-muted-foreground">
               <div className="highlight-item flex items-center gap-2">
                 <span className="highlight-icon text-green-400">

@@ -16,7 +16,7 @@ const About = () => {
               </h3>
               
               <p className="text-muted-foreground leading-relaxed">
-                With over 5 years of experience in AI and Machine Learning, I specialize in building 
+                With over 1.5 years of experience in AI and Machine Learning, I specialize in building 
                 practical AI solutions that solve real-world problems. My journey started with traditional 
                 software development and evolved into deep expertise in computer vision, natural language 
                 processing, and edge AI implementations.
