@@ -113,16 +113,13 @@ const Skills = () => {
 
         {/* Certifications Section */}
         <div className="mt-20">
-          {/* <h3 className="text-3xl font-bold text-center mb-12 text-foreground">
-            Certifications & Achievements
-          </h3> */}
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
             <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               Certifications & Achievements
             </span>
           </h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          {/* <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {[
               { name: "AWS Machine Learning", provider: "Amazon", year: "2023" },
               { name: "TensorFlow Developer", provider: "Google", year: "2023" },
@@ -142,6 +139,85 @@ const Skills = () => {
                 <div className="text-muted-foreground/70 text-xs">
                   {cert.year}
                 </div>
+              </div>
+            ))}
+          </div> */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {[
+              {
+                name: "SnowPro Core Certification",
+                provider: "Snowflake",
+                year: "Aug 2024 – Aug 2026",
+                id: "SNOW00300789‎",
+                // skills: "Cloud · Snowflake · SQL"
+              },
+              {
+                name: "Hands-On Essentials: Collaboration, Marketplace & Cost Estimation",
+                provider: "Snowflake",
+                year: "Apr 2024",
+                id: "100383374"
+              },
+              {
+                name: "Hands-On Essentials: Data Warehousing",
+                provider: "Snowflake",
+                year: "Mar 2024",
+                id: "98109249"
+              },
+              {
+                name: "Data Science with AIML",
+                provider: "Dohme Global Group AMZ",
+                year: "Dec 2019",
+                id: "AMZ/WTP-DS/2019/06",
+                // skills: "NLP · NumPy · Image Processing · pandas"
+              },
+              {
+                name: "Python for Data Science",
+                provider: "IBM",
+                year: "Jul 2023",
+                // skills: "Python · pandas"
+              },
+              {
+                name: "Basics of Networking",
+                provider: "I-Medita Learning Solutions",
+                year: "Mar 2022",
+                // skills: "Networking"
+              },
+              {
+                name: "Data Analytics Essentials",
+                provider: "Cisco",
+                year: "Jul 2023",
+                // skills: "Excel · Tableau · Data Analysis · SQL"
+              },
+              {
+                name: "Certificate in Computer Basics",
+                provider: "Vivekanand College, Kolhapur",
+                year: "May 2019",
+                // skills: "MS Excel · HTML5 · CSS · Office"
+              }
+            ].map((cert, index) => (
+              <div
+                key={index}
+                className="bg-card p-4 rounded-lg border border-border text-center hover:border-blue-500/50 transition-all duration-300"
+              >
+                <div className="text-blue-400 font-semibold text-sm mb-1">
+                  {cert.name}
+                </div>
+                <div className="text-muted-foreground text-xs mb-1">
+                  {cert.provider}
+                </div>
+                <div className="text-muted-foreground/70 text-xs mb-1">
+                  {cert.year}
+                </div>
+                {cert.id && (
+                  <div className="text-muted-foreground/60 text-[10px] italic mb-1">
+                    ID: {cert.id}
+                  </div>
+                )}
+                {/* {cert.skills && (
+                  <div className="text-muted-foreground text-[11px] leading-tight">
+                    {cert.skills}
+                  </div>
+                )} */}
               </div>
             ))}
           </div>
