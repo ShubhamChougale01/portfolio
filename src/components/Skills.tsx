@@ -188,21 +188,24 @@ const Skills = () => {
                 provider: "Snowflake",
                 year: "Aug 2024 – Aug 2026",
                 id: "SNOW00300789‎",
-                link: "https://achieve.snowflake.com/63e2e2f2-548d-4e11-afd7-8f357820e5ad#acc.8BAykW6u"
+                link: "https://achieve.snowflake.com/63e2e2f2-548d-4e11-afd7-8f357820e5ad#acc.8BAykW6u",
+                external: true
               },
               {
                 name: "Hands-On Essentials: Collaboration, Marketplace & Cost Estimation",
                 provider: "Snowflake",
                 year: "Apr 2024",
                 id: "100383374",
-                link: "https://achieve.snowflake.com/d27e706b-0a6d-4381-a9ef-a6a403a8c117#acc.JWsD3QHM"
+                link: "https://achieve.snowflake.com/d27e706b-0a6d-4381-a9ef-a6a403a8c117#acc.JWsD3QHM",
+                external: true
               },
               {
                 name: "Hands-On Essentials: Data Warehousing",
                 provider: "Snowflake",
                 year: "Mar 2024",
                 id: "98109249",
-                link: "https://achieve.snowflake.com/4f304415-d2b2-4b52-8506-fbb1ce68a9e5#acc.2hoTxf8n"
+                link: "https://achieve.snowflake.com/4f304415-d2b2-4b52-8506-fbb1ce68a9e5#acc.2hoTxf8n",
+                external: true
               },
               {
                 name: "Data Science with AIML",
@@ -304,12 +307,17 @@ const Skills = () => {
                       <div
                         className="absolute inset-0 bg-card p-4 rounded-lg border border-border text-center flex flex-col justify-center items-center [transform:rotateY(180deg)] [backface-visibility:hidden] cursor-pointer"
                         onClick={() => {
-                          if (cert.link.endsWith('.pdf')) {
-                            setModalContent({ type: 'pdf', src: cert.link, title: cert.name });
-                            setModalOpen(true);
-                          } else if (cert.link.endsWith('.jpg') || cert.link.endsWith('.jpeg') || cert.link.endsWith('.png')) {
-                            setModalContent({ type: 'image', src: cert.link, title: cert.name });
-                            setModalOpen(true);
+                          if (cert.link && typeof cert.link === 'string') {
+                            if (cert.link.endsWith('.pdf')) {
+                              setModalContent({ type: 'pdf', src: cert.link, title: cert.name });
+                              setModalOpen(true);
+                            } else if (cert.link.endsWith('.jpg') || cert.link.endsWith('.jpeg') || cert.link.endsWith('.png')) {
+                              setModalContent({ type: 'image', src: cert.link, title: cert.name });
+                              setModalOpen(true);
+                            } else if (cert.external) {
+                              setModalContent({ type: 'pdf', src: cert.link, title: cert.name });
+                              setModalOpen(true);
+                            }
                           }
                         }}
                       >
@@ -325,6 +333,8 @@ const Skills = () => {
                               className="max-h-32 rounded shadow mb-2 mx-auto"
                             />
                           )
+                        ) : cert.external ? (
+                          <span className="text-blue-500 underline text-sm font-semibold">Click to preview certificate</span>
                         ) : (
                           <a
                             href={cert.link}
