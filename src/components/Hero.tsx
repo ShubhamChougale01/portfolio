@@ -292,7 +292,7 @@ const Hero = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </a>
               <a
-                href="/resume.pdf"
+                href="/src/assets/Shubham_AI.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 border border-border hover:border-green-400 text-muted-foreground hover:text-green-300 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"

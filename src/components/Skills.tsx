@@ -1,69 +1,67 @@
 const Skills = () => {
   const skillCategories = [
     {
-      title: "AI/ML Frameworks",
-      color: "from-blue-400 to-blue-600",
+      title: "Programming Languages",
+      color: "from-cyan-400 to-cyan-600",
       skills: [
-        { name: "TensorFlow", level: 90 },
-        { name: "PyTorch", level: 85 },
-        { name: "Scikit-learn", level: 95 },
-        { name: "OpenCV", level: 88 },
-        { name: "Hugging Face", level: 80 }
+        { name: "Python", level: 95 },
+        { name: "SQL", level: 90 },
+        { name: "Terraform", level: 60 },
+        { name: "Swift", level: 40 },
+        { name: "TypeScript", level: 40 }
       ]
     },
     {
-      title: "LLM & NLP",
+      title: "Artificial Intelligence",
       color: "from-purple-400 to-purple-600",
       skills: [
-        { name: "LangChain", level: 92 },
-        { name: "OpenAI API", level: 95 },
-        { name: "RAG Systems", level: 88 },
+        { name: "LangChain", level: 90 },
+        { name: "OpenAI & Mistral", level: 88 },
+        { name: "RAG", level: 88 },
         { name: "Vector DBs", level: 85 },
-        { name: "Transformers", level: 82 }
+        { name: "AI Agents", level: 82 }
       ]
     },
     {
       title: "Computer Vision",
       color: "from-green-400 to-green-600",
       skills: [
-        { name: "YOLO", level: 90 },
-        { name: "Object Detection", level: 92 },
-        { name: "Image Seg.", level: 85 },
-        { name: "CoreML", level: 88 },
-        { name: "TensorFlow Lite", level: 86 }
+        { name: "Ultralytics", level: 90 },
+        { name: "Object Detection", level: 90 },
+        { name: "Image Classification", level: 85 },
+        { name: "Roboflow", level: 85 },
+        { name: "Video Processing", level: 85 }
       ]
     },
     {
-      title: "Cloud & DevOps",
+      title: "Data Science",
+      color: "from-blue-400 to-blue-600",
+      skills: [
+        { name: "TensorFlow", level: 70 },
+        { name: "PyTorch", level: 70 },
+        { name: "OpenCV", level: 70 },
+        { name: "CoreML", level: 40 }
+      ]
+    },
+    {
+      title: "Cloud Platforms",
       color: "from-orange-400 to-orange-600",
       skills: [
-        { name: "AWS", level: 88 },
-        { name: "Docker", level: 90 },
-        { name: "Jenkins", level: 85 },
-        { name: "Kubernetes", level: 75 },
-        { name: "MLOps", level: 82 }
+        { name: "AWS", level: 78 },
+        { name: "Docker", level: 70 },
+        { name: "Jenkins CI/CD", level: 70 },
+        { name: "Kubernetes", level: 60 }
+        // { name: "MLOps", level: 82 }
       ]
     },
     {
-      title: "Programming",
-      color: "from-red-400 to-red-600",
-      skills: [
-        { name: "Python", level: 95 },
-        { name: "JavaScript", level: 88 },
-        { name: "Swift", level: 80 },
-        { name: "SQL", level: 90 },
-        { name: "R", level: 75 }
-      ]
-    },
-    {
-      title: "Mobile & Edge",
+      title: "General Skills:",
       color: "from-teal-400 to-teal-600",
       skills: [
-        { name: "Capacitor", level: 92 },
-        { name: "React Native", level: 85 },
-        { name: "iOS Dev", level: 80 },
-        { name: "Edge AI", level: 88 },
-        { name: "Mobile ML", level: 90 }
+        { name: "Django", level: 80 },
+        { name: "FastAPI", level: 75 },
+        { name: "GIT", level: 75 },
+        { name: "Capacitor", level: 40 }
       ]
     }
   ];
@@ -109,6 +107,32 @@ const Skills = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Language Proficiency Section */}
+        <div className="mt-20">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Language Proficiency
+            </span>
+          </h2>
+          <div className="flex flex-wrap justify-center gap-6">
+            <div className="flex items-center gap-2 bg-card px-6 py-3 rounded-full border border-border shadow-sm">
+              <span className="inline-block w-2 h-2 bg-blue-400 rounded-full"></span>
+              <span className="font-medium">English</span>
+              <span className="text-muted-foreground text-sm">Professional</span>
+            </div>
+            <div className="flex items-center gap-2 bg-card px-6 py-3 rounded-full border border-border shadow-sm">
+              <span className="inline-block w-2 h-2 bg-purple-400 rounded-full"></span>
+              <span className="font-medium">Hindi</span>
+              <span className="text-muted-foreground text-sm">Professional</span>
+            </div>
+            <div className="flex items-center gap-2 bg-card px-6 py-3 rounded-full border border-border shadow-sm">
+              <span className="inline-block w-2 h-2 bg-green-400 rounded-full"></span>
+              <span className="font-medium">Marathi</span>
+              <span className="text-muted-foreground text-sm">Native</span>
+            </div>
+          </div>
         </div>
 
         {/* Certifications Section */}
