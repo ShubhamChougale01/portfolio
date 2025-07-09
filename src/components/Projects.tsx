@@ -12,8 +12,8 @@ const Projects = () => {
       category: "Computer Vision",
       tech: ["YOLOv8", "CoreML", "SwiftUI", "iOS", "PyTorch"],
       image: Yolov8Img,
-      github: "#",
-      demo: "#",
+      github: "https://github.com/ShubhamChougale01/defectdettest",
+      // demo: "#",
       featured: true
     },
     {
@@ -152,12 +152,6 @@ const Projects = () => {
                   >
                     <Github size={16} />
                     <span>Code</span>
-                  </a>
-                  <a
-                    href={project.demo}
-                    className="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium"
-                  >
-                    Live Demo →
                   </a>
                 </div>
               </div>
