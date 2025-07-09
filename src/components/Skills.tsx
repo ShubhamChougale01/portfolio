@@ -1,4 +1,19 @@
+import DataScienceAIML from '@/assets/Certificates/Data-science-with-AIML.jpg';
+import IBM from '@/assets/Certificates/IBM.pdf';
+import IMedita from '@/assets/Certificates/I-medita.jpg';
+import DataAnalyticsEssentials from '@/assets/Certificates/DataAnalyticsEssentials.pdf';
+import CertificateComputer from '@/assets/Certificates/Certificate Course-in-Information-and-Computer.jpg';
+import InnovativeResearch from '@/assets/Certificates/Innovative-research-idea-vck.jpg';
+import InternalHackathon from '@/assets/Certificates/Internal Hackathon.jpg';
+import NationalLevelTechEvent from '@/assets/Certificates/National-level-tech-event(sharad).jpg';
+import NewHorizon from '@/assets/Certificates/New-horizon-2k20.jpg';
+import OneDayInternational from '@/assets/Certificates/One-day-international-competition.jpg';
+import ResearchPublication from '@/assets/Certificates/Research Publication Certificate – AJANTA Journal (ISSN 2277-5730).jpg';
+import { useState } from 'react';
+
 const Skills = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<{ type: 'image' | 'pdf', src: string, title: string } | null>(null);
   const skillCategories = [
     {
       title: "Programming Languages",
@@ -173,80 +188,195 @@ const Skills = () => {
                 provider: "Snowflake",
                 year: "Aug 2024 – Aug 2026",
                 id: "SNOW00300789‎",
-                // skills: "Cloud · Snowflake · SQL"
+                link: "https://achieve.snowflake.com/63e2e2f2-548d-4e11-afd7-8f357820e5ad#acc.8BAykW6u"
               },
               {
                 name: "Hands-On Essentials: Collaboration, Marketplace & Cost Estimation",
                 provider: "Snowflake",
                 year: "Apr 2024",
-                id: "100383374"
+                id: "100383374",
+                link: "https://achieve.snowflake.com/d27e706b-0a6d-4381-a9ef-a6a403a8c117#acc.JWsD3QHM"
               },
               {
                 name: "Hands-On Essentials: Data Warehousing",
                 provider: "Snowflake",
                 year: "Mar 2024",
-                id: "98109249"
+                id: "98109249",
+                link: "https://achieve.snowflake.com/4f304415-d2b2-4b52-8506-fbb1ce68a9e5#acc.2hoTxf8n"
               },
               {
                 name: "Data Science with AIML",
                 provider: "Dohme Global Group AMZ",
                 year: "Dec 2019",
                 id: "AMZ/WTP-DS/2019/06",
-                // skills: "NLP · NumPy · Image Processing · pandas"
+                link: DataScienceAIML
               },
               {
                 name: "Python for Data Science",
                 provider: "IBM",
                 year: "Jul 2023",
-                // skills: "Python · pandas"
+                link: IBM
               },
               {
                 name: "Basics of Networking",
                 provider: "I-Medita Learning Solutions",
                 year: "Mar 2022",
-                // skills: "Networking"
+                link: IMedita
               },
               {
                 name: "Data Analytics Essentials",
                 provider: "Cisco",
                 year: "Jul 2023",
-                // skills: "Excel · Tableau · Data Analysis · SQL"
+                link: DataAnalyticsEssentials
               },
               {
                 name: "Certificate in Computer Basics",
                 provider: "Vivekanand College, Kolhapur",
                 year: "May 2019",
-                // skills: "MS Excel · HTML5 · CSS · Office"
+                link: CertificateComputer
+              },
+              {
+                name: "Innovative Research Idea",
+                provider: "Vivekanand College, Kolhapur",
+                year: "2020",
+                link: InnovativeResearch
+              },
+              {
+                name: "Internal Hackathon",
+                provider: "Vivekanand College, Kolhapur",
+                year: "2020",
+                link: InternalHackathon
+              },
+              {
+                name: "National Level Tech Event (Sharad)",
+                provider: "Sharad Institute",
+                year: "2020",
+                link: NationalLevelTechEvent
+              },
+              {
+                name: "New Horizon 2K20",
+                provider: "Vivekanand College, Kolhapur",
+                year: "2020",
+                link: NewHorizon
+              },
+              {
+                name: "One Day International Competition",
+                provider: "Vivekanand College, Kolhapur",
+                year: "2020",
+                link: OneDayInternational
+              },
+              {
+                name: "Research Publication Certificate – AJANTA Journal (ISSN 2277-5730)",
+                provider: "AJANTA Journal",
+                year: "2020",
+                link: ResearchPublication
               }
-            ].map((cert, index) => (
-              <div
-                key={index}
-                className="bg-card p-4 rounded-lg border border-border text-center hover:border-blue-500/50 transition-all duration-300"
-              >
-                <div className="text-blue-400 font-semibold text-sm mb-1">
-                  {cert.name}
-                </div>
-                <div className="text-muted-foreground text-xs mb-1">
-                  {cert.provider}
-                </div>
-                <div className="text-muted-foreground/70 text-xs mb-1">
-                  {cert.year}
-                </div>
-                {cert.id && (
-                  <div className="text-muted-foreground/60 text-[10px] italic mb-1">
-                    ID: {cert.id}
+            ].map((cert, index) => {
+                // Determine if the certificate should have a flip effect
+                const isFlippable = !!cert.link;
+                // Determine if the link is a local file (image/pdf) or external
+                const isLocal = cert.link && (cert.link.endsWith('.jpg') || cert.link.endsWith('.jpeg') || cert.link.endsWith('.png') || cert.link.endsWith('.pdf'));
+                return isFlippable ? (
+                  <div
+                    key={index}
+                    className="relative group [perspective:1000px]"
+                    style={{ minHeight: '180px' }}
+                  >
+                    <div className="transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] w-full h-full">
+                      {/* Front Side */}
+                      <div className="absolute inset-0 bg-card p-4 rounded-lg border border-border text-center hover:border-blue-500/50 transition-all duration-300 [backface-visibility:hidden] flex flex-col justify-center">
+                        <div className="text-blue-400 font-semibold text-sm mb-1">
+                          {cert.name}
+                        </div>
+                        <div className="text-muted-foreground text-xs mb-1">
+                          {cert.provider}
+                        </div>
+                        <div className="text-muted-foreground/70 text-xs mb-1">
+                          {cert.year}
+                        </div>
+                        {cert.id && (
+                          <div className="text-muted-foreground/60 text-[10px] italic mb-1">
+                            ID: {cert.id}
+                          </div>
+                        )}
+                      </div>
+                      {/* Back Side */}
+                      <div
+                        className="absolute inset-0 bg-card p-4 rounded-lg border border-border text-center flex flex-col justify-center items-center [transform:rotateY(180deg)] [backface-visibility:hidden] cursor-pointer"
+                        onClick={() => {
+                          if (cert.link.endsWith('.pdf')) {
+                            setModalContent({ type: 'pdf', src: cert.link, title: cert.name });
+                            setModalOpen(true);
+                          } else if (cert.link.endsWith('.jpg') || cert.link.endsWith('.jpeg') || cert.link.endsWith('.png')) {
+                            setModalContent({ type: 'image', src: cert.link, title: cert.name });
+                            setModalOpen(true);
+                          }
+                        }}
+                      >
+                        {isLocal ? (
+                          cert.link.endsWith('.pdf') ? (
+                            <div className="w-full flex flex-col items-center">
+                              <span className="mb-2 text-blue-500 underline text-sm font-semibold">Click to preview PDF</span>
+                            </div>
+                          ) : (
+                            <img
+                              src={cert.link}
+                              alt={cert.name}
+                              className="max-h-32 rounded shadow mb-2 mx-auto"
+                            />
+                          )
+                        ) : (
+                          <a
+                            href={cert.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline text-sm font-semibold"
+                            onClick={e => e.stopPropagation()}
+                          >
+                            View Certificate
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                )}
-                {/* {cert.skills && (
-                  <div className="text-muted-foreground text-[11px] leading-tight">
-                    {cert.skills}
+                ) : (
+                  <div
+                    key={index}
+                    className="bg-card p-4 rounded-lg border border-border text-center hover:border-blue-500/50 transition-all duration-300"
+                  >
+                    <div className="text-blue-400 font-semibold text-sm mb-1">
+                      {cert.name}
+                    </div>
+                    <div className="text-muted-foreground text-xs mb-1">
+                      {cert.provider}
+                    </div>
+                    <div className="text-muted-foreground/70 text-xs mb-1">
+                      {cert.year}
+                    </div>
+                    {cert.id && (
+                      <div className="text-muted-foreground/60 text-[10px] italic mb-1">
+                        ID: {cert.id}
+                      </div>
+                    )}
                   </div>
-                )} */}
-              </div>
-            ))}
+                );
+              })}
           </div>
         </div>
       </div>
+      {modalOpen && modalContent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70" onClick={() => setModalOpen(false)}>
+          <div className="bg-white rounded-lg shadow-lg max-w-3xl w-full p-4 relative" onClick={e => e.stopPropagation()}>
+            <button className="absolute top-2 right-2 text-xl font-bold text-gray-600 hover:text-gray-900" onClick={() => setModalOpen(false)}>&times;</button>
+            <h3 className="text-lg font-semibold mb-4 text-center">{modalContent.title}</h3>
+            {modalContent.type === 'image' ? (
+              <img src={modalContent.src} alt={modalContent.title} className="w-full max-h-[70vh] object-contain rounded" />
+            ) : (
+              <iframe src={modalContent.src} title={modalContent.title} className="w-full h-[70vh] rounded" />
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 };
