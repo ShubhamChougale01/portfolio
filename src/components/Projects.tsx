@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { Github } from 'lucide-react';
+import Yolov8Img from '@/assets/project/yolov8.webp';
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('All');
 
   const projects = [
     {
-      title: "AI-Powered Property Defect Detection",
-      description: "Computer vision system using YOLOv8 for real-time detection of property defects on mobile devices. Achieved 92% accuracy with edge deployment.",
+      title: "AI-Powered Property Defect Detection (iOS)",
+      description: `An iOS app for detecting structural defects like cracks and water damage using on-device YOLOv8 models converted to CoreML. Built with SwiftUI, it runs real-time detection fully offline with image input, class labels, and confidence scores.`,
       category: "Computer Vision",
-      tech: ["YOLOv8", "CoreML", "iOS", "Python", "OpenCV"],
-      image: "/api/placeholder/400/250",
+      tech: ["YOLOv8", "CoreML", "SwiftUI", "iOS", "PyTorch"],
+      image: Yolov8Img,
       github: "#",
       demo: "#",
       featured: true
@@ -114,10 +115,14 @@ const Projects = () => {
                 </div>
               )}
               
-              <div className="h-48 bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center">
-                <div className="text-muted-foreground text-4xl font-bold opacity-20">
-                  {project.category.split(' ')[0]}
-                </div>
+              <div className="h-48 bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center overflow-hidden">
+                {project.image && (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover object-center"
+                  />
+                )}
               </div>
               
               <div className="p-6">
