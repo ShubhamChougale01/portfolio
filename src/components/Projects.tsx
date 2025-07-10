@@ -3,8 +3,11 @@ import { Github } from 'lucide-react';
 import Yolov8Img from '@/assets/project/yolov8.webp';
 import PortfolioImg from '@/assets/project/Portfolio.png';
 import ViziSmartImg from '@/assets/project/ViziSmart.png';
-import CIImg from '@/assets/project/CI:CD.avif';
-import DetImg from '@/assets/project/DET.png';
+import CIImg from '@/assets/project/TCS-Virtual-Internship.webp';
+import DetImg from '@/assets/project/CNN.png';
+import TurfImg from '@/assets/project/turftown.png';
+import DanceImg from '@/assets/project/dance.jpg';
+import BuenosImg from '@/assets/project/buenos_aires.webp';
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -62,12 +65,12 @@ const Projects = () => {
       featured: false
     },
     {
-      title: "Online Dance Studio Platform – V&N Entertainment",
+      title: "Online Dance Studio Platform",
       description: `Developed a Django web app with MySQL for class bookings, user/admin roles, and scheduling. Responsive UI for seamless mobile/desktop experience.`,
       details: `- Django-based web application\n- MySQL integration for user registration, class bookings, and admin control\n- Responsive frontend UI for mobile and desktop\n- User roles and scheduling features for automated class registrations and reminders`,
       category: "Web App",
       tech: ["Django", "MySQL", "Responsive Design"],
-      image: CIImg,
+      image: DanceImg,
       github: "#",
       featured: false
     },
@@ -77,7 +80,7 @@ const Projects = () => {
       details: `- Django web application for turf booking\n- MySQL backend for user, slot, and event management\n- Real-time availability tracking and booking history\n- Integrated user authentication and payments`,
       category: "Web App",
       tech: ["Django", "MySQL", "Payments", "Real-Time"],
-      image: CIImg,
+      image: TurfImg,
       github: "#",
       featured: false
     },
@@ -87,7 +90,7 @@ const Projects = () => {
       details: `- ML models for property and apartment price prediction\n- Used Pandas and Scikit-learn\n- Feature engineering, outlier handling, and normalization\n- Improved prediction accuracy`,
       category: "Data Science",
       tech: ["Pandas", "Scikit-learn", "Regression", "Data Science"],
-      image: CIImg,
+      image: BuenosImg,
       github: "#",
       featured: false
     }
