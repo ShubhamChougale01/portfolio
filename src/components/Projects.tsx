@@ -171,8 +171,8 @@ const Projects = () => {
                     </span>
                   ))}
                 </div>
-                <div className="flex space-x-3 mb-4">
-                  {project.github && project.github !== '#' && (
+                <div className={`flex space-x-3 mb-4 min-h-[32px] items-center ${!(project.github && project.github !== '#') ? 'justify-start' : ''}`}>
+                  {project.github && project.github !== '#' ? (
                     <a
                       href={project.github}
                       className="flex items-center space-x-2 text-muted-foreground hover:text-blue-400 transition-colors text-sm"
@@ -180,9 +180,9 @@ const Projects = () => {
                       rel="noopener noreferrer"
                     >
                       <Github size={16} />
-                      <span>Code</span>
+                      <span>Reference</span>
                     </a>
-                  )}
+                  ) : null}
                   <button
                     className="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium underline"
                     onClick={() => setModalProject(project)}
