@@ -1,0 +1,34 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django
+db.sqlite3
+*.sqlite3
+*.log
+
+# Environment
+.env
+.env.*
+
+# Django static/media
+/staticfiles/
+/media/
+/static/
+/*.log
+
+# VSCode and IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# MacOS
+.DS_Store
+
+# Migrations (optional, if you want to ignore them)
+# **/migrations/
+# !**/migrations/__init__.py
