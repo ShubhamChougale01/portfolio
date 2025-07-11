@@ -149,6 +149,8 @@ Answer:"""
         max_tokens=150,
     )
     answer = response.choices[0].message.content.strip()
+    except Exception as e:
+        answer = "Sorry, I couldn't get a response from the AI service at the moment. Please try again later."
     return Response({"answer": answer})
 
 @api_view(['POST'])
