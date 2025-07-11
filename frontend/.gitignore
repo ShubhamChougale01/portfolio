@@ -1,6 +1,10 @@
 # Node.js dependencies
 node_modules/
 
+backend/venv
+backend/__pycache__
+backend/venv/
+
 # Build output
 dist/
 dist-ssr/
