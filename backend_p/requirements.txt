@@ -12,6 +12,7 @@ sentence-transformers
 groq
 pypdf
 numpy
+python-dotenv
 faiss-cpu==1.11.0
 fastapi==0.116.0
 filelock==3.18.0
