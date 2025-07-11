@@ -7,19 +7,24 @@ from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 from groq import Groq
 from pypdf import PdfReader
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # --- CONFIG ---
-GROQ_API_KEY = "fdxcbjhgfdzs345678987redfg678jhvbuyt"
-RESUME_PATH = "../portfolio/src/assets/Shubham_AI.pdf"
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+RESUME_PATH = os.path.join(os.path.dirname(__file__), "static/Shubham_AI.pdf")
 CHUNK_SIZE = 350  # words
 TOP_K = 4
 EMBED_MODEL = "all-MiniLM-L6-v2"
 
 # --- INIT ---
 app = FastAPI()
+
+# Allow frontend to call backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # Or specify your frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -71,6 +76,8 @@ class RAGRequest(BaseModel):
 @app.post("/rag")
 async def rag_answer(req: RAGRequest):
     global faiss_index, corpus_chunks
+    if not GROQ_API_KEY:
+        return {"answer": "GROQ_API_KEY is not set in the environment."}
     # Embed the query
     q_emb = model.encode([req.question], convert_to_numpy=True)
     # Retrieve top-k
@@ -88,10 +95,22 @@ Answer:"""
     # Call Groq LLM (Mixtral)
     client = Groq(api_key=GROQ_API_KEY)
     response = client.chat.completions.create(
-        model="mixtral-8x7b-32768",
+        model="mistral-saba-24b",
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.2,
-        max_tokens=512,
+        temperature=0.1,
+        max_tokens=150,
     )
     answer = response.choices[0].message.content.strip()
-    return {"answer": answer} 
+    return {"answer": answer}
+
+@app.post("/api/chat")
+async def chat_endpoint(request: Request):
+    data = await request.json()
+    user_message = data.get("message", "")
+    # Here you can use your AI model or logic
+    response = f"You said: {user_message}"
+    return {"response": response} 
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000) 

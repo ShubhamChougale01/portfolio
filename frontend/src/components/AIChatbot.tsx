@@ -10,41 +10,31 @@ const AIChatbot = () => {
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const predefinedResponses = {
-    'projects': "You can explore Shubham's projects in the Projects section. He's worked on Computer Vision, LLM integrations, and Edge AI implementations.",
-    'skills': "Shubham specializes in Python, TensorFlow, PyTorch, OpenAI APIs, Computer Vision, and mobile AI implementations.",
-    'experience': "Shubham has 5+ years of experience in AI/ML engineering, working on practical applications like property management systems and defect detection.",
-    'contact': "You can reach out to Shubham through the Contact section below, or connect with him on LinkedIn.",
-    'resume': "You can download Shubham's resume from the About section or contact him directly.",
-    'hello': "Hello! I'm here to help you learn more about Shubham's work in AI and data science. What would you like to know?",
-    'hi': "Hi there! Feel free to ask me about Shubham's projects, skills, or experience.",
-    'default': "That's an interesting question! For detailed information, I'd recommend checking out the relevant sections of the portfolio or reaching out to Shubham directly."
-  };
-
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
 
     const userMessage = { type: 'user', text: inputMessage };
     setMessages(prev => [...prev, userMessage]);
+    setLoading(true);
 
-    // Simple keyword matching for responses
-    const lowerInput = inputMessage.toLowerCase();
-    let response = predefinedResponses.default;
-
-    for (const [keyword, reply] of Object.entries(predefinedResponses)) {
-      if (lowerInput.includes(keyword)) {
-        response = reply;
-        break;
-      }
+    try {
+      // Call backend API (update URL if needed)
+      const res = await fetch('http://localhost:8000/rag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: inputMessage }),
+      });
+      const data = await res.json();
+      const botMessage = { type: 'bot', text: data.answer || "Sorry, I couldn't get a response." };
+      setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      setMessages(prev => [...prev, { type: 'bot', text: "Sorry, I couldn't reach the server." }]);
     }
 
-    setTimeout(() => {
-      const botMessage = { type: 'bot', text: response };
-      setMessages(prev => [...prev, botMessage]);
-    }, 500);
-
     setInputMessage('');
+    setLoading(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -98,6 +88,13 @@ const AIChatbot = () => {
                 </div>
               </div>
             ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="max-w-xs px-3 py-2 rounded-lg text-sm bg-muted text-muted-foreground opacity-70">
+                  Thinking...
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Input */}
@@ -110,10 +107,12 @@ const AIChatbot = () => {
                 onKeyPress={handleKeyPress}
                 placeholder="Ask about projects, skills..."
                 className="flex-1 px-3 py-2 bg-background text-foreground rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-border"
+                disabled={loading}
               />
               <button
                 onClick={handleSendMessage}
                 className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition-colors"
+                disabled={loading}
               >
                 <Send size={16} />
               </button>
