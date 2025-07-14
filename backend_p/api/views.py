@@ -1,31 +1,27 @@
 import os
+import numpy as np
+import faiss
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.conf import settings
-from sentence_transformers import SentenceTransformer
-import faiss
 from pypdf import PdfReader
-from groq import Groq
 from dotenv import load_dotenv
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 load_dotenv()
 
-# Load config from settings
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 RESUME_PATH = os.path.join(os.path.dirname(__file__), "static/Shubham_AI.pdf")
 CHUNK_SIZE = 350
 TOP_K = 4
-EMBED_MODEL = "all-MiniLM-L6-v2"
 
-model = SentenceTransformer(EMBED_MODEL)
 faiss_index = None
 corpus_chunks = []
 chunk_metadatas = []
 
 def chunk_text(text, chunk_size=CHUNK_SIZE):
     words = text.split()
-    chunks = [" ".join(words[i:i+chunk_size]) for i in range(0, len(words), chunk_size)]
-    return chunks
+    return [" ".join(words[i:i+chunk_size]) for i in range(0, len(words), chunk_size)]
 
 def load_resume_chunks():
     reader = PdfReader(RESUME_PATH)
@@ -99,12 +95,14 @@ def load_portfolio_chunks():
     return chunks
 
 def build_faiss_index():
-    global faiss_index, corpus_chunks, chunk_metadatas
+    global faiss_index, corpus_chunks, chunk_metadatas, vectorizer
     resume_chunks = load_resume_chunks()
     portfolio_chunks = load_portfolio_chunks()
     corpus_chunks = resume_chunks + portfolio_chunks
     chunk_metadatas = ([{"source": "resume"}] * len(resume_chunks)) + ([{"source": "portfolio"}] * len(portfolio_chunks))
-    embeddings = model.encode(corpus_chunks, show_progress_bar=True, convert_to_numpy=True)
+    # Use TF-IDF for embeddings
+    vectorizer = TfidfVectorizer().fit(corpus_chunks)
+    embeddings = vectorizer.transform(corpus_chunks).toarray().astype(np.float32)
     dim = embeddings.shape[1]
     faiss_index = faiss.IndexFlatL2(dim)
     faiss_index.add(embeddings)
@@ -114,14 +112,12 @@ build_faiss_index()
 
 @api_view(['POST'])
 def rag_answer(request):
-    global faiss_index, corpus_chunks
-
+    global faiss_index, corpus_chunks, vectorizer
     if not GROQ_API_KEY:
         return Response({"answer": "GROQ_API_KEY is not set in the environment."})
-    
     try:
         question = request.data.get("question", "")
-        q_emb = model.encode([question], convert_to_numpy=True)
+        q_emb = vectorizer.transform([question]).toarray().astype(np.float32)
         D, I = faiss_index.search(q_emb, TOP_K)
         context = "\n".join([corpus_chunks[i] for i in I[0]])
         prompt = f"""
@@ -136,6 +132,7 @@ def rag_answer(request):
 
                     Question: {question}
                     Answer:"""
+        from groq import Groq
         client = Groq(api_key=GROQ_API_KEY)
         response = client.chat.completions.create(
             model="mistral-saba-24b",
