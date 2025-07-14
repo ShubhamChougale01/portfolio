@@ -6,7 +6,7 @@ const AIChatbot = () => {
   const [messages, setMessages] = useState([
     {
       type: 'bot',
-      text: "Hi! I'm Shubham's AI assistant. Need help exploring the portfolio?"
+      text: "Hi! Looking for something in Shubham’s portfolio? I can help."
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
@@ -20,8 +20,11 @@ const AIChatbot = () => {
     setLoading(true);
 
     try {
-      // Call backend API (update URL if needed)
-      const res = await fetch('http://localhost:8000/rag', {
+      // Use localhost in development, production URL otherwise
+      const backendUrl = window.location.hostname === 'localhost'
+        ? 'http://localhost:8000/rag'
+        : 'https://portfolio-backend-g68o.onrender.com/rag';
+      const res = await fetch(backendUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: inputMessage }),

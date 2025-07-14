@@ -226,6 +226,8 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 text-center relative z-10 max-w-5xl">
         <div className="animate-fade-in flex flex-col items-center">
+          {/* Add extra space above the profile picture */}
+          <div className="h-10 md:h-28" />
           {/* Profile Picture with Upload - centered and larger */}
           <div className="relative mb-10 flex justify-center w-full">
             <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-blue-400/50 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer" onClick={triggerFileInput}>
