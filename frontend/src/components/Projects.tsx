@@ -41,7 +41,7 @@ const Projects = () => {
       category: "AI Project",
       tech: ["Langchain", "RAG", "OpenAI", "Vector DBs", "Capacitor", "AVFoundation", "Docker", "Deepgram", "Django", "TTS"],
       image: ViziSmartImg,
-      github: "https://www.vizismart.com/",
+      // github: "https://www.vizismart.com/",
       featured: true
     },
     {
