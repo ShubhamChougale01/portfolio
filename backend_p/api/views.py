@@ -115,40 +115,43 @@ build_faiss_index()
 @api_view(['POST'])
 def rag_answer(request):
     global faiss_index, corpus_chunks
+
     if not GROQ_API_KEY:
         return Response({"answer": "GROQ_API_KEY is not set in the environment."})
-    question = request.data.get("question", "")
-    q_emb = model.encode([question], convert_to_numpy=True)
-    D, I = faiss_index.search(q_emb, TOP_K)
-    context = "\n".join([corpus_chunks[i] for i in I[0]])
-    prompt = f"""
-You are an expert AI assistant for Shubham Chougale's portfolio. 
-I can help you explore his work, skills, projects, and achievements in AI, LLMs, and computer vision.
+    
+    try:
+        question = request.data.get("question", "")
+        q_emb = model.encode([question], convert_to_numpy=True)
+        D, I = faiss_index.search(q_emb, TOP_K)
+        context = "\n".join([corpus_chunks[i] for i in I[0]])
+        prompt = f"""
+                    You are an expert AI assistant for Shubham Chougale's portfolio. 
+                    I can help you explore his work, skills, projects, and achievements in AI, LLMs, and computer vision.
 
-If you're looking to get in touch with Shubham, please use the Contact section on this site. For privacy reasons, I won't provide personal information like email or phone number here.
+                    If you're looking to get in touch with Shubham, please use the Contact section on this site. For privacy reasons, I won't provide personal information like email or phone number here.
 
-Feel free to ask about:
-• AI & ML expertise
-• Computer vision or LLM tools used
-• Certifications and experience
-• Projects and tech stack
-• Skills and industry focus
+                    Feel free to ask about:
+                    • AI & ML expertise
+                    • Computer vision or LLM tools used
+                    • Certifications and experience
+                    • Projects and tech stack
+                    • Skills and industry focus
 
-Let’s dive into Shubham’s AI journey! 
+                    Let’s dive into Shubham’s AI journey! 
 
-Context:
-{context}
+                    Context:
+                    {context}
 
-Question: {question}
-Answer:"""
-    client = Groq(api_key=GROQ_API_KEY)
-    response = client.chat.completions.create(
-        model="mistral-saba-24b",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.1,
-        max_tokens=150,
-    )
-    answer = response.choices[0].message.content.strip()
+                    Question: {question}
+                    Answer:"""
+        client = Groq(api_key=GROQ_API_KEY)
+        response = client.chat.completions.create(
+            model="mistral-saba-24b",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.1,
+            max_tokens=150,
+        )
+        answer = response.choices[0].message.content.strip()
     except Exception as e:
         answer = "Sorry, I couldn't get a response from the AI service at the moment. Please try again later."
     return Response({"answer": answer})
