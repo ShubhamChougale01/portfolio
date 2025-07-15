@@ -10,6 +10,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from .models import ContactSubmission
 
 load_dotenv()
 
@@ -163,9 +164,13 @@ def contact_view(request):
             email = data.get('email')
             subject = data.get('subject')
             message = data.get('message')
-            file_path = os.path.join(os.path.dirname(__file__), 'contact_submissions.txt')
-            with open(file_path, 'a', encoding='utf-8') as f:
-                f.write(f"Name: {name}\nEmail: {email}\nSubject: {subject}\nMessage: {message}\n---\n")
+            # Save to SQLite database using the ContactSubmission model
+            ContactSubmission.objects.create(
+                name=name,
+                email=email,
+                subject=subject,
+                message=message
+            )
             print(f"Contact form received: Name={name}, Email={email}, Subject={subject}, Message={message}")
             return JsonResponse({'status': 'success'})
         except Exception as e:

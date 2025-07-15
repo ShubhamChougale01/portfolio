@@ -5,19 +5,8 @@ const Footer = () => {
   const [cloneCount, setCloneCount] = useState(0);
 
   useEffect(() => {
-    // Visitor count using localStorage
-    let count = Number(localStorage.getItem('visitorCount') || '0');
-    count += 1;
-    localStorage.setItem('visitorCount', count.toString());
-    setVisitorCount(count);
-
-    // GitHub clone count using GitHub API
-    fetch('https://api.github.com/repos/ShubhamChougale01/portfolio/traffic/clones', {
-      headers: {
-        Accept: 'application/vnd.github+json',
-        // You may need to add a GitHub token for higher rate limits
-      },
-    })
+    // Use countapi.xyz to increment and get the global visitor count
+    fetch('https://api.countapi.xyz/hit/portfolio-shubhamchougale01/vercel')
       .then(res => res.json())
       .then(data => {
         if (data && data.count) setCloneCount(data.count);
