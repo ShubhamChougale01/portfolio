@@ -54,3 +54,6 @@ tqdm==4.67.1
 typing-inspection==0.4.1
 typing_extensions==4.14.1
 urllib3==2.5.0
+whitenoise
+psycopg2-binary
+dj-database-url

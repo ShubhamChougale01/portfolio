@@ -20,15 +20,10 @@ const AIChatbot = () => {
     setLoading(true);
 
     try {
-      // Use localhost in development, Vercel in production, Render as fallback
-      let backendUrl;
-      if (window.location.hostname === 'localhost') {
-        backendUrl = 'http://localhost:8000/rag';
-      } else if (window.location.hostname.includes('vercel.app')) {
-        backendUrl = 'https://portfolio-backend-git-main-shubham-s-projects-b0658d3e.vercel.app/rag';
-      } else {
-        backendUrl = 'https://portfolio-backend-g68o.onrender.com/rag';
-      }
+      // Use localhost in development, production URL otherwise
+      const backendUrl = window.location.hostname === 'localhost'
+        ? 'http://localhost:8000/rag'
+        : 'https://portfolio-backend-g68o.onrender.com/rag';
       const res = await fetch(backendUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
