@@ -7,6 +7,9 @@ from django.conf import settings
 from pypdf import PdfReader
 from dotenv import load_dotenv
 from sklearn.feature_extraction.text import TfidfVectorizer
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 load_dotenv()
 
@@ -150,3 +153,20 @@ def chat_endpoint(request):
     user_message = request.data.get("message", "")
     response = f"You said: {user_message}"
     return Response({"response": response})
+
+@csrf_exempt
+def contact_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            name = data.get('name')
+            email = data.get('email')
+            subject = data.get('subject')
+            message = data.get('message')
+            print(f"Contact form received: Name={name}, Email={email}, Subject={subject}, Message={message}")
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            print("Error parsing contact form:", e)
+            return JsonResponse({'error': 'Invalid data'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid method'}, status=405)
