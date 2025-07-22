@@ -184,6 +184,22 @@ const Skills = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {[
               {
+                name: "Large Language Models with Semantic Search",
+                provider: "Deeplearning.ai",
+                year: "July 2025 ",
+                // id: "SNOW00300789‎",
+                link: "https://learn.deeplearning.ai/accomplishments/a6befed3-0058-4fd3-be91-3595cb8a6704",
+                external: true
+              },
+              {
+                name: "Multi AI Agent Systems with crewAI",
+                provider: "Deeplearning.ai",
+                year: "July 2025 ",
+                // id: "SNOW00300789‎",
+                link: "https://achieve.snowflake.com/63e2e2f2-548d-4e11-afd7-8f357820e5ad#acc.8BAykW6u",
+                external: true
+              },
+              {
                 name: "SnowPro Core Certification",
                 provider: "Snowflake",
                 year: "Aug 2024 – Aug 2026",
