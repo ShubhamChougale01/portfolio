@@ -324,6 +324,13 @@ const Skills = () => {
                         className="absolute inset-0 bg-card p-4 rounded-lg border border-border text-center flex flex-col justify-center items-center [transform:rotateY(180deg)] [backface-visibility:hidden] cursor-pointer"
                         onClick={() => {
                           if (cert.link && typeof cert.link === 'string') {
+                            if (cert.external) {
+                              // Open external link in new tab
+                              window.open(cert.link, '_blank');
+                              return;
+                            }
+                        
+                            // Local file (image or PDF)
                             if (cert.link.endsWith('.pdf')) {
                               setModalContent({ type: 'pdf', src: cert.link, title: cert.name });
                               setModalOpen(true);
@@ -336,6 +343,7 @@ const Skills = () => {
                             }
                           }
                         }}
+                        
                       >
                         {isLocal ? (
                           cert.link.endsWith('.pdf') ? (
