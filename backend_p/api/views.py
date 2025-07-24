@@ -139,7 +139,7 @@ def rag_answer(request):
         from groq import Groq
         client = Groq(api_key=GROQ_API_KEY)
         response = client.chat.completions.create(
-            model="mistral-saba-24b",
+            model="gemma2-9b-it",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.1,
             max_tokens=150,
