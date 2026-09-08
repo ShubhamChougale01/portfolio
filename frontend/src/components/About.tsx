@@ -1,3 +1,21 @@
+import { Brain, Workflow, Database, Eye, Cloud, Target, Building2 } from 'lucide-react';
+
+const skillBars = [
+  { label: 'LLM & Agentic Systems', pct: 95, icon: Brain, color: 'blue' },
+  { label: 'MCP & Multi-Agent Orchestration', pct: 90, icon: Workflow, color: 'green' },
+  { label: 'RAG & Knowledge Systems', pct: 88, icon: Database, color: 'cyan' },
+  { label: 'Voice AI & Computer Vision', pct: 75, icon: Eye, color: 'purple' },
+  { label: 'Cloud & DevOps', pct: 70, icon: Cloud, color: 'yellow' },
+];
+
+const colorClasses: Record<string, { text: string; from: string; to: string }> = {
+  blue: { text: 'text-blue-400', from: 'from-blue-400', to: 'to-blue-500' },
+  green: { text: 'text-green-400', from: 'from-green-400', to: 'to-green-500' },
+  cyan: { text: 'text-cyan-400', from: 'from-cyan-400', to: 'to-cyan-500' },
+  purple: { text: 'text-purple-400', from: 'from-purple-400', to: 'to-purple-500' },
+  yellow: { text: 'text-yellow-400', from: 'from-yellow-400', to: 'to-yellow-500' },
+};
+
 const About = () => {
   return (
     <section id="about" className="py-20 bg-muted/30">
@@ -9,82 +27,104 @@ const About = () => {
             </span>
           </h2>
           
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
             <div className="space-y-6">
               <h3 className="text-2xl font-semibold text-foreground mb-4">
                 My AI Journey
               </h3>
               
               <p className="text-muted-foreground leading-relaxed">
-                With over 1.5 years of experience in AI and Machine Learning, I specialize in building 
-                practical AI solutions that solve real-world problems. My journey started with traditional 
-                software development and evolved into deep expertise in computer vision, natural language 
-                processing, and AI implementations.
+                Over 3+ years, I've gone from a Computer Science and Data Science foundation to
+                architecting production AI systems — the kind that have to hold up under real
+                traffic, not just perform well in a demo.
               </p>
-              
+
               <p className="text-muted-foreground leading-relaxed">
-                I've successfully deployed AI systems for property management, defect detection, 
-                and intelligent automation. My passion lies in bridging 
-                the gap between cutting-edge AI research and production-ready applications.
+                Early on, that meant computer vision and voice AI: deploying real-time defect
+                detection models and building voice-driven assistants for property management at
+                64-Squares, serving hundreds of properties in production, then architecting a
+                real-time call-routing system for an AI voice platform at CloudBuilders
+                Technologies. Today, my focus has shifted to Claude-native, agentic architecture —
+                designing MCP servers, multi-agent workflows, and RAG pipelines for enterprise
+                platforms at Coditas, and building knowledge-graph-backed systems for confidential
+                claim-verification and automation work.
               </p>
-              
-              <div className="grid grid-cols-2 gap-4 mt-8">
-                <div className="bg-card/50 p-4 rounded-lg border border-border">
-                  <h4 className="text-blue-400 font-semibold mb-2">Focus Areas</h4>
-                  <ul className="text-muted-foreground text-sm space-y-1">
-                    <li>• Python</li>
-                    <li>• Generative AI</li>
-                    <li>• Large Language Model</li>
-                    <li>• Computer Vision</li>
+
+              <p className="text-muted-foreground leading-relaxed">
+                What hasn't changed is the standard I hold the work to: systems that recover from
+                failure, scale under real load, and solve problems that matter — not prototypes
+                that only work in a screen-share. These results come from full-time engineering
+                roles — I'm also taking on select freelance and contract engagements building the
+                same kind of systems.
+              </p>
+            </div>
+
+            <div className="relative space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="group bg-card/50 p-4 rounded-lg border border-border hover:border-blue-400/50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                  <h4 className="text-blue-400 font-semibold mb-3 flex items-center gap-2">
+                    <Target size={16} className="group-hover:scale-110 transition-transform duration-300" />
+                    Focus Areas
+                  </h4>
+                  <ul className="text-muted-foreground text-sm space-y-1.5">
+                    {[
+                      'Claude & MCP Server Design',
+                      'Multi-Agent Orchestration (LangGraph, CrewAI)',
+                      'RAG Pipelines',
+                      'Knowledge Graphs (Neo4j)',
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
-                
-                <div className="bg-card/50 p-4 rounded-lg border border-border">
-                  <h4 className="text-purple-400 font-semibold mb-2">Industries</h4>
-                  <ul className="text-muted-foreground text-sm space-y-1">
-                    <li>• Real Estate Tech</li>
-                    <li>• Voice Assistants</li>
-                    <li>• Healthcare</li>
-                    <li>• Automation</li>
+
+                <div className="group bg-card/50 p-4 rounded-lg border border-border hover:border-purple-400/50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                  <h4 className="text-purple-400 font-semibold mb-3 flex items-center gap-2">
+                    <Building2 size={16} className="group-hover:scale-110 transition-transform duration-300" />
+                    Industries
+                  </h4>
+                  <ul className="text-muted-foreground text-sm space-y-1.5">
+                    {[
+                      'Enterprise Workflow Automation',
+                      'Real Estate Tech',
+                      'Voice Automation',
+                      'Computer Vision / Edge AI',
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
-            </div>
-            
-            <div className="relative">
+
               <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-8 rounded-2xl border border-border">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">AI/ML Engineering</span>
-                    <span className="text-blue-400 font-semibold">90%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div className="bg-gradient-to-r from-blue-400 to-blue-500 h-2 rounded-full w-[95%]"></div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Computer Vision</span>
-                    <span className="text-purple-400 font-semibold">85%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div className="bg-gradient-to-r from-purple-400 to-purple-500 h-2 rounded-full w-[90%]"></div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">LLM Integration</span>
-                    <span className="text-green-400 font-semibold">90%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div className="bg-gradient-to-r from-green-400 to-green-500 h-2 rounded-full w-[85%]"></div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Cloud & DevOps</span>
-                    <span className="text-yellow-400 font-semibold">70%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-2 rounded-full w-[88%]"></div>
-                  </div>
+                <h3 className="text-lg font-semibold text-foreground mb-6">Core Strengths</h3>
+                <div className="space-y-5">
+                  {skillBars.map(({ label, pct, icon: Icon, color }) => {
+                    const c = colorClasses[color];
+                    return (
+                      <div key={label} className="group">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="flex items-center gap-2 text-muted-foreground">
+                            <Icon size={16} className={`${c.text} group-hover:scale-110 transition-transform duration-300`} />
+                            {label}
+                          </span>
+                          <span className={`${c.text} font-semibold`}>{pct}%</span>
+                        </div>
+                        <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                          <div
+                            className={`bg-gradient-to-r ${c.from} ${c.to} h-2 rounded-full transition-all duration-700 ease-out`}
+                            style={{ width: `${pct}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

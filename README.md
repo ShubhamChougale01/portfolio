@@ -75,7 +75,7 @@ npm install
 npm run dev
 ```
 
-Runs at `http://localhost:5173` by default.
+Runs at `http://localhost:8080` (configured in `frontend/vite.config.ts`).
 
 ### Environment Variables
 

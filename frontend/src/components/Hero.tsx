@@ -1,60 +1,21 @@
-import { ArrowDown, Download, MapPin, GraduationCap, Brain, Eye, Mic, Zap, Link, Package } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { ArrowDown, Download, MapPin, GraduationCap, Brain, Eye, Mic, Network } from 'lucide-react';
+import { useState, useRef } from 'react';
 import DefaultProfileImage from '/src/assets/Profile.jpeg';
 
 const summaryText = (
   <>
     <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed mb-2">
-      Hi! I'm Shubham — an AI Engineer at <strong>64 Squares LLC</strong>, where I design real-time, production-ready systems powered by AI Agents, LLMs, computer vision, and speech AI.
+      Hi! I'm Shubham — a Production AI Systems Engineer. I build AI systems that survive production, not demos that survive a screen-share: over 3+ years I've shipped LLM platforms serving 10,000+ daily users at 99.2% uptime, architected 10+ custom MCP servers expanding what a single AI platform can do 5x, and designed multi-agent workflows (LangGraph, CrewAI) that cut manual work by 65% at scale.
     </p>
     <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed">
-      With hands-on experience in YOLOv8, RAG, CoreML, Deepgram, Langchain, and OpenAI, I've created tools that detect defects in buildings, automate property workflows, and enable voice-driven assistants. My passion lies in solving real-world problems through intelligent automation, whether it's on-device inference or cloud-based AI pipelines.
+      I specialize in Claude-native architecture — RAG pipelines, agentic tool-calling, and MCP integrations that hold up under real traffic, not just a happy-path demo. Whether you're hiring full-time, staffing a contract engagement, or need a freelance architect for a specific build — if you need someone to architect (not just wire together) a production-grade agent system, MCP server, or RAG platform, that's the work I want to be doing.
     </p>
   </>
 );
 
-const specializeText = (
-  <div className="text-left space-y-3">
-    <div>
-      <span className="font-semibold">AI Agents & LLMs:</span> Langchain, RAG, OpenAI API, contextual memory
-    </div>
-    <div>
-      <span className="font-semibold">Computer Vision:</span> YOLOv8, AVFoundation, CoreML, image/video inference
-    </div>
-    <div>
-      <span className="font-semibold">Voice Interfaces:</span> Deepgram STT, TTS, Whisper — for smart assistants
-    </div>
-    <div>
-      <span className="font-semibold">92% accurate real-time defect detection on iOS</span>
-    </div>
-    <div>
-      <span className="font-semibold">Seamless integration between backend, frontend, and AI Agents</span>
-    </div>
-    <div>
-      <span className="font-semibold">Containerized ML workflows for easy deployment</span>
-    </div>
-  </div>
-);
-
 const Hero = () => {
-  const [openBox, setOpenBox] = useState<'summary' | 'specialize' | null>(null);
   const [profileImage, setProfileImage] = useState(DefaultProfileImage);
-  const boxRef = useRef(null);
   const fileInputRef = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (boxRef.current && !boxRef.current.contains(event.target)) {
-        setOpenBox(null);
-      }
-    }
-    if (openBox) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [openBox]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -257,12 +218,12 @@ const Hero = () => {
             
             <h2 className="hero-subtitle text-2xl md:text-3xl mb-4 text-foreground md:text-left">
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
-                AI Engineer
+                Production AI Systems Engineer
               </span>
             </h2>
-            
+
             <p className="font-source-sans text-lg md:text-xl mb-6 text-muted-foreground font-medium max-w-3xl md:text-left">
-             AI Agents - Computer Vision - LLM
+             Claude - MCP - Multi-Agent Orchestration
             </p>
             
             {/* Location and Education */}
@@ -311,53 +272,44 @@ const Hero = () => {
             </div>
             
             {/* What I Specialize In */}
-            <div className="mb-12 specialization-section max-w-4xl mx-auto md:mx-0 px-4 md:px-0">
+            <div className="mb-20 specialization-section max-w-5xl mx-auto md:mx-0 px-4 md:px-0">
               <h3 className="section-header text-2xl md:text-3xl font-bold mb-8 text-foreground">What I Specialize In</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-blue-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-blue-400/50 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col">
                   <div className="card-icon text-blue-500 mb-3">
                     <Brain size={32} />
                   </div>
-                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">AI Agents & LLMs</h4>
-                  <p className="card-description text-muted-foreground text-sm leading-relaxed">Langchain, RAG, OpenAI API, contextual memory</p>
+                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">LLM & Agentic Systems</h4>
+                  <p className="card-description text-muted-foreground text-sm leading-relaxed">Claude, MCP server design, LangGraph, CrewAI, RAG</p>
+                  <p className="text-muted-foreground text-xs italic mt-3">Production-grade agent platforms, not prototypes</p>
+                  <p className="text-foreground/80 text-xs font-medium mt-auto pt-3">→ 99.2% uptime serving 10,000+ daily users · 10+ custom MCP servers, 5x platform capability expansion</p>
                 </div>
-                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-purple-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
+                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-cyan-400/50 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col">
+                  <div className="card-icon text-cyan-500 mb-3">
+                    <Mic size={32} />
+                  </div>
+                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Voice AI & Automation</h4>
+                  <p className="card-description text-muted-foreground text-sm leading-relaxed">Deepgram, Pipecat, ElevenLabs, real-time call routing</p>
+                  <p className="text-muted-foreground text-xs italic mt-3">Sub-500ms voice pipelines under real call load</p>
+                  <p className="text-foreground/80 text-xs font-medium mt-auto pt-3">→ Multi-agent workflows (LangGraph, CrewAI) cutting manual work 65%</p>
+                </div>
+                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-purple-400/50 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col">
                   <div className="card-icon text-purple-500 mb-3">
                     <Eye size={32} />
                   </div>
                   <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Computer Vision</h4>
-                  <p className="card-description text-muted-foreground text-sm leading-relaxed">YOLOv8, AVFoundation, CoreML, image/video inference</p>
+                  <p className="card-description text-muted-foreground text-sm leading-relaxed">YOLOv8, CoreML, on-device inference</p>
+                  <p className="text-muted-foreground text-xs italic mt-3">Real-time, on-device inference at production accuracy</p>
+                  <p className="text-foreground/80 text-xs font-medium mt-auto pt-3">→ 92% accuracy at 30 FPS, sub-200ms inference latency</p>
                 </div>
-                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-cyan-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
-                  <div className="card-icon text-cyan-500 mb-3">
-                    <Mic size={32} />
+                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-emerald-400/50 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col">
+                  <div className="card-icon text-emerald-500 mb-3">
+                    <Network size={32} />
                   </div>
-                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Voice Interfaces</h4>
-                  <p className="card-description text-muted-foreground text-sm leading-relaxed">Deepgram STT, TTS, Whisper — for smart assistants</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Mini Highlights */}
-            <div className="mb-20 max-w-4xl mx-auto md:mx-0 px-4 md:px-0">
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center text-sm text-muted-foreground">
-                <div className="highlight-item flex items-center gap-2">
-                  <span className="highlight-icon text-green-400">
-                    <Zap size={20} />
-                  </span>
-                  <span className="font-times">92% accurate real-time defect detection on iOS</span>
-                </div>
-                <div className="highlight-item flex items-center gap-2">
-                  <span className="highlight-icon text-blue-400">
-                    <Link size={20} />
-                  </span>
-                  <span className="font-times">Seamless integration between backend, frontend, and AI Agents</span>
-                </div>
-                <div className="highlight-item flex items-center gap-2">
-                  <span className="highlight-icon text-purple-400">
-                    <Package size={20} />
-                  </span>
-                  <span className="font-times">Containerized ML workflows for easy deployment</span>
+                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Knowledge Graphs & Data Systems</h4>
+                  <p className="card-description text-muted-foreground text-sm leading-relaxed">Neo4j, graph-based data modeling, ontology design</p>
+                  <p className="text-muted-foreground text-xs italic mt-3">Structured reasoning over unstructured claims and relationships</p>
+                  <p className="text-foreground/80 text-xs font-medium mt-auto pt-3">→ Claim-dependency graph + interactive concept view built for a confidential production verification pipeline (2026)</p>
                 </div>
               </div>
             </div>

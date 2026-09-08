@@ -18,7 +18,7 @@ npm install
 npm run dev
 ```
 
-Runs at `http://localhost:5173`. Requires the Django backend running at `http://localhost:8000` (see `../backend_p/README.md`) for the chatbot and contact form to work.
+Runs at `http://localhost:8080` (configured in `vite.config.ts`). Requires the Django backend running at `http://localhost:8000` (see `../backend_p/README.md`) for the chatbot and contact form to work.
 
 Other scripts:
 ```bash
