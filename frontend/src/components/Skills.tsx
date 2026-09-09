@@ -254,8 +254,7 @@ const Skills = () => {
                 year: "July 2025 ",
                 // id: "SNOW00300789‎",
                 link: "https://learn.deeplearning.ai/accomplishments/a6befed3-0058-4fd3-be91-3595cb8a6704",
-                external: true,
-                embeddable: false
+                external: true
               },
               {
                 name: "Multi AI Agent Systems with crewAI",
@@ -399,10 +398,11 @@ const Skills = () => {
                           if (cert.link && typeof cert.link === 'string') {
                             if (cert.external) {
                               // Open verification page in an in-page modal instead of a new tab.
-                              // Note: some verification providers (e.g. learn.deeplearning.ai) send a
-                              // frame-ancestors CSP header that blocks iframe embedding outright, so
-                              // those are flagged embeddable: false and skip the iframe entirely.
-                              setModalContent({ type: 'external', src: cert.link, title: cert.name, embeddable: cert.embeddable !== false });
+                              // Most verification providers (Snowflake, learn.deeplearning.ai, etc.)
+                              // send a frame-ancestors CSP header that blocks iframe embedding outright,
+                              // so default to the "open in new tab" fallback and only attempt the
+                              // iframe for a provider explicitly confirmed to allow it (embeddable: true).
+                              setModalContent({ type: 'external', src: cert.link, title: cert.name, embeddable: 'embeddable' in cert && cert.embeddable === true });
                               setModalOpen(true);
                               return;
                             }
