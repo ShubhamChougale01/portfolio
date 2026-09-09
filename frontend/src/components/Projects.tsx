@@ -24,6 +24,7 @@ interface Project {
   imageKey?: string;
   github?: string;
   repos?: Repo[];
+  client?: string;
   featured?: boolean;
 }
 
@@ -36,6 +37,7 @@ const imageMap: Record<string, string> = {
   dance: DanceImg,
   turftown: TurfImg,
   buenosaires: BuenosImg,
+  placeholder: '/placeholder.svg',
 };
 
 const projects: Project[] = rawProjects as Project[];
@@ -91,6 +93,11 @@ const Projects = () => {
               {project.featured && (
                 <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-semibold px-3 py-1 text-center">
                   FEATURED PROJECT
+                </div>
+              )}
+              {project.client && (
+                <div className="bg-muted text-muted-foreground text-xs font-medium px-3 py-1 text-center border-b border-border">
+                  {project.client}
                 </div>
               )}
               <div className="h-48 bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center overflow-hidden">
@@ -161,7 +168,10 @@ const Projects = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70" onClick={() => setModalProject(null)}>
             <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full p-6 relative" onClick={e => e.stopPropagation()}>
               <button className="absolute top-2 right-2 text-xl font-bold text-gray-600 hover:text-gray-900" onClick={() => setModalProject(null)}>&times;</button>
-              <h3 className="text-2xl font-bold mb-4 text-center">{modalProject.title}</h3>
+              <h3 className="text-2xl font-bold mb-1 text-center">{modalProject.title}</h3>
+              {modalProject.client && (
+                <p className="text-center text-xs font-medium text-gray-500 mb-3">{modalProject.client}</p>
+              )}
               {modalProject.imageKey && imageMap[modalProject.imageKey] && (
                 <img src={imageMap[modalProject.imageKey]} alt={modalProject.title} className="w-full max-h-64 object-contain rounded mb-4" />
               )}

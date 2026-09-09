@@ -22,6 +22,7 @@ TOP_K = 4
 faiss_index = None
 corpus_chunks = []
 chunk_metadatas = []
+vectorizer = None
 
 def chunk_text(text, chunk_size=CHUNK_SIZE):
     words = text.split()
@@ -37,8 +38,12 @@ PROJECTS_JSON_PATH = os.path.join(
 )
 
 def load_projects():
-    with open(PROJECTS_JSON_PATH, encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(PROJECTS_JSON_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, json.JSONDecodeError) as e:
+        print(f"Warning: could not load projects.json ({e}); portfolio RAG context will be empty.")
+        return []
 
 projects = load_projects()
 
@@ -63,13 +68,18 @@ def build_faiss_index():
     faiss_index.add(embeddings)
 
 # Build index at startup
-build_faiss_index()
+try:
+    build_faiss_index()
+except Exception as e:
+    print(f"Warning: failed to build RAG index at startup ({e}); /rag will respond with a fallback message.")
 
 @api_view(['POST'])
 def rag_answer(request):
     global faiss_index, corpus_chunks, vectorizer
     if not GROQ_API_KEY:
         return Response({"answer": "GROQ_API_KEY is not set in the environment."})
+    if faiss_index is None or vectorizer is None:
+        return Response({"answer": "The assistant's knowledge base isn't available right now. Please try again later."})
     try:
         question = request.data.get("question", "")
         q_emb = vectorizer.transform([question]).toarray().astype(np.float32)

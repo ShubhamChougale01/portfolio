@@ -1,3 +1,10 @@
+import CrewAICourseProgress from '@/assets/Certificates/CrewAI-Course-Progress.png';
+import CrewAILogo from '@/assets/Certificates/CrewAI-logo.webp';
+import IntroToMCP from '@/assets/Certificates/Intro-to-MCP.jpg';
+import ClaudeCodeInAction from '@/assets/Certificates/Claude-Code-in-Action.jpg';
+import IntroToAgentSkills from '@/assets/Certificates/Intro-to-Agent-Skills.jpg';
+import ClaudeCode101 from '@/assets/Certificates/Claude-Code-101.jpg';
+import Claude101 from '@/assets/Certificates/Claude-101.jpg';
 import DataScienceAIML from '@/assets/Certificates/Data-science-with-AIML.jpg';
 import IBM from '@/assets/Certificates/IBM.pdf';
 import IMedita from '@/assets/Certificates/I-medita.jpg';
@@ -13,39 +20,62 @@ import { useState } from 'react';
 
 const Skills = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<{ type: 'image' | 'pdf', src: string, title: string } | null>(null);
+  const [modalContent, setModalContent] = useState<{ type: 'image' | 'pdf' | 'external', src: string, title: string, embeddable?: boolean } | null>(null);
   const skillCategories = [
     {
       title: "Programming Languages",
       color: "from-cyan-400 to-cyan-600",
       skills: [
         { name: "Python", level: 95 },
-        { name: "SQL", level: 90 },
+        { name: "PostgreSQL / SQL", level: 90 },
         { name: "Terraform", level: 60 },
-        { name: "Swift", level: 40 },
-        { name: "TypeScript", level: 40 }
+        { name: "TypeScript", level: 45 },
+        { name: "Swift", level: 40 }
       ]
     },
     {
-      title: "Artificial Intelligence",
+      title: "AI & Agentic Systems",
       color: "from-purple-400 to-purple-600",
       skills: [
+        { name: "Claude API", level: 92 },
+        { name: "MCP / FastMCP", level: 90 },
         { name: "LangChain", level: 90 },
-        { name: "OpenAI & Mistral", level: 88 },
+        { name: "LangGraph", level: 85 },
         { name: "RAG", level: 88 },
+        { name: "CrewAI", level: 80 },
         { name: "Vector DBs", level: 85 },
+        { name: "Groq", level: 82 },
+        { name: "Neo4j / Knowledge Graphs", level: 80 },
+        { name: "OpenAI & Mistral", level: 88 },
+        { name: "Langfuse", level: 75 },
+        { name: "LangSmith", level: 75 },
+        { name: "FAISS", level: 78 },
         { name: "AI Agents", level: 82 }
+      ]
+    },
+    {
+      title: "Voice AI",
+      color: "from-pink-400 to-pink-600",
+      skills: [
+        { name: "ElevenLabs", level: 80 },
+        { name: "Deepgram (STT/TTS)", level: 80 },
+        { name: "Pipecat", level: 78 },
+        { name: "Real-time Voice Pipelines", level: 78 },
+        { name: "AssemblyAI", level: 65 },
+        { name: "OpenAI TTS", level: 65 },
+        { name: "Sarvam", level: 60 },
+        { name: "gTTS", level: 50 }
       ]
     },
     {
       title: "Computer Vision",
       color: "from-green-400 to-green-600",
       skills: [
-        { name: "Ultralytics", level: 90 },
+        { name: "YOLOv8 / Ultralytics", level: 90 },
         { name: "Object Detection", level: 90 },
         { name: "Image Classification", level: 85 },
         { name: "Roboflow", level: 85 },
-        { name: "Video Processing", level: 85 }
+        { name: "CoreML", level: 40 }
       ]
     },
     {
@@ -54,28 +84,33 @@ const Skills = () => {
       skills: [
         { name: "TensorFlow", level: 70 },
         { name: "PyTorch", level: 70 },
-        { name: "OpenCV", level: 70 },
-        { name: "CoreML", level: 40 }
+        { name: "OpenCV", level: 70 }
       ]
     },
     {
-      title: "Cloud Platforms",
+      title: "Cloud & DevOps",
       color: "from-orange-400 to-orange-600",
       skills: [
         { name: "AWS", level: 78 },
-        { name: "Docker", level: 70 },
+        { name: "Google Cloud", level: 65 },
+        { name: "Docker", level: 75 },
         { name: "Jenkins CI/CD", level: 70 },
-        { name: "Kubernetes", level: 60 }
-        // { name: "MLOps", level: 82 }
+        { name: "Playwright", level: 60 }
       ]
     },
     {
-      title: "General Skills:",
+      title: "Backend & General",
       color: "from-teal-400 to-teal-600",
       skills: [
+        { name: "FastAPI", level: 88 },
         { name: "Django", level: 80 },
-        { name: "FastAPI", level: 75 },
-        { name: "GIT", level: 75 },
+        { name: "Pydantic", level: 78 },
+        { name: "SQLAlchemy / Alembic", level: 72 },
+        { name: "AI Agent Testing & Evals", level: 75 },
+        { name: "Supabase", level: 70 },
+        { name: "WebSocket", level: 70 },
+        { name: "Git", level: 75 },
+        { name: "Streamlit", level: 65 },
         { name: "Capacitor", level: 40 }
       ]
     }
@@ -184,20 +219,51 @@ const Skills = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {[
               {
+                name: "Introduction to Model Context Protocol",
+                provider: "Anthropic Education",
+                year: "April 2026",
+                link: IntroToMCP
+              },
+              {
+                name: "Claude Code in Action",
+                provider: "Anthropic Education",
+                year: "April 2026",
+                link: ClaudeCodeInAction
+              },
+              {
+                name: "Introduction to Agent Skills",
+                provider: "Anthropic Education",
+                year: "April 2026",
+                link: IntroToAgentSkills
+              },
+              {
+                name: "Claude Code 101",
+                provider: "Anthropic Education",
+                year: "April 2026",
+                link: ClaudeCode101
+              },
+              {
+                name: "Claude 101",
+                provider: "Anthropic Education",
+                year: "April 2026",
+                link: Claude101
+              },
+              {
                 name: "Large Language Models with Semantic Search",
-                provider: "Deeplearning.ai",
+                provider: "Cohere / DeepLearning.AI",
                 year: "July 2025 ",
                 // id: "SNOW00300789‎",
                 link: "https://learn.deeplearning.ai/accomplishments/a6befed3-0058-4fd3-be91-3595cb8a6704",
-                external: true
+                external: true,
+                embeddable: false
               },
               {
                 name: "Multi AI Agent Systems with crewAI",
                 provider: "Deeplearning.ai",
                 year: "July 2025 ",
-                // id: "SNOW00300789‎",
-                link: "https://achieve.snowflake.com/63e2e2f2-548d-4e11-afd7-8f357820e5ad#acc.8BAykW6u",
-                external: true
+                logo: CrewAILogo,
+                courseLink: "https://www.deeplearning.ai/courses/multi-ai-agent-systems-with-crewai/",
+                link: CrewAICourseProgress
               },
               {
                 name: "SnowPro Core Certification",
@@ -304,6 +370,13 @@ const Skills = () => {
                     <div className="transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] w-full h-full">
                       {/* Front Side */}
                       <div className="absolute inset-0 bg-card p-4 rounded-lg border border-border text-center hover:border-blue-500/50 transition-all duration-300 [backface-visibility:hidden] flex flex-col justify-center">
+                        {cert.logo && (
+                          <img
+                            src={cert.logo}
+                            alt={`${cert.provider} logo`}
+                            className="h-6 mx-auto mb-2 object-contain"
+                          />
+                        )}
                         <div className="text-blue-400 font-semibold text-sm mb-1">
                           {cert.name}
                         </div>
@@ -325,20 +398,21 @@ const Skills = () => {
                         onClick={() => {
                           if (cert.link && typeof cert.link === 'string') {
                             if (cert.external) {
-                              // Open external link in new tab
-                              window.open(cert.link, '_blank');
+                              // Open verification page in an in-page modal instead of a new tab.
+                              // Note: some verification providers (e.g. learn.deeplearning.ai) send a
+                              // frame-ancestors CSP header that blocks iframe embedding outright, so
+                              // those are flagged embeddable: false and skip the iframe entirely.
+                              setModalContent({ type: 'external', src: cert.link, title: cert.name, embeddable: cert.embeddable !== false });
+                              setModalOpen(true);
                               return;
                             }
-                        
+
                             // Local file (image or PDF)
                             if (cert.link.endsWith('.pdf')) {
                               setModalContent({ type: 'pdf', src: cert.link, title: cert.name });
                               setModalOpen(true);
                             } else if (cert.link.endsWith('.jpg') || cert.link.endsWith('.jpeg') || cert.link.endsWith('.png')) {
                               setModalContent({ type: 'image', src: cert.link, title: cert.name });
-                              setModalOpen(true);
-                            } else if (cert.external) {
-                              setModalContent({ type: 'pdf', src: cert.link, title: cert.name });
                               setModalOpen(true);
                             }
                           }
@@ -351,11 +425,24 @@ const Skills = () => {
                               <span className="mb-2 text-blue-500 underline text-sm font-semibold">Click to preview PDF</span>
                             </div>
                           ) : (
-                            <img
-                              src={cert.link}
-                              alt={cert.name}
-                              className="max-h-32 rounded shadow mb-2 mx-auto"
-                            />
+                            <div className="w-full flex flex-col items-center">
+                              <img
+                                src={cert.link}
+                                alt={cert.name}
+                                className="max-h-32 rounded shadow mb-2 mx-auto"
+                              />
+                              {cert.courseLink && (
+                                <a
+                                  href={cert.courseLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-blue-500 underline text-xs font-semibold"
+                                  onClick={e => e.stopPropagation()}
+                                >
+                                  View Course
+                                </a>
+                              )}
+                            </div>
                           )
                         ) : cert.external ? (
                           <span className="text-blue-500 underline text-sm font-semibold">Click to preview certificate</span>
@@ -405,6 +492,20 @@ const Skills = () => {
             <h3 className="text-lg font-semibold mb-4 text-center">{modalContent.title}</h3>
             {modalContent.type === 'image' ? (
               <img src={modalContent.src} alt={modalContent.title} className="w-full max-h-[70vh] object-contain rounded" />
+            ) : modalContent.type === 'external' && modalContent.embeddable === false ? (
+              <div className="w-full flex flex-col items-center justify-center py-16 gap-4">
+                <p className="text-center text-sm text-gray-500 max-w-sm">
+                  This verification provider doesn't allow its pages to be previewed inside another site.
+                </p>
+                <a
+                  href={modalContent.src}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
+                >
+                  Open Certificate ↗
+                </a>
+              </div>
             ) : (
               <iframe src={modalContent.src} title={modalContent.title} className="w-full h-[70vh] rounded" />
             )}

@@ -7,7 +7,7 @@
     "tech": ["YOLOv8", "CoreML", "SwiftUI", "iOS", "PyTorch"],
     "imageKey": "yolov8",
     "github": "https://github.com/ShubhamChougale01/defectdettest",
-    "featured": true
+    "featured": false
   },
   {
     "title": "Developer Portfolio",
@@ -17,7 +17,7 @@
     "tech": ["React", "Vite", "Tailwind CSS", "Cursor AI", "Lovable"],
     "imageKey": "portfolio",
     "github": "https://github.com/ShubhamChougale01/portfolio",
-    "featured": true
+    "featured": false
   },
   {
     "title": "ViziSmart (Property Management app/web)",
@@ -26,7 +26,8 @@
     "category": "AI Project",
     "tech": ["Langchain", "RAG", "OpenAI", "Vector DBs", "Capacitor", "AVFoundation", "Docker", "Deepgram", "Django", "TTS"],
     "imageKey": "vizismart",
-    "featured": true
+    "client": "Client Project — 64 Squares",
+    "featured": false
   },
   {
     "title": "DevOps Intern – Tata Consultancy Services",
@@ -76,6 +77,153 @@
     "tech": ["Pandas", "Scikit-learn", "Regression", "Data Science"],
     "imageKey": "buenosaires",
     "github": "#",
+    "featured": false
+  },
+  {
+    "title": "Claim Verification & Automation Platform",
+    "description": "Built an AI-powered claim-verification and CRM automation platform for a confidential Coditas client engagement, centered on a Claim Dependency Graph stored in Neo4j.",
+    "details": "- Designed a Claim Dependency Graph modeling claim-to-vocabulary relationships\n- Integrated Neo4j for graph-based storage and an interactive claim/concept graph view\n- Automated NDA workflows across document, CRM, and messaging systems\n- Centralized status mapping and automatic company-folder creation\n- Real-time alerts on sync failures\n- Note: screenshots pending — confidential/internal project",
+    "category": "AI Project",
+    "tech": ["Claude", "Neo4j", "Knowledge Graphs", "Ontology Design", "CRM Integration", "Workflow Automation"],
+    "imageKey": "placeholder",
+    "github": "#",
+    "client": "Client Project — Coditas",
+    "featured": true
+  },
+  {
+    "title": "MetricStream — AI Workflow Automation Platform",
+    "description": "Built an AI-powered workflow automation platform for MetricStream (a Governance, Risk & Compliance platform) for a Coditas client engagement, processing 100+ enterprise automations daily using Claude Sonnet and Claude Opus.",
+    "details": "- Improved data-extraction accuracy from 78% to 92% via RAG-augmented prompt engineering\n- Architected 10+ custom Model Context Protocol (MCP) servers, expanding platform capabilities 5x\n- Reduced workflow latency 20% and token costs 25% via intelligent caching and dynamic model selection across Claude, OpenAI, and Groq\n- Shipped 5+ major features with 95%+ test coverage\n- Note: screenshots pending — confidential/internal project",
+    "category": "AI Project",
+    "tech": ["Claude", "MCP", "FastMCP", "Langfuse", "Python", "RAG", "LangGraph"],
+    "imageKey": "placeholder",
+    "github": "#",
+    "client": "Client Project — Coditas",
+    "featured": true
+  },
+  {
+    "title": "Commerce Support Agent",
+    "description": "AI-powered customer support system that auto-resolves Zoho Desk tickets for a Medusa.js-based e-commerce store using a two-pass Claude pipeline.",
+    "details": "- Pass 1: structured intent/fraud/urgency classification\n- Pass 2: brand-voiced reply generation\n- Quality gates on every response\n- Fraud detection and escalation routing to humans for high-risk cases\n- Supabase-backed audit logging\n- SLA watchdog alerting as tickets approach deadline\n- Note: visual coming soon",
+    "category": "AI Project",
+    "tech": ["FastAPI", "Claude", "Zoho Desk API", "Medusa.js", "Supabase", "MCP"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/commerce-support-agent",
+    "featured": true
+  },
+  {
+    "title": "Intelligent Call Routing for AI Voice Platform",
+    "description": "Engineered a production-grade intelligent call routing system on CloudBuilders Technologies' Agentic AI platform, enabling real-time handoffs from autonomous voice agents to human representatives for the platform's enterprise clients.",
+    "details": "- Designed and shipped a context-aware Transfer Call to Human Agent feature using conversation analysis and LLM-driven intent detection\n- Reduced misrouted calls and improved resolution rates for live support teams\n- Integrated Twilio, Plivo, Pipecat, ElevenLabs, OpenAI, and Gemini in a sprint-based agile workflow, delivering the feature end-to-end within a 2-month engagement\n- Built real-time voice pipeline logic in FastAPI, handling concurrent call sessions with sub-500ms routing decisions\n- Note: screenshots pending — confidential/internal project",
+    "category": "AI Project",
+    "tech": ["Pipecat", "Twilio", "Plivo", "ElevenLabs", "OpenAI", "Gemini", "FastAPI"],
+    "imageKey": "placeholder",
+    "github": "#",
+    "client": "CloudBuilders Technologies — Agentic AI Platform",
+    "featured": true
+  },
+  {
+    "title": "Agent-Harness",
+    "description": "Governance-first framework orchestrating Planner, Code, Test, and Reviewer AI agents for autonomous software development.",
+    "details": "- Multi-agent orchestration with task queueing\n- Role-based access control (RBAC) and structured governance\n- Immutable audit logging for all actions\n- Integration with Claude Code CLI\n- Type-safe Python, strict mypy enforcement",
+    "category": "AI Project",
+    "tech": ["Python", "Claude", "RBAC", "Pydantic"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/agent-harness",
+    "featured": false
+  },
+  {
+    "title": "Org Knowledge Hub",
+    "description": "Neo4j-backed knowledge-graph chatbot for Coditas, answering natural-language questions about org structure and skills.",
+    "details": "- Answers questions about 155 employees, 7 departments, 62 skills\n- Natural-language to Cypher query pipeline\n- Role-based access control and PII masking\n- Redis caching, interactive React Flow org chart\n- LangSmith tracing",
+    "category": "AI Project",
+    "tech": ["Neo4j", "LangChain", "FastAPI", "React", "RBAC"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/org-knowledge-hub",
+    "client": "Client Project — Coditas",
+    "featured": false
+  },
+  {
+    "title": "Engineer OS",
+    "description": "Self-hosted learning platform covering every skill for AI/backend engineering as structured pages.",
+    "details": "- 50 structured sections: languages, databases, auth, security, cloud, LLMs, agents\n- Self-hosted, browsable reference format",
+    "category": "Web App",
+    "tech": ["TypeScript"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/engineer-os",
+    "featured": false
+  },
+  {
+    "title": "RAG-Pipeline",
+    "description": "LangGraph-based query router combining a resume RAG agent, a live-weather agent, and a master routing agent.",
+    "details": "- Resume RAG agent using PDF vector search\n- Weather agent via OpenWeatherMap API\n- Master LangGraph agent for intelligent routing\n- Full LangSmith observability, unit tests across modules",
+    "category": "AI Project",
+    "tech": ["LangGraph", "Groq", "Qdrant", "LangSmith"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/RAG-pipeline",
+    "featured": false
+  },
+  {
+    "title": "GenAI Bot",
+    "description": "Conversational AI agent unifying PDF question-answering, calculation, and web search in one chat interface.",
+    "details": "- LangChain ReAct agent with dynamic tool selection\n- PyPDF-based document Q&A\n- Sandboxed arithmetic\n- DuckDuckGo web search integration\n- Persistent conversation memory",
+    "category": "AI Project",
+    "tech": ["LangChain", "Groq", "FAISS", "Streamlit"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/genai-bot",
+    "featured": false
+  },
+  {
+    "title": "BigQuery MCP Server",
+    "description": "Production MCP server giving AI agents safe, authenticated, rate-limited access to Google BigQuery datasets.",
+    "details": "- OAuth-style session tokens, 1-hour expiry\n- Per-client rate limiting (30 req/60s)\n- Tools: run_query, list_tables, get_table_profile\n- Credentials stay server-side only",
+    "category": "AI Project",
+    "tech": ["Python", "FastMCP", "Google Cloud", "Pydantic"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/bigquery-mcp-server",
+    "featured": false
+  },
+  {
+    "title": "AI Voice Assistant",
+    "description": "Voice-first productivity app managing tasks, reminders, and calendar events by speech.",
+    "details": "- Deepgram STT/TTS, Groq (Llama 3.3) intent parsing, sub-50ms parsing\n- Multi-turn clarification when confidence < 70%\n- Real-time WebSocket reminder notifications\n- 14 automated Claude Code quality hooks",
+    "category": "AI Project",
+    "tech": ["FastAPI", "React 18", "Deepgram", "Groq"],
+    "imageKey": "placeholder",
+    "repos": [
+      { "label": "Backend", "url": "https://github.com/shubhamchougale-001/backend" },
+      { "label": "Frontend", "url": "https://github.com/shubhamchougale-001/frontend" }
+    ],
+    "featured": false
+  },
+  {
+    "title": "TerminalMind",
+    "description": "Document-aware agentic CLI built on MCP — reference files, run tools, and hold context without leaving the terminal.",
+    "details": "- @document syntax for file injection\n- /command triggers for MCP-defined prompts\n- Agentic tool execution loop",
+    "category": "AI Project",
+    "tech": ["Python", "MCP", "Groq"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/terminalmind",
+    "featured": false
+  },
+  {
+    "title": "Claude Code Hooks & Commands",
+    "description": "13 production Claude Code hooks plus an AI-powered git pre-push reviewer that blocks risky commits.",
+    "details": "- 4 pre-tool + 9 post-tool hooks\n- Auto-formatting, migration protection, branch protection\n- AI-powered pre-push reviewer, severity-based filtering\n- MIT licensed",
+    "category": "DevOps",
+    "tech": ["Python", "Claude API", "Git hooks"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/claude-code-hooks-commands",
+    "featured": false
+  },
+  {
+    "title": "Claude Skills",
+    "description": "4 custom Claude Code skills: AI trend discovery, frontend design generation, DB migration conflict resolution, and auto documentation.",
+    "details": "- /ai-tech-update — tracks 30+ frameworks and AI labs\n- /frontend-design — 11+ aesthetic directions\n- /db-migration-resolver — Alembic/Django conflict detection\n- /auto-docs — 14 document types, git-hook maintained",
+    "category": "AI Project",
+    "tech": ["Python", "JS/TS", "LangChain"],
+    "imageKey": "placeholder",
+    "github": "https://github.com/ShubhamChougale01/claude-skills",
     "featured": false
   }
 ]
