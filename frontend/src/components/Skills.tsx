@@ -407,6 +407,7 @@ const Skills = () => {
   };
 
   return (
+    <>
     <section id="skills" className="py-20 bg-muted/30">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
@@ -474,9 +475,22 @@ const Skills = () => {
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        {/* Certifications Section */}
-        <div className="mt-20 rounded-2xl border border-white/10 bg-[#0b0e1a] p-6 md:p-10">
+    {/* Certifications Section — its own full-bleed dark section, no boxed border */}
+    <section className="relative overflow-hidden py-20 md:py-24 bg-[#030712]">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(560px circle at 8% 10%, rgba(79,140,255,0.12), transparent 62%),' +
+              'radial-gradient(600px circle at 92% 85%, rgba(139,92,246,0.10), transparent 62%)',
+          }}
+        />
+      </div>
+      <div className="relative container mx-auto px-6">
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="hidden sm:block w-8 h-px bg-gradient-to-r from-transparent to-blue-400" />
             <span className="text-xs font-semibold tracking-[0.2em] text-blue-300/80 uppercase">
@@ -580,7 +594,6 @@ const Skills = () => {
               ✦ A collection of milestones that shaped my journey in AI, data &amp; technology.
             </p>
           </div>
-        </div>
       </div>
 
       {/* Certificate preview modal */}
@@ -658,6 +671,7 @@ const Skills = () => {
         </div>
       )}
     </section>
+    </>
   );
 };
 
