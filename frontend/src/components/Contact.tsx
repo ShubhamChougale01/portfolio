@@ -51,37 +51,26 @@ const Contact = () => {
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl font-bold text-foreground mb-4">
-                Ready to collaborate?
+                Ready to build something that has to actually work?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm always interested in discussing new opportunities, innovative AI projects, 
-                and potential collaborations. Whether you're looking for an AI engineer to join 
-                your team or need consultation on AI/ML implementations, let's talk!
+                I'm open to freelance and contract engagements, consulting, and select full-time
+                roles — architecting production-grade agentic AI systems, not prototyping toy
+                demos. Whether you're scoping a build, staffing a project, or just want a second
+                opinion on an AI/LLM implementation, I'd like to hear about it.
               </p>
             </div>
 
             <div className="space-y-6">
               <div>
                 <h4 className="text-lg font-semibold text-blue-400 mb-2">
-                  What I'm looking for:
+                  What I take on:
                 </h4>
                 <ul className="text-muted-foreground space-y-2">
-                  <li>• AI/ML Engineering roles</li>
-                  <li>• Computer Vision project collaborations</li>
-                  <li>• AI & LLM integration consulting</li>
-                  <li>• AI Agent Developer roles</li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="text-lg font-semibold text-purple-400 mb-2">
-                  My expertise includes:
-                </h4>
-                <ul className="text-muted-foreground space-y-2">
-                  <li>• Building AI-powered applications </li>
-                  <li>• Designing voice assistants</li>
-                  <li>• Developing real-time computer vision systems</li>
-                  <li>• RAG and LLM integration</li>
+                  <li>• MCP server design & multi-agent orchestration (LangGraph, CrewAI)</li>
+                  <li>• Claude-native architecture — RAG pipelines, agentic tool-calling, production LLM platforms</li>
+                  <li>• AI/LLM integration consulting for teams scaling past the prototype stage</li>
+                  <li>• Voice AI and computer vision builds, when the project calls for it</li>
                 </ul>
               </div>
             </div>
