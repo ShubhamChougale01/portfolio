@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, Download, ExternalLink, Share2, X, Award, FileText, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, ExternalLink, Share2, X, Award, FileText } from 'lucide-react';
 import CrewAICourseProgress from '@/assets/Certificates/CrewAI-Course-Progress.png';
 import IntroToMCP from '@/assets/Certificates/Intro-to-MCP.jpg';
 import ClaudeCodeInAction from '@/assets/Certificates/Claude-Code-in-Action.jpg';
@@ -19,12 +19,12 @@ import OneDayInternational from '@/assets/Certificates/One-day-international-com
 import ResearchPublication from '@/assets/Certificates/Research Publication Certificate – AJANTA Journal (ISSN 2277-5730).jpg';
 
 const CATEGORY_STYLES: Record<string, string> = {
-  'AI & LLM': 'bg-purple-500/15 text-purple-400 border-purple-500/30',
-  Snowflake: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30',
-  'Data & Analytics': 'bg-green-500/15 text-green-400 border-green-500/30',
-  Programming: 'bg-orange-500/15 text-orange-400 border-orange-500/30',
-  Academic: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
-  Events: 'bg-pink-500/15 text-pink-400 border-pink-500/30',
+  'AI & LLM': 'bg-[#A855F7]/15 text-[#A855F7] border-[#A855F7]/30',
+  Snowflake: 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/30',
+  'Data & Analytics': 'bg-[#34D399]/15 text-[#34D399] border-[#34D399]/30',
+  Programming: 'bg-[#60A5FA]/15 text-[#60A5FA] border-[#60A5FA]/30',
+  Academic: 'bg-[#FBBF24]/15 text-[#FBBF24] border-[#FBBF24]/30',
+  Events: 'bg-[#EC4899]/15 text-[#EC4899] border-[#EC4899]/30',
 };
 
 const CERTIFICATIONS = [
@@ -186,7 +186,7 @@ const CERTIFICATIONS = [
   },
 ];
 
-const CERT_CATEGORIES = ['All', 'AI & LLM', 'Snowflake', 'Data & Analytics', 'Programming', 'Academic', 'Events', 'Others'];
+const CERT_CATEGORIES = ['All', 'AI & LLM', 'Snowflake', 'Data & Analytics', 'Programming', 'Academic', 'Events'];
 const INITIAL_VISIBLE = 8;
 
 type Cert = (typeof CERTIFICATIONS)[number];
@@ -268,7 +268,6 @@ function CertActions({ cert, onShare }: { cert: Cert; onShare: (url: string) => 
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
   const [showAllCerts, setShowAllCerts] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -368,13 +367,9 @@ const Skills = () => {
     }
   ];
 
-  const filteredCerts = CERTIFICATIONS
-    .filter((c) => activeCategory === 'All' || c.category === activeCategory)
-    .filter((c) => {
-      const q = searchQuery.trim().toLowerCase();
-      if (!q) return true;
-      return c.name.toLowerCase().includes(q) || c.provider.toLowerCase().includes(q);
-    });
+  const filteredCerts = activeCategory === 'All'
+    ? CERTIFICATIONS
+    : CERTIFICATIONS.filter((c) => c.category === activeCategory);
   const visibleCerts = showAllCerts ? filteredCerts : filteredCerts.slice(0, INITIAL_VISIBLE);
   const activeCert: Cert | null = filteredCerts[currentIndex] ?? filteredCerts[0] ?? null;
 
@@ -388,7 +383,7 @@ const Skills = () => {
   useEffect(() => {
     setCurrentIndex(0);
     setShowAllCerts(false);
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory]);
 
   useEffect(() => {
     if (!modalOpen) return;
@@ -495,161 +490,103 @@ const Skills = () => {
               Achievements
             </span>
           </h2>
-          <p className="text-white/60 text-center max-w-xl mx-auto mb-10">
+          <p className="text-white/60 text-center max-w-xl mx-auto mb-8">
             Courses, certifications and recognitions that have shaped my journey in AI, data and technology.
           </p>
 
-          {/* Filters + search */}
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-10">
-            <div className="flex flex-wrap gap-3">
-              {CERT_CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    activeCategory === cat
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                      : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-            <div className="relative w-full lg:w-64 flex-none">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search certificates..."
-                className="w-full pl-9 pr-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-blue-500/50 transition-colors"
-              />
-            </div>
+          {/* Filters */}
+          <div className="flex flex-wrap justify-center gap-2 mb-3">
+            {CERT_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-200 ${
+                  activeCategory === cat
+                    ? 'bg-white/10 text-white border border-white/20'
+                    : 'text-white/50 hover:text-white/80 border border-transparent'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+          <p className="flex items-center justify-center gap-2 text-white/40 text-xs mb-10">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#34D399]" />
+            {filteredCerts.length} milestone{filteredCerts.length === 1 ? '' : 's'}
+          </p>
+
+          {/* Certificate cards — the certificate image is the hero */}
+          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {visibleCerts.map((cert, index) => (
+              <div
+                key={cert.name}
+                onClick={() => selectCertAt(index)}
+                className="group cursor-pointer bg-white/[0.03] rounded-xl border border-white/10 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-[#4F8CFF]/40"
+                style={{ transition: 'transform 300ms, border-color 300ms, box-shadow 300ms' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 0 25px rgba(79,140,255,0.18), 0 0 45px rgba(155,92,255,0.10)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div className="relative h-52 bg-black/20 overflow-hidden flex items-center justify-center p-4">
+                  <div className="transition-transform duration-300 group-hover:scale-[1.03] w-full h-full flex items-center justify-center">
+                    <CertThumb cert={cert} iconSize={44} />
+                  </div>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <ExternalLink size={18} className="text-white" />
+                    <span className="text-white text-xs font-medium">View certificate</span>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <h3 className="text-sm font-semibold text-white line-clamp-2 mb-1 min-h-[2.5rem]">
+                    {cert.name}
+                  </h3>
+                  <p className="text-white/60 text-xs mb-0.5">{cert.provider}</p>
+                  <p className="text-white/40 text-xs mb-1">{cert.year}</p>
+                  {'id' in cert && cert.id && (
+                    <p className="text-white/30 text-[10px] italic mb-2">ID: {cert.id}</p>
+                  )}
+                  <div className="flex items-center justify-between mt-2">
+                    <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full border ${CATEGORY_STYLES[cert.category] ?? 'bg-white/10 text-white/60 border-white/20'}`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                      {cert.category}
+                    </span>
+                    <ExternalLink size={13} className="text-white/40 group-hover:text-[#4F8CFF] transition-colors" />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Certificate cards */}
-            <div className="flex-1 min-w-0">
-              <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                {visibleCerts.map((cert, index) => (
-                  <div
-                    key={cert.name}
-                    onClick={() => selectCertAt(index)}
-                    className={`group cursor-pointer bg-white/5 rounded-xl border overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-500/50 hover:shadow-xl hover:shadow-purple-500/10 ${
-                      modalOpen && activeCert?.name === cert.name ? 'border-purple-500/60 ring-1 ring-purple-500/40' : 'border-white/10'
-                    }`}
-                  >
-                    <div className="h-32 bg-white/90 overflow-hidden flex items-center justify-center p-3">
-                      <div className="transition-transform duration-300 group-hover:scale-105 w-full h-full flex items-center justify-center">
-                        <CertThumb cert={cert} />
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <h3 className="text-sm font-semibold text-white line-clamp-2 mb-1 min-h-[2.5rem]">
-                        {cert.name}
-                      </h3>
-                      <p className="text-white/60 text-xs mb-0.5">{cert.provider}</p>
-                      <p className="text-white/40 text-xs mb-1">{cert.year}</p>
-                      {'id' in cert && cert.id && (
-                        <p className="text-white/30 text-[10px] italic mb-2">ID: {cert.id}</p>
-                      )}
-                      <div className="flex items-center justify-between mt-2">
-                        <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full border ${CATEGORY_STYLES[cert.category] ?? 'bg-white/10 text-white/60 border-white/20'}`}>
-                          <span className="w-1.5 h-1.5 rounded-full bg-current" />
-                          {cert.category}
-                        </span>
-                        <span className="flex items-center justify-center w-7 h-7 rounded-full bg-white/5 border border-white/10 text-white/60 group-hover:text-blue-400 group-hover:border-blue-500/40 transition-colors">
-                          {isLocalFile(cert) ? <Download size={12} /> : <ExternalLink size={12} />}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {filteredCerts.length === 0 && (
+            <p className="text-white/40 text-sm text-center py-12">No certificates in this category yet.</p>
+          )}
 
-              {filteredCerts.length === 0 && (
-                <p className="text-white/40 text-sm text-center py-12">No certificates in this category yet.</p>
-              )}
-
-              {!showAllCerts && filteredCerts.length > INITIAL_VISIBLE && (
-                <div className="flex justify-center mt-8">
-                  <button
-                    onClick={() => setShowAllCerts(true)}
-                    className="px-6 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-white text-sm font-medium border border-white/10 transition-colors duration-200"
-                  >
-                    Load More Certificates ↓
-                  </button>
-                </div>
-              )}
+          {!showAllCerts && filteredCerts.length > INITIAL_VISIBLE && (
+            <div className="flex justify-center mt-10">
+              <button
+                onClick={() => setShowAllCerts(true)}
+                className="px-6 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-white text-sm font-medium border border-white/10 transition-colors duration-200"
+              >
+                Load More Certifications ↓
+              </button>
             </div>
+          )}
 
-            {/* Persistent preview panel — desktop only */}
-            <div className="hidden lg:flex flex-none w-[320px] flex-col bg-white/5 border border-white/10 rounded-xl p-4 h-fit sticky top-24">
-              {activeCert && (
-                <>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-semibold text-white">Certificate Preview</span>
-                    <span className="text-xs text-white/40">{currentIndex + 1} / {filteredCerts.length}</span>
-                  </div>
-
-                  <div className="relative">
-                    {filteredCerts.length > 1 && (
-                      <>
-                        <button
-                          onClick={goPrev}
-                          aria-label="Previous certificate"
-                          className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white hover:bg-black/80 transition-colors"
-                        >
-                          <ChevronLeft size={16} />
-                        </button>
-                        <button
-                          onClick={goNext}
-                          aria-label="Next certificate"
-                          className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white hover:bg-black/80 transition-colors"
-                        >
-                          <ChevronRight size={16} />
-                        </button>
-                      </>
-                    )}
-
-                    <div className="rounded-lg bg-white/90 min-h-[200px] flex items-center justify-center p-3 overflow-hidden">
-                      {isLocalFile(activeCert) && isPdf(activeCert.link) ? (
-                        <iframe src={activeCert.link} title={activeCert.name} className="w-full h-[220px] rounded" />
-                      ) : !isLocalFile(activeCert) && !('embeddable' in activeCert && activeCert.embeddable === true) ? (
-                        <div className="flex flex-col items-center gap-2 py-6">
-                          <Award className="text-black/20" size={40} />
-                          <p className="text-center text-[11px] text-black/50 max-w-[200px]">
-                            This provider blocks in-page previews.
-                          </p>
-                        </div>
-                      ) : !isLocalFile(activeCert) ? (
-                        <iframe src={activeCert.link} title={activeCert.name} className="w-full h-[220px] rounded" />
-                      ) : (
-                        <CertThumb cert={activeCert} iconSize={48} />
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="mt-3">
-                    <h4 className="text-sm font-semibold text-white mb-1">{activeCert.name}</h4>
-                    <p className="text-white/50 text-xs">{activeCert.provider} · {activeCert.year}</p>
-                  </div>
-
-                  <div className="mt-4">
-                    <CertActions cert={activeCert} onShare={handleShare} />
-                  </div>
-                </>
-              )}
-            </div>
+          <div className="mt-12 pt-8 border-t border-white/10 text-center">
+            <p className="text-white/40 text-sm">
+              ✦ A collection of milestones that shaped my journey in AI, data &amp; technology.
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Certificate preview modal — mobile/tablet only (below lg, panel above handles desktop) */}
+      {/* Certificate preview modal */}
       {modalOpen && activeCert && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 lg:hidden"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
           onClick={() => setModalOpen(false)}
         >
           <div
