@@ -41,6 +41,9 @@ const MAX_LINKS = 12;
 const LINK_RADIUS = 16;
 /** Colour at the cursor end of each link — near-white so the centre reads hot. */
 const LINK_TIP = [0.78, 0.9, 1];
+/** How much of the node's colour survives at the far end; low values taper the
+ *  line out so it dissolves into the mesh rather than ending on a hard point. */
+const LINK_TAIL = 0.12;
 
 const VERTEX_SHADER = /* glsl */ `
   attribute vec3 aColor;
@@ -227,7 +230,7 @@ const HeroMesh = () => {
     const starMat = new LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.7,
       depthWrite: false,
       blending: AdditiveBlending,
     });
@@ -379,8 +382,12 @@ const HeroMesh = () => {
         }
 
         for (const { index: n, dist } of nearest) {
-          // Additive blending has no per-line alpha, so fade via colour.
-          const falloff = (1 - dist / LINK_RADIUS) * linkStrength;
+          // Additive blending has no per-line alpha, so both fades are baked
+          // into vertex colour: squared distance falloff so links dim well
+          // before the radius edge, and a dark node end so each line tapers
+          // out along its length instead of stopping abruptly on a point.
+          const t = 1 - dist / LINK_RADIUS;
+          const falloff = t * t * linkStrength;
           const o = used * 6;
           starPositions[o] = cursorLocal.x;
           starPositions[o + 1] = cursorLocal.y;
@@ -390,7 +397,7 @@ const HeroMesh = () => {
           starPositions[o + 5] = positions[n * 3 + 2];
           for (let c = 0; c < 3; c++) {
             starColors[o + c] = LINK_TIP[c] * falloff;
-            starColors[o + 3 + c] = colors[n * 3 + c] * falloff;
+            starColors[o + 3 + c] = colors[n * 3 + c] * falloff * LINK_TAIL;
           }
           used++;
         }
