@@ -11,13 +11,14 @@ const Footer = () => {
   return (
     <footer className="bg-background border-t border-border">
       {/* CTA banner */}
-      <div className="relative overflow-hidden bg-[#0b0e1a]">
-        {/* Night-sky gradient */}
+      <div className="relative overflow-hidden bg-[#030712]">
+        {/* Night-sky gradient — starts at the section colour so there is no
+            seam where the Contact section ends. */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(120% 100% at 100% 0%, rgba(124,58,237,0.35) 0%, rgba(11,14,26,0) 55%), linear-gradient(180deg, #0b0e1a 0%, #0d1120 100%)',
+              'radial-gradient(120% 100% at 100% 0%, rgba(124,58,237,0.35) 0%, rgba(3,7,18,0) 55%), linear-gradient(180deg, #030712 0%, #0d1120 100%)',
           }}
         />
         {/* Mountain silhouette */}

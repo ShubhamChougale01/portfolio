@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -75,12 +74,10 @@ const Header = () => {
                 </a>
               );
             })}
-            <ThemeToggle />
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-4">
-            <ThemeToggle />
             <button
               className="text-foreground/80 hover:text-blue-400 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
