@@ -18,23 +18,23 @@ import {
   Cloud,
   Wrench,
 } from 'lucide-react';
-import CrewAICourseProgress from '@/assets/Certificates/CrewAI-Course-Progress.png';
-import IntroToMCP from '@/assets/Certificates/Intro-to-MCP.jpg';
-import ClaudeCodeInAction from '@/assets/Certificates/Claude-Code-in-Action.jpg';
-import IntroToAgentSkills from '@/assets/Certificates/Intro-to-Agent-Skills.jpg';
-import ClaudeCode101 from '@/assets/Certificates/Claude-Code-101.jpg';
-import Claude101 from '@/assets/Certificates/Claude-101.jpg';
-import DataScienceAIML from '@/assets/Certificates/Data-science-with-AIML.jpg';
+import CrewAICourseProgress from '@/assets/Certificates/CrewAI-Course-Progress.webp';
+import IntroToMCP from '@/assets/Certificates/Intro-to-MCP.webp';
+import ClaudeCodeInAction from '@/assets/Certificates/Claude-Code-in-Action.webp';
+import IntroToAgentSkills from '@/assets/Certificates/Intro-to-Agent-Skills.webp';
+import ClaudeCode101 from '@/assets/Certificates/Claude-Code-101.webp';
+import Claude101 from '@/assets/Certificates/Claude-101.webp';
+import DataScienceAIML from '@/assets/Certificates/Data-science-with-AIML.webp';
 import IBM from '@/assets/Certificates/IBM.pdf';
-import IMedita from '@/assets/Certificates/I-medita.jpg';
+import IMedita from '@/assets/Certificates/I-medita.webp';
 import DataAnalyticsEssentials from '@/assets/Certificates/DataAnalyticsEssentials.pdf';
-import CertificateComputer from '@/assets/Certificates/Certificate Course-in-Information-and-Computer.jpg';
-import InnovativeResearch from '@/assets/Certificates/Innovative-research-idea-vck.jpg';
-import InternalHackathon from '@/assets/Certificates/Internal Hackathon.jpg';
-import NationalLevelTechEvent from '@/assets/Certificates/National-level-tech-event(sharad).jpg';
-import NewHorizon from '@/assets/Certificates/New-horizon-2k20.jpg';
-import OneDayInternational from '@/assets/Certificates/One-day-international-competition.jpg';
-import ResearchPublication from '@/assets/Certificates/Research Publication Certificate – AJANTA Journal (ISSN 2277-5730).jpg';
+import CertificateComputer from '@/assets/Certificates/Certificate Course-in-Information-and-Computer.webp';
+import InnovativeResearch from '@/assets/Certificates/Innovative-research-idea-vck.webp';
+import InternalHackathon from '@/assets/Certificates/Internal Hackathon.webp';
+import NationalLevelTechEvent from '@/assets/Certificates/National-level-tech-event(sharad).webp';
+import NewHorizon from '@/assets/Certificates/New-horizon-2k20.webp';
+import OneDayInternational from '@/assets/Certificates/One-day-international-competition.webp';
+import ResearchPublication from '@/assets/Certificates/Research Publication Certificate – AJANTA Journal (ISSN 2277-5730).webp';
 
 // Skill card accents. Each entry is a full class string so Tailwind's scanner
 // picks them up — don't build these by interpolation.

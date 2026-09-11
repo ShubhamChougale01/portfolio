@@ -10,7 +10,7 @@ import {
   Mic,
   Network,
 } from 'lucide-react';
-import ProfileImage from '@/assets/Profile.jpeg';
+import ProfileImage from '@/assets/Profile.webp';
 
 const METRICS = [
   { value: 3, decimals: 0, suffix: '+', label: 'Years building AI systems' },

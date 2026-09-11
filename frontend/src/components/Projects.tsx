@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { Github, ExternalLink, ArrowUpRight, Star, X, Layers } from 'lucide-react';
 import rawProjects from '@/data/projects.json';
 import Yolov8Img from '@/assets/project/yolov8.webp';
-import PortfolioImg from '@/assets/project/Portfolio.png';
-import ViziSmartImg from '@/assets/project/ViziSmart.png';
+import PortfolioImg from '@/assets/project/Portfolio.webp';
+import ViziSmartImg from '@/assets/project/ViziSmart.webp';
 import CIImg from '@/assets/project/TCS-Virtual-Internship.webp';
-import DetImg from '@/assets/project/CNN.png';
-import TurfImg from '@/assets/project/turftown.png';
-import DanceImg from '@/assets/project/dance.jpg';
+import DetImg from '@/assets/project/CNN.webp';
+import TurfImg from '@/assets/project/turftown.webp';
+import DanceImg from '@/assets/project/dance.webp';
 import BuenosImg from '@/assets/project/buenos_aires.webp';
 
 interface Repo {
