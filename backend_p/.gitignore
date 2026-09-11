@@ -13,6 +13,8 @@ db.sqlite3
 # Environment
 .env
 .env.*
+# ...except the template, which documents the required keys and holds no values
+!.env.example
 
 # Django static/media
 /staticfiles/

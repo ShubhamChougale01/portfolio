@@ -1,6 +1,8 @@
+import logging
 import os
 import numpy as np
 import faiss
+from django.core.mail import EmailMessage
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.conf import settings
@@ -13,6 +15,8 @@ import json
 from .models import ContactSubmission
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 RESUME_PATH = os.path.join(os.path.dirname(__file__), "static/Shubham_AI.pdf")
@@ -119,6 +123,36 @@ def chat_endpoint(request):
     response = f"You said: {user_message}"
     return Response({"response": response})
 
+def _send_contact_notification(name, email, subject, message):
+    """Email the enquiry on, with the sender as reply-to so a reply goes
+    straight back to them.
+
+    Best effort by design: the submission is already stored, so a mail failure
+    must not turn a successful submission into an error for the visitor. It is
+    logged and reported back as `notified: false` instead.
+    """
+    body = (
+        f"New portfolio enquiry\n\n"
+        f"Name:    {name}\n"
+        f"Email:   {email}\n"
+        f"Subject: {subject}\n\n"
+        f"{message}\n"
+    )
+    try:
+        mail = EmailMessage(
+            subject=f"Portfolio enquiry — {subject or 'no subject'}",
+            body=body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[settings.CONTACT_NOTIFY_EMAIL],
+            reply_to=[email] if email else None,
+        )
+        mail.send(fail_silently=False)
+        return True
+    except Exception:
+        logger.exception("Contact notification email failed for %s", email)
+        return False
+
+
 @csrf_exempt
 def contact_view(request):
     if request.method == 'POST':
@@ -128,6 +162,9 @@ def contact_view(request):
             email = data.get('email')
             subject = data.get('subject')
             message = data.get('message')
+            if not (name and email and message):
+                return JsonResponse({'error': 'Name, email and message are required.'}, status=400)
+
             # Save to SQLite database using the ContactSubmission model
             ContactSubmission.objects.create(
                 name=name,
@@ -135,8 +172,8 @@ def contact_view(request):
                 subject=subject,
                 message=message
             )
-            print(f"Contact form received: Name={name}, Email={email}, Subject={subject}, Message={message}")
-            return JsonResponse({'status': 'success'})
+            notified = _send_contact_notification(name, email, subject, message)
+            return JsonResponse({'status': 'success', 'notified': notified})
         except Exception as e:
             print("Error parsing contact form:", e)
             return JsonResponse({'error': 'Invalid data'}, status=400)
