@@ -11,6 +11,7 @@ import {
   Points,
   Scene,
   ShaderMaterial,
+  Vector3,
   WebGLRenderer,
 } from 'three';
 
@@ -21,6 +22,10 @@ import {
  * mesh reads as a stable network rather than flickering proximity noise — and
  * per frame we only rewrite position buffers, never recompute topology.
  *
+ * The cursor acts as a temporary node: the nearest points within a radius wire
+ * up to it each frame and fade with distance, so it reads as a star burst that
+ * follows the mouse.
+ *
  * Only mounted by Hero when WebGL is available, motion is allowed and the
  * viewport is desktop-sized; it is decorative and always aria-hidden.
  */
@@ -30,6 +35,12 @@ const NEIGHBOURS = 2;
 const SPREAD_X = 34;
 const SPREAD_Y = 20;
 const DEPTH = 30;
+
+/** Cursor star: how many points may link to it, and how far it reaches. */
+const MAX_LINKS = 12;
+const LINK_RADIUS = 16;
+/** Colour at the cursor end of each link — near-white so the centre reads hot. */
+const LINK_TIP = [0.78, 0.9, 1];
 
 const VERTEX_SHADER = /* glsl */ `
   attribute vec3 aColor;
@@ -199,13 +210,65 @@ const HeroMesh = () => {
     });
     group.add(new LineSegments(lineGeo, lineMat));
 
+    // ---- cursor star: links + hot centre ------------------------------------
+    // Buffers are allocated once at max size; each frame we fill the part we
+    // use and clamp drawRange, so no allocation happens in the loop.
+    const starPositions = new Float32Array(MAX_LINKS * 6);
+    const starColors = new Float32Array(MAX_LINKS * 6);
+    const starGeo = new BufferGeometry();
+    const starPosAttr = new BufferAttribute(starPositions, 3);
+    const starColorAttr = new BufferAttribute(starColors, 3);
+    starPosAttr.setUsage(35048);
+    starColorAttr.setUsage(35048);
+    starGeo.setAttribute('position', starPosAttr);
+    starGeo.setAttribute('color', starColorAttr);
+    starGeo.setDrawRange(0, 0);
+
+    const starMat = new LineBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.9,
+      depthWrite: false,
+      blending: AdditiveBlending,
+    });
+    group.add(new LineSegments(starGeo, starMat));
+
+    // Single bright point sitting under the cursor.
+    const coreGeo = new BufferGeometry();
+    const corePos = new Float32Array(3);
+    const corePosAttr = new BufferAttribute(corePos, 3);
+    corePosAttr.setUsage(35048);
+    coreGeo.setAttribute('position', corePosAttr);
+    const coreColor = new Float32Array(LINK_TIP);
+    const coreColorAttr = new BufferAttribute(coreColor, 3);
+    coreColorAttr.setUsage(35048);
+    coreGeo.setAttribute('aColor', coreColorAttr);
+    coreGeo.setAttribute('aSize', new BufferAttribute(new Float32Array([7]), 1));
+    coreGeo.setDrawRange(0, 0);
+    group.add(new Points(coreGeo, pointMat));
+
     // ---- interaction + loop ------------------------------------------------
-    const pointer = { x: 0, y: 0 };
+    const pointer = { x: 0, y: 0 };          // normalised, for camera parallax
+    const client = { x: 0, y: 0, seen: false }; // raw, for cursor projection
+    let linkStrength = 0;                     // eases the star in and out
+
     const onPointerMove = (e: PointerEvent) => {
       pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
       pointer.y = -((e.clientY / window.innerHeight) * 2 - 1);
+      client.x = e.clientX;
+      client.y = e.clientY;
+      client.seen = true;
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
+
+    const onPointerLeave = () => {
+      client.seen = false;
+    };
+    document.addEventListener('pointerleave', onPointerLeave);
+
+    const cursorLocal = new Vector3();
+    const ray = new Vector3();
+    const nearest: { index: number; dist: number }[] = [];
 
     let onScreen = true;
     const io = new IntersectionObserver(([entry]) => {
@@ -265,6 +328,78 @@ const HeroMesh = () => {
       camera.position.x += (pointer.x * 3.4 - camera.position.x) * 0.035;
       camera.position.y += (pointer.y * 2.2 - camera.position.y) * 0.035;
       camera.lookAt(0, 0, -DEPTH / 2);
+      camera.updateMatrixWorld();
+      group.updateMatrixWorld();
+
+      // --- cursor star ------------------------------------------------------
+      const rect = container.getBoundingClientRect();
+      const inside =
+        client.seen &&
+        client.x >= rect.left &&
+        client.x <= rect.right &&
+        client.y >= rect.top &&
+        client.y <= rect.bottom;
+      linkStrength += ((inside ? 1 : 0) - linkStrength) * 0.12;
+
+      let used = 0;
+      if (linkStrength > 0.01) {
+        // Screen point -> world ray -> the plane the mesh sits on, then into
+        // the group's local space so it can be compared with the raw buffer.
+        const ndcX = ((client.x - rect.left) / rect.width) * 2 - 1;
+        const ndcY = -(((client.y - rect.top) / rect.height) * 2 - 1);
+        ray.set(ndcX, ndcY, 0.5).unproject(camera).sub(camera.position).normalize();
+        const planeZ = -DEPTH / 2;
+        cursorLocal
+          .copy(camera.position)
+          .addScaledVector(ray, (planeZ - camera.position.z) / ray.z);
+        group.worldToLocal(cursorLocal);
+
+        corePos[0] = cursorLocal.x;
+        corePos[1] = cursorLocal.y;
+        corePos[2] = cursorLocal.z;
+        for (let i = 0; i < 3; i++) coreColor[i] = LINK_TIP[i] * linkStrength;
+        corePosAttr.needsUpdate = true;
+        coreColorAttr.needsUpdate = true;
+        coreGeo.setDrawRange(0, 1);
+
+        nearest.length = 0;
+        for (let i = 0; i < count; i++) {
+          const dx = positions[i * 3] - cursorLocal.x;
+          const dy = positions[i * 3 + 1] - cursorLocal.y;
+          const dz = positions[i * 3 + 2] - cursorLocal.z;
+          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+          if (dist > LINK_RADIUS) continue;
+          if (nearest.length < MAX_LINKS) {
+            nearest.push({ index: i, dist });
+            nearest.sort((a, b) => a.dist - b.dist);
+          } else if (dist < nearest[nearest.length - 1].dist) {
+            nearest[nearest.length - 1] = { index: i, dist };
+            nearest.sort((a, b) => a.dist - b.dist);
+          }
+        }
+
+        for (const { index: n, dist } of nearest) {
+          // Additive blending has no per-line alpha, so fade via colour.
+          const falloff = (1 - dist / LINK_RADIUS) * linkStrength;
+          const o = used * 6;
+          starPositions[o] = cursorLocal.x;
+          starPositions[o + 1] = cursorLocal.y;
+          starPositions[o + 2] = cursorLocal.z;
+          starPositions[o + 3] = positions[n * 3];
+          starPositions[o + 4] = positions[n * 3 + 1];
+          starPositions[o + 5] = positions[n * 3 + 2];
+          for (let c = 0; c < 3; c++) {
+            starColors[o + c] = LINK_TIP[c] * falloff;
+            starColors[o + 3 + c] = colors[n * 3 + c] * falloff;
+          }
+          used++;
+        }
+        starPosAttr.needsUpdate = true;
+        starColorAttr.needsUpdate = true;
+      } else {
+        coreGeo.setDrawRange(0, 0);
+      }
+      starGeo.setDrawRange(0, used * 2);
 
       renderer.render(scene, camera);
       frame = requestAnimationFrame(tick);
@@ -292,6 +427,7 @@ const HeroMesh = () => {
       stop();
       canvas.removeEventListener('webglcontextlost', onContextLost);
       window.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
       io.disconnect();
       resizeObserver.disconnect();
@@ -299,6 +435,9 @@ const HeroMesh = () => {
       pointMat.dispose();
       lineGeo.dispose();
       lineMat.dispose();
+      starGeo.dispose();
+      starMat.dispose();
+      coreGeo.dispose();
       renderer.dispose();
       canvas.remove();
     };
