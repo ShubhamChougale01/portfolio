@@ -21,6 +21,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
+import { TimeoutError, postJSON } from '@/lib/api';
 
 const CATEGORY_COLORS = {
   blue: { chip: 'bg-blue-500/20', icon: 'text-blue-400' },
@@ -97,14 +98,6 @@ const PROCESS_STEPS = [
   { label: 'Deploy & Scale', icon: Rocket, accent: 'blue' },
 ] as const;
 
-// Was hardcoded to localhost, which left the form dead in any deployed build.
-// Falls back to the same backend AIChatbot already talks to.
-const API_BASE =
-  import.meta.env.VITE_API_URL ??
-  (window.location.hostname === 'localhost'
-    ? 'http://localhost:8000'
-    : 'https://portfolio-backend-g68o.onrender.com');
-
 const DIRECT_CONTACT = [
   {
     label: 'GitHub',
@@ -156,26 +149,25 @@ const Contact = () => {
 
     setSubmitting(true);
     try {
-      const response = await fetch(`${API_BASE}/api/contact/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: `${selectedCategory} inquiry`,
-          message,
-        }),
+      const { response, data } = await postJSON<{ error?: string }>('/api/contact/', {
+        name: formData.name,
+        email: formData.email,
+        subject: `${selectedCategory} inquiry`,
+        message,
       });
       if (response.ok) {
         toast.success("Thank you! I'll get back to you soon.");
         setFormData({ name: '', email: '', company: '', message: '' });
         setSelectedCategory(null);
       } else {
-        const data = await response.json();
-        toast.error(data.error || 'Failed to send message.');
+        toast.error(data?.error || 'Failed to send message.');
       }
     } catch (error) {
-      toast.error('An error occurred. Please try again later.');
+      toast.error(
+        error instanceof TimeoutError
+          ? 'The server took too long to respond. It may be waking up — please try again.'
+          : 'An error occurred. Please try again later.'
+      );
       console.error(error);
     } finally {
       setSubmitting(false);
