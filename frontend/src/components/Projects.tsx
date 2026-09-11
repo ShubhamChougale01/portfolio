@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { Github, ExternalLink, ArrowUpRight, Star, X, Layers } from 'lucide-react';
 import rawProjects from '@/data/projects.json';
 import Yolov8Img from '@/assets/project/yolov8.webp';
@@ -144,14 +145,10 @@ const Projects = () => {
     setShowAll(false);
   }, [activeFilter]);
 
-  useEffect(() => {
-    if (!modalProject) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setModalProject(null);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [modalProject]);
+  // Traps Tab inside the dialog, restores focus to the card that opened it,
+  // locks background scroll, and owns Escape.
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, modalProject !== null, () => setModalProject(null));
 
   return (
     <section id="projects" className="relative overflow-hidden py-20 md:py-24 bg-[#030712]">
@@ -477,11 +474,13 @@ const Projects = () => {
           onClick={() => setModalProject(null)}
         >
           <div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-label={modalProject.title}
+            tabIndex={-1}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl max-h-full overflow-y-auto bg-[#0b0f1c] border border-white/10 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+            className="relative w-full max-w-2xl max-h-full overflow-y-auto bg-[#0b0f1c] border border-white/10 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 focus:outline-none"
           >
             <div className="relative h-52 overflow-hidden rounded-t-2xl">
               <ProjectCover
