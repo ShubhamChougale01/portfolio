@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import {
   ArrowDown,
   ArrowRight,
@@ -11,6 +11,23 @@ import {
   Network,
 } from 'lucide-react';
 import ProfileImage from '@/assets/Profile.webp';
+
+// three.js is heavy, so the chunk is only fetched once we know the device can
+// use it — see the capability gate in Hero below.
+const HeroMesh = lazy(() => import('./HeroMesh'));
+
+function canRender3D() {
+  if (typeof window === 'undefined') return false;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+  if (window.innerWidth < 768) return false;
+  if ((navigator.hardwareConcurrency ?? 4) < 4) return false;
+  try {
+    const probe = document.createElement('canvas');
+    return Boolean(probe.getContext('webgl2') ?? probe.getContext('webgl'));
+  } catch {
+    return false;
+  }
+}
 
 const METRICS = [
   { value: 3, decimals: 0, suffix: '+', label: 'Years building AI systems' },
@@ -123,6 +140,11 @@ function Metric({
 const Hero = () => {
   const metricsRef = useRef<HTMLDivElement>(null);
   const [metricsVisible, setMetricsVisible] = useState(false);
+  const [show3D, setShow3D] = useState(false);
+
+  useEffect(() => {
+    setShow3D(canRender3D());
+  }, []);
 
   useEffect(() => {
     const node = metricsRef.current;
@@ -175,16 +197,13 @@ const Hero = () => {
               'radial-gradient(ellipse 80% 60% at 50% 30%, #000 40%, transparent 100%)',
           }}
         />
-        {/* Connection nodes */}
-        <svg className="absolute top-24 left-[4%] w-[320px] h-[220px] opacity-[0.12]" viewBox="0 0 360 220">
-          <line x1="20" y1="180" x2="140" y2="100" stroke="#22D3EE" strokeWidth="1" />
-          <line x1="140" y1="100" x2="270" y2="150" stroke="#4F8CFF" strokeWidth="1" />
-          <line x1="140" y1="100" x2="210" y2="30" stroke="#9B5CFF" strokeWidth="1" />
-          <circle cx="20" cy="180" r="3" fill="#22D3EE" />
-          <circle cx="140" cy="100" r="3.5" fill="#4F8CFF" />
-          <circle cx="270" cy="150" r="3" fill="#4F8CFF" />
-          <circle cx="210" cy="30" r="3" fill="#9B5CFF" />
-        </svg>
+        {/* Live 3D node graph. Replaces the static SVG sketch that used to sit
+            here; on devices that can't run it the gradients above stand alone. */}
+        {show3D && (
+          <Suspense fallback={null}>
+            <HeroMesh />
+          </Suspense>
+        )}
       </div>
 
       <div className="relative container mx-auto px-6 max-w-6xl">
