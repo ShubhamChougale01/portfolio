@@ -30,10 +30,10 @@ function canRender3D() {
 }
 
 const METRICS = [
-  { value: 3, decimals: 0, suffix: '+', label: 'Years building AI systems' },
-  { value: 10000, decimals: 0, suffix: '+', label: 'Daily users served' },
-  { value: 99.2, decimals: 1, suffix: '%', label: 'Platform uptime' },
-  { value: 10, decimals: 0, suffix: '+', label: 'Custom MCP servers' },
+  { value: 3, suffix: '+', label: 'Years Experience' },
+  { value: 10, suffix: '+', label: 'Custom MCP Servers' },
+  { value: 6, suffix: '+', label: 'AI / ML Domains' },
+  { value: 20, suffix: '+', label: 'Projects & Systems' },
 ];
 
 const SPECIALIZATIONS = [
@@ -109,22 +109,17 @@ function useCountUp(target: number, active: boolean, duration = 1500) {
 
 function Metric({
   value,
-  decimals,
   suffix,
   label,
   active,
 }: {
   value: number;
-  decimals: number;
   suffix: string;
   label: string;
   active: boolean;
 }) {
   const current = useCountUp(value, active);
-  const display =
-    decimals > 0
-      ? current.toFixed(decimals)
-      : Math.round(current).toLocaleString('en-US');
+  const display = Math.round(current).toLocaleString('en-US');
 
   return (
     <div className="flex-1 min-w-[130px]">
