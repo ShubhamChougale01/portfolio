@@ -44,48 +44,56 @@ const SKILL_ACCENTS = {
     chip: 'bg-blue-500/[0.12] border-blue-400/25 text-blue-100',
     seg: 'bg-blue-400',
     hover: 'hover:border-blue-400/40 hover:shadow-[0_0_30px_rgba(79,140,255,0.13)]',
+    selected: 'ring-1 ring-blue-400/60 border-blue-400/60 text-white',
   },
   violet: {
     tile: 'from-violet-500/20 to-violet-600/[0.04] border-violet-400/25 text-violet-300',
     chip: 'bg-violet-500/[0.12] border-violet-400/25 text-violet-100',
     seg: 'bg-violet-400',
     hover: 'hover:border-violet-400/40 hover:shadow-[0_0_30px_rgba(155,92,255,0.13)]',
+    selected: 'ring-1 ring-violet-400/60 border-violet-400/60 text-white',
   },
   pink: {
     tile: 'from-pink-500/20 to-pink-600/[0.04] border-pink-400/25 text-pink-300',
     chip: 'bg-pink-500/[0.12] border-pink-400/25 text-pink-100',
     seg: 'bg-pink-400',
     hover: 'hover:border-pink-400/40 hover:shadow-[0_0_30px_rgba(236,72,153,0.13)]',
+    selected: 'ring-1 ring-pink-400/60 border-pink-400/60 text-white',
   },
   emerald: {
     tile: 'from-emerald-500/20 to-emerald-600/[0.04] border-emerald-400/25 text-emerald-300',
     chip: 'bg-emerald-500/[0.12] border-emerald-400/25 text-emerald-100',
     seg: 'bg-emerald-400',
     hover: 'hover:border-emerald-400/40 hover:shadow-[0_0_30px_rgba(52,211,153,0.13)]',
+    selected: 'ring-1 ring-emerald-400/60 border-emerald-400/60 text-white',
   },
   cyan: {
     tile: 'from-cyan-500/20 to-cyan-600/[0.04] border-cyan-400/25 text-cyan-300',
     chip: 'bg-cyan-500/[0.12] border-cyan-400/25 text-cyan-100',
     seg: 'bg-cyan-400',
     hover: 'hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(34,211,238,0.13)]',
+    selected: 'ring-1 ring-cyan-400/60 border-cyan-400/60 text-white',
   },
   teal: {
     tile: 'from-teal-500/20 to-teal-600/[0.04] border-teal-400/25 text-teal-300',
     chip: 'bg-teal-500/[0.12] border-teal-400/25 text-teal-100',
     seg: 'bg-teal-400',
     hover: 'hover:border-teal-400/40 hover:shadow-[0_0_30px_rgba(45,212,191,0.13)]',
+    selected: 'ring-1 ring-teal-400/60 border-teal-400/60 text-white',
   },
   amber: {
     tile: 'from-amber-500/20 to-amber-600/[0.04] border-amber-400/25 text-amber-300',
     chip: 'bg-amber-500/[0.12] border-amber-400/25 text-amber-100',
     seg: 'bg-amber-400',
     hover: 'hover:border-amber-400/40 hover:shadow-[0_0_30px_rgba(251,146,60,0.13)]',
+    selected: 'ring-1 ring-amber-400/60 border-amber-400/60 text-white',
   },
   slate: {
     tile: 'from-slate-400/20 to-slate-500/[0.04] border-slate-400/25 text-slate-300',
     chip: 'bg-slate-400/[0.12] border-slate-400/25 text-slate-100',
     seg: 'bg-slate-300',
     hover: 'hover:border-slate-400/40 hover:shadow-[0_0_30px_rgba(148,163,184,0.12)]',
+    selected: 'ring-1 ring-slate-300/60 border-slate-300/60 text-white',
   },
 } as const;
 
@@ -99,6 +107,24 @@ const LEVEL_SEGMENTS: Record<string, number> = {
 // Skills that sit at 85+ are marked "core" and get the accent chip treatment,
 // so depth reads at a glance without printing a percentage on every pill.
 const CORE_THRESHOLD = 85;
+
+// Thresholds are tuned to the actual spread of the data (40–95) rather than a
+// flat level/20, which would bunch almost everything into the same two steps.
+function skillSegments(level: number) {
+  if (level >= 90) return 5;
+  if (level >= 80) return 4;
+  if (level >= 70) return 3;
+  if (level >= 55) return 2;
+  return 1;
+}
+
+function skillLabel(level: number) {
+  if (level >= 90) return 'Advanced';
+  if (level >= 80) return 'Proficient';
+  if (level >= 70) return 'Intermediate';
+  if (level >= 55) return 'Familiar';
+  return 'Exploring';
+}
 
 const SKILL_GROUPS = [
   {
@@ -436,7 +462,15 @@ function CertThumb({ cert, iconSize = 40 }: { cert: Cert; iconSize?: number }) {
   const local = isLocalFile(cert);
   const pdf = local && isPdf(cert.link);
   if (local && !pdf) {
-    return <img src={cert.link} alt={cert.name} className="w-full h-full object-contain" />;
+    return (
+      <img
+        src={cert.link}
+        alt={cert.name}
+        loading="lazy"
+        decoding="async"
+        className="w-full h-full object-contain"
+      />
+    );
   }
   if (pdf) {
     return <FileText className="text-white/30" size={iconSize} />;
@@ -502,6 +536,8 @@ function CertActions({ cert, onShare }: { cert: Cert; onShare: (url: string) => 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeSkillFilter, setActiveSkillFilter] = useState('All');
+  // Per-card skill selection: card title -> skill name ('' means no selection).
+  const [selectedSkills, setSelectedSkills] = useState<Record<string, string>>({});
   const [showAllCerts, setShowAllCerts] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -510,6 +546,12 @@ const Skills = () => {
     activeSkillFilter === 'All'
       ? SKILL_GROUPS
       : SKILL_GROUPS.filter((g) => g.group === activeSkillFilter);
+
+  const toggleSkill = (groupTitle: string, skillName: string) =>
+    setSelectedSkills((prev) => ({
+      ...prev,
+      [groupTitle]: prev[groupTitle] === skillName ? '' : skillName,
+    }));
 
   const filteredCerts = activeCategory === 'All'
     ? CERTIFICATIONS
@@ -572,8 +614,8 @@ const Skills = () => {
       </div>
 
       <div className="relative container mx-auto px-6 max-w-6xl">
-        {/* Header — title block left, pull-quote right */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-10">
+        {/* Header */}
+        <div className="mb-10">
           <div className="max-w-2xl">
             <div className="flex items-center gap-4 mb-5">
               <span className="inline-flex items-center px-3 py-1.5 rounded-md border border-white/10 bg-white/[0.03] text-[11px] font-semibold tracking-[0.28em] text-white/70 uppercase">
@@ -591,13 +633,6 @@ const Skills = () => {
               Technologies and tools I work with to build, automate and scale real-world solutions.
             </p>
           </div>
-
-          <figure className="lg:pt-4 lg:max-w-[200px] lg:text-right">
-            <blockquote className="text-slate-300 text-[15px] leading-relaxed">
-              &ldquo;Better tools create bigger possibilities.&rdquo;
-            </blockquote>
-            <span className="inline-block w-10 h-px bg-white/20 mt-4" />
-          </figure>
         </div>
 
         {/* Filters */}
@@ -625,7 +660,14 @@ const Skills = () => {
           {visibleGroups.map((group, index) => {
             const Icon = group.icon;
             const accent = SKILL_ACCENTS[group.accent];
-            const segments = LEVEL_SEGMENTS[group.level] ?? 3;
+            // Clicking a skill swaps the card's meter over to that skill;
+            // with nothing selected the meter summarises the whole group.
+            const selectedName = selectedSkills[group.title];
+            const selectedSkill = group.skills.find((s) => s.name === selectedName);
+            const segments = selectedSkill
+              ? skillSegments(selectedSkill.level)
+              : LEVEL_SEGMENTS[group.level] ?? 3;
+            const levelLabel = selectedSkill ? skillLabel(selectedSkill.level) : group.level;
             return (
               <article
                 key={group.title}
@@ -642,21 +684,27 @@ const Skills = () => {
                 </div>
 
                 <h3 className="text-white font-semibold text-[17px] mb-1.5">{group.title}</h3>
-                <p className="text-slate-500 text-[13px] leading-relaxed mb-5">{group.blurb}</p>
+                <p className="text-slate-400 text-[13px] leading-relaxed mb-5">{group.blurb}</p>
 
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {group.skills.map((skill) => (
-                    <span
-                      key={skill.name}
-                      className={`px-2.5 py-1 rounded-lg text-[12px] leading-none border ${
-                        skill.level >= CORE_THRESHOLD
-                          ? accent.chip
-                          : 'bg-white/[0.04] border-white/10 text-slate-400'
-                      }`}
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
+                  {group.skills.map((skill) => {
+                    const isSelected = selectedName === skill.name;
+                    return (
+                      <button
+                        key={skill.name}
+                        type="button"
+                        aria-pressed={isSelected}
+                        onClick={() => toggleSkill(group.title, skill.name)}
+                        className={`px-2.5 py-1 rounded-lg text-[12px] leading-none border transition-all duration-200 ${
+                          skill.level >= CORE_THRESHOLD
+                            ? accent.chip
+                            : 'bg-white/[0.04] border-white/10 text-slate-400'
+                        } ${isSelected ? accent.selected : 'hover:text-white hover:border-white/30'}`}
+                      >
+                        {skill.name}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <div className="flex items-center justify-between gap-4 mt-auto pt-4 border-t border-white/[0.06]">
@@ -664,11 +712,23 @@ const Skills = () => {
                     {[0, 1, 2, 3, 4].map((i) => (
                       <span
                         key={i}
-                        className={`w-6 h-[3px] rounded-full ${i < segments ? accent.seg : 'bg-white/10'}`}
+                        className={`w-6 h-[3px] rounded-full transition-colors duration-300 ${
+                          i < segments ? accent.seg : 'bg-white/10'
+                        }`}
                       />
                     ))}
                   </div>
-                  <span className="text-slate-500 text-[12px]">{group.level}</span>
+                  <span className="text-[12px] text-slate-400 transition-colors duration-300">
+                    {selectedSkill ? (
+                      <>
+                        <span className="text-white/80">{selectedSkill.level}%</span>
+                        <span className="text-slate-500"> · </span>
+                        {levelLabel}
+                      </>
+                    ) : (
+                      levelLabel
+                    )}
+                  </span>
                 </div>
               </article>
             );
@@ -689,7 +749,7 @@ const Skills = () => {
                 >
                   <span className={`w-1.5 h-1.5 rounded-full ${lang.dot}`} />
                   <span className="text-white text-[13px] font-medium">{lang.name}</span>
-                  <span className="text-slate-500 text-[12px]">{lang.level}</span>
+                  <span className="text-slate-400 text-[12px]">{lang.level}</span>
                 </span>
               ))}
             </div>

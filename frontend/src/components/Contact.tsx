@@ -97,6 +97,14 @@ const PROCESS_STEPS = [
   { label: 'Deploy & Scale', icon: Rocket, accent: 'blue' },
 ] as const;
 
+// Was hardcoded to localhost, which left the form dead in any deployed build.
+// Falls back to the same backend AIChatbot already talks to.
+const API_BASE =
+  import.meta.env.VITE_API_URL ??
+  (window.location.hostname === 'localhost'
+    ? 'http://localhost:8000'
+    : 'https://portfolio-backend-g68o.onrender.com');
+
 const DIRECT_CONTACT = [
   {
     label: 'GitHub',
@@ -148,7 +156,7 @@ const Contact = () => {
 
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:8000/api/contact/', {
+      const response = await fetch(`${API_BASE}/api/contact/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -266,7 +274,7 @@ const Contact = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
               <span className="text-white/85 text-sm font-medium">Open to opportunities</span>
-              <span className="text-slate-500 text-sm">Freelance · Contract · Full-time</span>
+              <span className="text-slate-400 text-sm">Freelance · Contract · Full-time</span>
             </div>
 
             {/* What I can help with */}
@@ -297,7 +305,7 @@ const Contact = () => {
                         <Icon size={20} className={accent.icon} />
                       </div>
                       <div className="text-white text-[14px] font-medium mb-1.5">{card.title}</div>
-                      <p className="text-slate-500 text-[11.5px] leading-[1.5]">{card.description}</p>
+                      <p className="text-slate-400 text-[11.5px] leading-[1.5]">{card.description}</p>
                     </div>
                   );
                 })}
@@ -307,7 +315,7 @@ const Contact = () => {
             {/* From idea to impact — full width of the left column, matching "What I can help with" above */}
             <div className="bg-white/[0.035] border border-blue-400/10 rounded-2xl p-6 md:p-7 mb-8">
               <h3 className="text-white font-semibold text-base mb-1">From idea to impact</h3>
-              <p className="text-slate-500 text-sm mb-7">A simple path we can take together.</p>
+              <p className="text-slate-400 text-sm mb-7">A simple path we can take together.</p>
               <div className="flex items-start">
                 {PROCESS_STEPS.map((step, index) => {
                   const Icon = step.icon;
@@ -355,10 +363,10 @@ const Contact = () => {
                 <span className="text-blue-400 font-semibold mr-1">Details</span>
                 <span className="w-3 h-px bg-white/15 flex-none" />
                 <span className="w-1 h-1 rounded-full bg-white/15 flex-none mx-1" />
-                <span className="text-slate-600">Message</span>
+                <span className="text-slate-500">Message</span>
                 <span className="w-3 h-px bg-white/15 flex-none" />
                 <span className="w-1 h-1 rounded-full bg-white/15 flex-none mx-1" />
-                <span className="text-slate-600">Send</span>
+                <span className="text-slate-500">Send</span>
               </div>
             </div>
 
@@ -405,7 +413,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Your name"
-                    className="w-full px-3.5 py-3 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder:text-slate-600 placeholder:text-[13px] text-sm focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-500/15 transition-all duration-200"
+                    className="w-full px-3.5 py-3 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder:text-slate-500 placeholder:text-[13px] text-sm focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-500/15 transition-all duration-200"
                     required
                   />
                 </div>
@@ -420,7 +428,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="you@company.com"
-                    className="w-full px-3.5 py-3 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder:text-slate-600 placeholder:text-[13px] text-sm focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-500/15 transition-all duration-200"
+                    className="w-full px-3.5 py-3 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder:text-slate-500 placeholder:text-[13px] text-sm focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-500/15 transition-all duration-200"
                     required
                   />
                 </div>
@@ -428,7 +436,7 @@ const Contact = () => {
 
               <div>
                 <label htmlFor="company" className="block text-white/85 text-sm font-medium mb-2">
-                  Company / Project <span className="text-slate-500 font-normal">(Optional)</span>
+                  Company / Project <span className="text-slate-400 font-normal">(Optional)</span>
                 </label>
                 <input
                   type="text"
@@ -437,7 +445,7 @@ const Contact = () => {
                   value={formData.company}
                   onChange={handleChange}
                   placeholder="Company name or project link"
-                  className="w-full px-3.5 py-3 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder:text-slate-600 placeholder:text-[13px] text-sm focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-500/15 transition-all duration-200"
+                  className="w-full px-3.5 py-3 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder:text-slate-500 placeholder:text-[13px] text-sm focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-500/15 transition-all duration-200"
                 />
               </div>
 
@@ -453,10 +461,10 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="What are you building? What's the problem you're trying to solve? Any specific goals, technology preferences, or timeline?"
-                  className="w-full px-3.5 py-3 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder:text-slate-600 placeholder:text-[13px] text-sm leading-[1.5] focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-500/15 transition-all duration-200 resize-none"
+                  className="w-full px-3.5 py-3 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder:text-slate-500 placeholder:text-[13px] text-sm leading-[1.5] focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-500/15 transition-all duration-200 resize-none"
                   required
                 />
-                <div className="text-right text-slate-600 text-xs mt-1.5">
+                <div className="text-right text-slate-500 text-xs mt-1.5">
                   {formData.message.length}/1000
                 </div>
               </div>
@@ -472,7 +480,7 @@ const Contact = () => {
                 <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
               </button>
 
-              <p className="flex items-center justify-center gap-1.5 text-slate-500 text-xs">
+              <p className="flex items-center justify-center gap-1.5 text-slate-400 text-xs">
                 <Lock size={12} />
                 I'll usually respond within 10-12 hours.
               </p>
@@ -482,7 +490,7 @@ const Contact = () => {
           {/* Direct contact — stacked below the form, same column width, spaced like "From idea to impact" */}
           <div className="bg-white/[0.035] border border-blue-400/10 rounded-2xl p-6 md:p-7 mt-8">
             <p className="text-white font-medium mb-1">Prefer a direct message?</p>
-            <p className="text-slate-500 text-sm mb-5">I'm active on these platforms too.</p>
+            <p className="text-slate-400 text-sm mb-5">I'm active on these platforms too.</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {DIRECT_CONTACT.map((item) => {
                 const Icon = item.icon;
@@ -498,12 +506,12 @@ const Contact = () => {
                       <Icon size={20} className="text-slate-400 flex-none" />
                       <div className="min-w-0">
                         <div className="text-white text-[14px] font-medium leading-tight truncate">{item.label}</div>
-                        <div className="text-slate-500 text-[12px] leading-tight truncate mt-0.5">{item.action}</div>
+                        <div className="text-slate-400 text-[12px] leading-tight truncate mt-0.5">{item.action}</div>
                       </div>
                     </div>
                     <ArrowRight
                       size={14}
-                      className="text-slate-600 flex-none transition-all duration-200 group-hover:text-blue-400 group-hover:translate-x-0.5"
+                      className="text-slate-500 flex-none transition-all duration-200 group-hover:text-blue-400 group-hover:translate-x-0.5"
                     />
                   </a>
                 );
