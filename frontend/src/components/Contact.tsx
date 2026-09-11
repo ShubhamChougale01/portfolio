@@ -22,16 +22,25 @@ import {
 } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
 
+const CATEGORY_COLORS = {
+  blue: { chip: 'bg-blue-500/20', icon: 'text-blue-400' },
+  green: { chip: 'bg-emerald-500/20', icon: 'text-emerald-400' },
+  pink: { chip: 'bg-pink-500/20', icon: 'text-pink-400' },
+  cyan: { chip: 'bg-cyan-500/20', icon: 'text-cyan-400' },
+  violet: { chip: 'bg-violet-500/20', icon: 'text-violet-400' },
+  slate: { chip: 'bg-white/[0.08]', icon: 'text-slate-400' },
+} as const;
+
 const CATEGORIES = [
-  { label: 'AI Product', icon: Sparkles },
-  { label: 'AI Agent', icon: Bot },
-  { label: 'MCP Integration', icon: Link2 },
-  { label: 'RAG System', icon: Database },
-  { label: 'Voice AI', icon: Mic },
-  { label: 'Automation', icon: Workflow },
-  { label: 'Consulting', icon: MessageSquare },
-  { label: 'Other', icon: MoreHorizontal },
-];
+  { label: 'AI Product', icon: Sparkles, color: 'blue' },
+  { label: 'AI Agent', icon: Bot, color: 'green' },
+  { label: 'MCP Integration', icon: Link2, color: 'pink' },
+  { label: 'RAG System', icon: Database, color: 'blue' },
+  { label: 'Voice AI', icon: Mic, color: 'cyan' },
+  { label: 'Automation', icon: Workflow, color: 'violet' },
+  { label: 'Consulting', icon: MessageSquare, color: 'blue' },
+  { label: 'Other', icon: MoreHorizontal, color: 'slate' },
+] as const;
 
 // A restrained three-color accent rotation (blue / cyan / violet) — not a
 // different color per card, just enough variation to differentiate cards
@@ -227,7 +236,7 @@ const Contact = () => {
         </svg>
       </div>
 
-      <div className="relative container mx-auto px-6">
+      <div className="relative max-w-[1200px] mx-auto px-6">
         <div className="flex items-center gap-3 mb-10">
           <span className="w-8 h-px bg-gradient-to-r from-transparent to-blue-400" />
           <span className="text-xs font-semibold tracking-[0.25em] text-blue-300/80 uppercase">
@@ -295,7 +304,7 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* From idea to impact */}
+            {/* From idea to impact — full width of the left column, matching "What I can help with" above */}
             <div className="bg-white/[0.035] border border-blue-400/10 rounded-2xl p-6 md:p-7 mb-8">
               <h3 className="text-white font-semibold text-base mb-1">From idea to impact</h3>
               <p className="text-slate-500 text-sm mb-7">A simple path we can take together.</p>
@@ -324,58 +333,32 @@ const Contact = () => {
                 })}
               </div>
             </div>
-
-            {/* Direct contact */}
-            <div>
-              <p className="text-white font-medium mb-1">Prefer a direct message?</p>
-              <p className="text-slate-500 text-sm mb-4">I'm active on these platforms too.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {DIRECT_CONTACT.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      target={item.href.startsWith('http') ? '_blank' : undefined}
-                      rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="group flex items-center justify-between gap-2 min-h-[54px] bg-white/[0.035] border border-blue-400/10 rounded-xl px-4 py-3 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-blue-400/40 hover:bg-white/[0.06]"
-                    >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <Icon size={19} className="text-slate-400 flex-none" />
-                        <div className="min-w-0">
-                          <div className="text-white text-sm font-medium leading-tight">{item.label}</div>
-                          <div className="text-slate-500 text-xs leading-tight truncate mt-0.5">{item.action}</div>
-                        </div>
-                      </div>
-                      <ArrowRight
-                        size={14}
-                        className="text-slate-600 flex-none transition-all duration-200 group-hover:text-blue-400 group-hover:translate-x-0.5"
-                      />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
           </div>
 
           {/* Right: form — the visual anchor of the page */}
+          <div>
           <div
-            className="bg-white/[0.035] border border-blue-400/15 rounded-2xl p-7 md:p-10 h-fit"
+            className="bg-white/[0.045] border border-blue-400/15 rounded-2xl p-6 md:p-8 h-fit"
             style={{ boxShadow: '0 0 40px rgba(79,140,255,0.06), 0 0 80px rgba(139,92,246,0.05)' }}
           >
-            <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between mb-8 gap-3 flex-wrap md:flex-nowrap">
+              <div className="flex items-center gap-3 min-w-0">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center flex-none">
                   <Send size={17} className="text-white" />
                 </div>
-                <h3 className="text-white font-semibold text-xl">Start a Conversation</h3>
+                <h3 className="text-white font-semibold text-xl whitespace-nowrap">Start a Conversation</h3>
               </div>
-              <div className="hidden sm:flex items-center gap-2 text-xs text-slate-600">
-                <span className="text-blue-400 font-semibold">1. Details</span>
-                <span>→</span>
-                <span>2. Message</span>
-                <span>→</span>
-                <span>3. Send</span>
+              <div className="hidden lg:flex items-center gap-1 text-[11px] flex-none whitespace-nowrap">
+                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-blue-500 text-white text-[10px] font-bold flex-none mr-1">
+                  1
+                </span>
+                <span className="text-blue-400 font-semibold mr-1">Details</span>
+                <span className="w-3 h-px bg-white/15 flex-none" />
+                <span className="w-1 h-1 rounded-full bg-white/15 flex-none mx-1" />
+                <span className="text-slate-600">Message</span>
+                <span className="w-3 h-px bg-white/15 flex-none" />
+                <span className="w-1 h-1 rounded-full bg-white/15 flex-none mx-1" />
+                <span className="text-slate-600">Send</span>
               </div>
             </div>
 
@@ -388,18 +371,21 @@ const Contact = () => {
                   {CATEGORIES.map((cat) => {
                     const Icon = cat.icon;
                     const active = selectedCategory === cat.label;
+                    const color = CATEGORY_COLORS[cat.color];
                     return (
                       <button
                         key={cat.label}
                         type="button"
                         onClick={() => setSelectedCategory(cat.label)}
-                        className={`flex items-center justify-center gap-1.5 min-h-[40px] px-4 rounded-lg text-[13px] font-medium border transition-all duration-200 ${
+                        className={`flex items-center justify-center gap-2 min-h-[40px] px-2.5 rounded-lg text-[12.5px] font-medium border transition-all duration-200 whitespace-nowrap ${
                           active
                             ? 'bg-blue-500/20 border-blue-400/70 text-white shadow-[0_0_16px_rgba(79,140,255,0.22)]'
                             : 'bg-white/[0.03] border-white/10 text-slate-400 hover:border-white/20 hover:text-white'
                         }`}
                       >
-                        <Icon size={14} />
+                        <span className={`flex items-center justify-center w-5 h-5 rounded-md flex-none ${color.chip}`}>
+                          <Icon size={12} className={color.icon} />
+                        </span>
                         {cat.label}
                       </button>
                     );
@@ -488,9 +474,42 @@ const Contact = () => {
 
               <p className="flex items-center justify-center gap-1.5 text-slate-500 text-xs">
                 <Lock size={12} />
-                I'll usually respond within 24-48 hours.
+                I'll usually respond within 10-12 hours.
               </p>
             </form>
+          </div>
+
+          {/* Direct contact — stacked below the form, same column width, spaced like "From idea to impact" */}
+          <div className="bg-white/[0.035] border border-blue-400/10 rounded-2xl p-6 md:p-7 mt-8">
+            <p className="text-white font-medium mb-1">Prefer a direct message?</p>
+            <p className="text-slate-500 text-sm mb-5">I'm active on these platforms too.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {DIRECT_CONTACT.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={item.href.startsWith('http') ? '_blank' : undefined}
+                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="group flex items-center justify-between gap-3 bg-white/[0.035] border border-blue-400/10 rounded-xl px-4 py-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-blue-400/40 hover:bg-white/[0.06]"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Icon size={20} className="text-slate-400 flex-none" />
+                      <div className="min-w-0">
+                        <div className="text-white text-[14px] font-medium leading-tight truncate">{item.label}</div>
+                        <div className="text-slate-500 text-[12px] leading-tight truncate mt-0.5">{item.action}</div>
+                      </div>
+                    </div>
+                    <ArrowRight
+                      size={14}
+                      className="text-slate-600 flex-none transition-all duration-200 group-hover:text-blue-400 group-hover:translate-x-0.5"
+                    />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
           </div>
         </div>
       </div>
