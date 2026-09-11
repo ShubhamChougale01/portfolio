@@ -1,127 +1,51 @@
-# 🧠 Git & GitHub Commands Cheat Sheet
+# Portfolio Frontend
 
-> A quick reference guide to essential Git and GitHub CLI (`gh`) commands, with clear explanations to help you manage your projects effectively.
+React 18 + TypeScript + Vite single-page portfolio, styled with Tailwind CSS and shadcn/ui, with an AI chatbot sidebar and a contact form.
 
----
+## Prerequisites
+- Node.js >= 18
 
-## 🔐 Authentication
+## Setup
 
-### `gh auth login`
-
-Log in to GitHub using the terminal. Supports browser-based login or token-based authentication.
-
-### `gh auth logout`
-
-Logs you out of GitHub CLI on the current machine.
-
----
-
-## 📦 Repository Initialization & Setup
-
-### `git init`
-
-Initialize a new Git repository in the current directory.
-
-### `git remote add origin <repo-url>`
-
-Link your local repository to a remote repository hosted on GitHub.
-
-### `git remote -v`
-
-View the current configured remote URLs for fetch and push.
-
-### `git remote set-url origin <new-url>`
-
-Change the remote repository URL (e.g., switch from HTTPS to SSH).
-
-### `rm -rf .git`
-
-Remove Git tracking from the current directory to start fresh.
-
----
-
-## 📝 Adding & Committing Changes
-
-### `git add .`
-
-Stage all changes (new, modified, and deleted files) for the next commit.
-
-### `git commit -m "Your message"`
-
-Commit staged changes with a descriptive message.
-
-### `git status`
-
-Show the status of changes: staged, unstaged, and untracked files.
-
-### `git log`
-
-View the commit history in the current branch.
-
----
-
-## 🚀 Pushing & Pulling Code
-
-### `git push -u origin main`
-
-Push local commits to the remote `main` branch and set upstream tracking.
-
-### `git pull origin main`
-
-Fetch and merge the latest changes from the remote `main` branch.
-
----
-
-## 🌿 Branching
-
-### `git branch`
-
-List all local branches in the repository.
-
-### `git checkout -b new-branch`
-
-Create and switch to a new branch.
-
-### `git checkout main`
-
-Switch back to the `main` branch.
-
-### `git merge <branch-name>`
-
-Merge a specified branch into the current branch.
-
----
-
-## ♻️ Undoing & Resetting
-
-### `git reset --soft HEAD~1`
-
-Undo the last commit but keep the changes staged.
-
-### `git reset --hard HEAD~1`
-
-Completely remove the last commit and discard all changes.
-
-### `git rm --cached <file>`
-
-Untrack a file from Git without deleting it from your filesystem. Useful for removing accidentally committed files or submodules.
-
----
-
-## 📁 Ignoring Files
-
-### `.gitignore`
-
-Defines which files and directories Git should ignore in the repository.
-
-**Example:**
-
-```
-node_modules/
-dist/
-.env
+```bash
+cd frontend
+npm install
 ```
 
----
+## Usage
 
-Need advanced commands like rebasing, stashing, or resolving conflicts? Let me know, and I’ll expand this guide!
+```bash
+npm run dev
+```
+
+Runs at `http://localhost:8080` (configured in `vite.config.ts`). Requires the Django backend running at `http://localhost:8000` (see `../backend_p/README.md`) for the chatbot and contact form to work.
+
+Other scripts:
+```bash
+npm run build       # production build
+npm run build:dev   # development-mode build
+npm run preview      # preview a production build locally
+npm run lint         # eslint
+```
+
+## Backend URL
+The backend base URL is currently hardcoded in components rather than read from an env var:
+- `src/components/AIChatbot.tsx` — POSTs to `http://localhost:8000/rag` on `localhost`, otherwise a deployed Render URL
+- `src/components/Contact.tsx` — POSTs to `http://localhost:8000/api/contact/`
+
+If you deploy the backend elsewhere, update these URLs directly.
+
+## Structure
+```
+src/
+├── components/   # Header, Hero, About, Projects, Skills, Contact, AIChatbot
+├── pages/        # Index page — assembles all sections
+├── hooks/        # Custom React hooks (e.g. useChat)
+└── lib/          # Utility functions and API clients
+```
+
+## Deployment
+Deploys to Vercel via the root `vercel.json`.
+
+---
+MIT License

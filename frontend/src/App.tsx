@@ -11,10 +11,13 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    {/* Every section is designed against #030712, so the site is dark-only.
+        Forcing it keeps token-driven chrome (header, footer, toasts) in step
+        instead of rendering light over permanently dark content. */}
     <ThemeProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="dark"
+      forcedTheme="dark"
       disableTransitionOnChange
     >
       <TooltipProvider>

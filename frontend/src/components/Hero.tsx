@@ -1,375 +1,401 @@
-import { ArrowDown, Download, MapPin, GraduationCap, Brain, Eye, Mic, Zap, Link, Package } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
-import DefaultProfileImage from '/src/assets/Profile.jpeg';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import {
+  ArrowDown,
+  ArrowRight,
+  Download,
+  MapPin,
+  GraduationCap,
+  Brain,
+  Eye,
+  Mic,
+  Network,
+} from 'lucide-react';
+import ProfileImage from '@/assets/Profile.webp';
 
-const summaryText = (
-  <>
-    <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed mb-2">
-      Hi! I'm Shubham — an AI Engineer at <strong>64 Squares LLC</strong>, where I design real-time, production-ready systems powered by AI Agents, LLMs, computer vision, and speech AI.
-    </p>
-    <p className="intro-text text-lg md:text-xl text-muted-foreground leading-relaxed">
-      With hands-on experience in YOLOv8, RAG, CoreML, Deepgram, Langchain, and OpenAI, I've created tools that detect defects in buildings, automate property workflows, and enable voice-driven assistants. My passion lies in solving real-world problems through intelligent automation, whether it's on-device inference or cloud-based AI pipelines.
-    </p>
-  </>
-);
+// three.js is heavy, so the chunk is only fetched once we know the device can
+// use it — see the capability gate in Hero below.
+const HeroMesh = lazy(() => import('./HeroMesh'));
 
-const specializeText = (
-  <div className="text-left space-y-3">
-    <div>
-      <span className="font-semibold">AI Agents & LLMs:</span> Langchain, RAG, OpenAI API, contextual memory
-    </div>
-    <div>
-      <span className="font-semibold">Computer Vision:</span> YOLOv8, AVFoundation, CoreML, image/video inference
-    </div>
-    <div>
-      <span className="font-semibold">Voice Interfaces:</span> Deepgram STT, TTS, Whisper — for smart assistants
-    </div>
-    <div>
-      <span className="font-semibold">92% accurate real-time defect detection on iOS</span>
-    </div>
-    <div>
-      <span className="font-semibold">Seamless integration between backend, frontend, and AI Agents</span>
-    </div>
-    <div>
-      <span className="font-semibold">Containerized ML workflows for easy deployment</span>
-    </div>
-  </div>
-);
+function canRender3D() {
+  if (typeof window === 'undefined') return false;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+  if (window.innerWidth < 768) return false;
+  if ((navigator.hardwareConcurrency ?? 4) < 4) return false;
+  try {
+    const probe = document.createElement('canvas');
+    return Boolean(probe.getContext('webgl2') ?? probe.getContext('webgl'));
+  } catch {
+    return false;
+  }
+}
 
-const Hero = () => {
-  const [openBox, setOpenBox] = useState<'summary' | 'specialize' | null>(null);
-  const [profileImage, setProfileImage] = useState(DefaultProfileImage);
-  const boxRef = useRef(null);
-  const fileInputRef = useRef(null);
+const METRICS = [
+  { value: 3, suffix: '+', label: 'Years Experience' },
+  { value: 10, suffix: '+', label: 'Custom MCP Servers' },
+  { value: 6, suffix: '+', label: 'AI / ML Domains' },
+  { value: 20, suffix: '+', label: 'Projects & Systems' },
+];
+
+const SPECIALIZATIONS = [
+  {
+    title: 'LLM & Agentic Systems',
+    stack: 'Claude, MCP server design, LangGraph, CrewAI, RAG',
+    note: 'Production-grade agent platforms, not prototypes',
+    proof: '99.2% uptime serving 10,000+ daily users · 10+ custom MCP servers',
+    icon: Brain,
+    tile: 'from-blue-500/20 to-blue-600/[0.04] border-blue-400/25 text-blue-300',
+    hover: 'hover:border-blue-400/40 hover:shadow-[0_0_30px_rgba(79,140,255,0.13)]',
+  },
+  {
+    title: 'Voice AI & Automation',
+    stack: 'Deepgram, Pipecat, ElevenLabs, real-time call routing',
+    note: 'Sub-500ms voice pipelines under real call load',
+    proof: 'Multi-agent workflows (LangGraph, CrewAI) cutting manual work 65%',
+    icon: Mic,
+    tile: 'from-cyan-500/20 to-cyan-600/[0.04] border-cyan-400/25 text-cyan-300',
+    hover: 'hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(34,211,238,0.13)]',
+  },
+  {
+    title: 'Computer Vision',
+    stack: 'YOLOv8, CoreML, on-device inference',
+    note: 'Real-time, on-device inference at production accuracy',
+    proof: '92% accuracy at 30 FPS, sub-200ms inference latency',
+    icon: Eye,
+    tile: 'from-violet-500/20 to-violet-600/[0.04] border-violet-400/25 text-violet-300',
+    hover: 'hover:border-violet-400/40 hover:shadow-[0_0_30px_rgba(155,92,255,0.13)]',
+  },
+  {
+    title: 'Knowledge Graphs & Data',
+    stack: 'Neo4j, graph-based data modeling, ontology design',
+    note: 'Structured reasoning over unstructured claims and relationships',
+    proof: 'Claim-dependency graph for a confidential production pipeline (2026)',
+    icon: Network,
+    tile: 'from-emerald-500/20 to-emerald-600/[0.04] border-emerald-400/25 text-emerald-300',
+    hover: 'hover:border-emerald-400/40 hover:shadow-[0_0_30px_rgba(52,211,153,0.13)]',
+  },
+];
+
+const ORBIT_TAGS = [
+  { label: 'Claude', className: 'top-4 -left-4 text-blue-200 border-blue-400/30 bg-blue-500/10' },
+  { label: 'MCP', className: 'top-1/3 -right-6 text-violet-200 border-violet-400/30 bg-violet-500/10' },
+  { label: 'LangGraph', className: 'bottom-14 -left-10 text-cyan-200 border-cyan-400/30 bg-cyan-500/10' },
+  { label: 'RAG', className: 'bottom-2 right-2 text-emerald-200 border-emerald-400/30 bg-emerald-500/10' },
+];
+
+// Counts up once the strip scrolls into view; respects reduced-motion by
+// jumping straight to the final value.
+function useCountUp(target: number, active: boolean, duration = 1500) {
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (boxRef.current && !boxRef.current.contains(event.target)) {
-        setOpenBox(null);
-      }
+    if (!active) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setValue(target);
+      return;
     }
-    if (openBox) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [openBox]);
+    let frame = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      setValue(target * (1 - Math.pow(1 - progress, 3)));
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [target, active, duration]);
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => setProfileImage(e.target.result as string);
-      reader.readAsDataURL(file);
-    }
-  };
+  return value;
+}
 
-  const triggerFileInput = () => {
-    fileInputRef.current.click();
-  };
+function Metric({
+  value,
+  suffix,
+  label,
+  active,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
+  active: boolean;
+}) {
+  const current = useCountUp(value, active);
+  const display = Math.round(current).toLocaleString('en-US');
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted to-background relative overflow-hidden pt-20">
-      {/* Matrix-style code rain - Dark mode only */}
-      <div className="absolute inset-0 overflow-hidden dark:block hidden">
-        <div className="absolute top-0 left-[10%] text-green-400/20 text-xs font-mono animate-pulse">
-          <div className="animate-slide-down">01100001 01101001</div>
-        </div>
-        <div className="absolute top-0 left-[30%] text-blue-400/20 text-xs font-mono animate-pulse delay-1000">
-          <div className="animate-slide-down delay-500">def neural_network():</div>
-        </div>
-        <div className="absolute top-0 left-[60%] text-cyan-400/20 text-xs font-mono animate-pulse delay-2000">
-          <div className="animate-slide-down delay-1000">import tensorflow as tf</div>
-        </div>
-        <div className="absolute top-0 left-[80%] text-purple-400/20 text-xs font-mono animate-pulse delay-1500">
-          <div className="animate-slide-down delay-300">model.compile()</div>
-        </div>
+    <div className="flex-1 min-w-[130px]">
+      <div className="text-2xl md:text-[28px] font-bold text-white tabular-nums leading-none mb-1.5">
+        {display}
+        <span className="text-blue-400">{suffix}</span>
+      </div>
+      <div className="text-[12px] text-slate-400 leading-snug">{label}</div>
+    </div>
+  );
+}
+
+const Hero = () => {
+  const metricsRef = useRef<HTMLDivElement>(null);
+  const [metricsVisible, setMetricsVisible] = useState(false);
+  const [show3D, setShow3D] = useState(false);
+
+  useEffect(() => {
+    setShow3D(canRender3D());
+  }, []);
+
+  useEffect(() => {
+    const node = metricsRef.current;
+    if (!node || typeof IntersectionObserver === 'undefined') {
+      setMetricsVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMetricsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.4 }
+    );
+    observer.observe(node);
+    // Safety net: never leave the numbers stuck at zero if the observer
+    // never fires (background tab, unusual viewport).
+    const fallback = window.setTimeout(() => setMetricsVisible(true), 2500);
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
+  }, []);
+
+  return (
+    <section id="home" className="relative overflow-hidden bg-[#030712] pt-28 pb-20 md:pt-32 md:pb-24">
+      {/* Ambient background — decorative only */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(720px circle at 78% 12%, rgba(79,140,255,0.16), transparent 58%),' +
+              'radial-gradient(620px circle at 12% 28%, rgba(155,92,255,0.11), transparent 58%),' +
+              'radial-gradient(760px circle at 50% 108%, rgba(34,211,238,0.07), transparent 58%)',
+          }}
+        />
+        {/* Faint grid */}
+        <div
+          className="absolute inset-0 opacity-[0.18]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),' +
+              'linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+            maskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, #000 40%, transparent 100%)',
+            WebkitMaskImage:
+              'radial-gradient(ellipse 80% 60% at 50% 30%, #000 40%, transparent 100%)',
+          }}
+        />
+        {/* Live 3D node graph. Replaces the static SVG sketch that used to sit
+            here; on devices that can't run it the gradients above stand alone. */}
+        {show3D && (
+          <Suspense fallback={null}>
+            <HeroMesh />
+          </Suspense>
+        )}
       </div>
 
-      {/* Light mode floating particles */}
-      <div className="absolute inset-0 overflow-hidden block dark:hidden">
-        <div className="absolute top-0 left-[10%] text-blue-500/60 text-sm font-mono animate-pulse font-bold">
-          <div className="animate-slide-down">AI</div>
-        </div>
-        <div className="absolute top-0 left-[30%] text-purple-500/60 text-sm font-mono animate-pulse delay-1000 font-bold">
-          <div className="animate-slide-down delay-500">ML</div>
-        </div>
-        <div className="absolute top-0 left-[60%] text-cyan-500/60 text-sm font-mono animate-pulse delay-2000 font-bold">
-          <div className="animate-slide-down delay-1000">CV</div>
-        </div>
-        <div className="absolute top-0 left-[80%] text-green-500/60 text-sm font-mono animate-pulse delay-1500 font-bold">
-          <div className="animate-slide-down delay-300">LLM</div>
-        </div>
-        <div className="absolute top-1/4 left-[15%] text-indigo-500/50 text-xs font-mono animate-pulse delay-300">
-          <div className="animate-slide-down delay-700">TensorFlow</div>
-        </div>
-        <div className="absolute top-1/3 left-[75%] text-pink-500/50 text-xs font-mono animate-pulse delay-1200">
-          <div className="animate-slide-down delay-900">PyTorch</div>
-        </div>
-        <div className="absolute top-2/3 left-[20%] text-orange-500/50 text-xs font-mono animate-pulse delay-800">
-          <div className="animate-slide-down delay-1100">OpenAI</div>
-        </div>
-        <div className="absolute top-3/4 left-[70%] text-teal-500/50 text-xs font-mono animate-pulse delay-600">
-          <div className="animate-slide-down delay-1300">LangChain</div>
-        </div>
-      </div>
-
-      {/* Spider web effect - Dark mode */}
-      <div className="absolute inset-0 dark:block hidden">
-        <svg className="w-full h-full opacity-10" viewBox="0 0 800 600">
-          <defs>
-            <pattern id="web" patternUnits="userSpaceOnUse" width="100" height="100">
-              <path d="M 0 50 L 100 50 M 50 0 L 50 100 M 20 20 L 80 80 M 80 20 L 20 80"
-                stroke="url(#gradient)" strokeWidth="0.5" opacity="0.3" />
-            </pattern>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3b82f6" />
-              <stop offset="50%" stopColor="#8b5cf6" />
-              <stop offset="100%" stopColor="#06b6d4" />
-            </linearGradient>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#web)" className="animate-pulse" />
-          <line x1="100" y1="100" x2="300" y2="200" stroke="#3b82f6" strokeWidth="1" opacity="0.2" className="animate-pulse delay-500">
-            <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite" />
-          </line>
-          <line x1="500" y1="150" x2="700" y2="350" stroke="#8b5cf6" strokeWidth="1" opacity="0.2" className="animate-pulse delay-1000">
-            <animate attributeName="opacity" values="0.1;0.4;0.1" dur="4s" repeatCount="indefinite" />
-          </line>
-          <line x1="200" y1="400" x2="600" y2="100" stroke="#06b6d4" strokeWidth="1" opacity="0.2" className="animate-pulse delay-1500">
-            <animate attributeName="opacity" values="0.1;0.4;0.1" dur="5s" repeatCount="indefinite" />
-          </line>
-        </svg>
-      </div>
-
-      {/* Light mode geometric patterns */}
-      <div className="absolute inset-0 block dark:hidden">
-        <svg className="w-full h-full opacity-15" viewBox="0 0 800 600">
-          <defs>
-            <pattern id="geometric" patternUnits="userSpaceOnUse" width="60" height="60">
-              <circle cx="30" cy="30" r="3" fill="#3b82f6" opacity="0.4" />
-              <rect x="25" y="25" width="10" height="10" fill="none" stroke="#8b5cf6" strokeWidth="1" opacity="0.3" />
-              <circle cx="15" cy="15" r="1.5" fill="#06b6d4" opacity="0.5" />
-              <circle cx="45" cy="45" r="1.5" fill="#10b981" opacity="0.5" />
-            </pattern>
-            <pattern id="dots" patternUnits="userSpaceOnUse" width="40" height="40">
-              <circle cx="20" cy="20" r="1" fill="#6366f1" opacity="0.3" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#geometric)" className="animate-pulse" />
-          <rect width="100%" height="100%" fill="url(#dots)" className="animate-pulse delay-1000" />
-        </svg>
-      </div>
-
-      {/* Floating neural network nodes - Darkទ Dark mode */}
-      <div className="absolute inset-0 dark:block hidden">
-        <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-blue-500/40 rounded-full animate-dark-float">
-          <div className="w-full h-full bg-blue-400 rounded-full animate-ping"></div>
-        </div>
-        <div className="absolute top-1/3 right-1/3 w-2 h-2 bg-purple-500/40 rounded-full animate-dark-float delay-1000">
-          <div className="w-full h-full bg-purple-400 rounded-full animate-ping delay-500"></div>
-        </div>
-        <div className="absolute bottom-1/3 left-1/2 w-4 h-4 bg-cyan-500/40 rounded-full animate-dark-float delay-2000">
-          <div className="w-full h-full bg-cyan-400 rounded-full animate-ping delay-1000"></div>
-        </div>
-        <div className="absolute top-2/3 right-1/4 w-2 h-2 bg-green-500/40 rounded-full animate-dark-float delay-500">
-          <div className="w-full h-full bg-green-400 rounded-full animate-ping delay-200"></div>
-        </div>
-      </div>
-
-      {/* Light mode floating elements */}
-      <div className="absolute inset-0 block dark:hidden">
-        <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-blue-500/50 rounded-full animate-light-float shadow-lg shadow-blue-500/30">
-          <div className="w-full h-full bg-blue-400 rounded-full animate-ping"></div>
-        </div>
-        <div className="absolute top-1/3 right-1/3 w-4 h-4 bg-purple-500/50 rounded-full animate-light-float delay-1000 shadow-lg shadow-purple-500/30">
-          <div className="w-full h-full bg-purple-400 rounded-full animate-ping delay-500"></div>
-        </div>
-        <div className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-cyan-500/50 rounded-full animate-light-float delay-2000 shadow-lg shadow-cyan-500/30">
-          <div className="w-full h-full bg-cyan-400 rounded-full animate-ping delay-1000"></div>
-        </div>
-        <div className="absolute top-2/3 right-1/4 w-4 h-4 bg-green-500/50 rounded-full animate-light-float delay-500 shadow-lg shadow-green-500/30">
-          <div className="w-full h-full bg-green-400 rounded-full animate-ping delay-200"></div>
-        </div>
-        <div className="absolute top-1/6 left-2/3 w-2 h-2 bg-indigo-500/50 rounded-full animate-light-float delay-300 shadow-lg shadow-indigo-500/30">
-          <div className="w-full h-full bg-indigo-400 rounded-full animate-ping delay-300"></div>
-        </div>
-        <div className="absolute bottom-1/6 right-1/6 w-3 h-3 bg-pink-500/50 rounded-full animate-light-float delay-700 shadow-lg shadow-pink-500/30">
-          <div className="w-full h-full bg-pink-400 rounded-full animate-ping delay-700"></div>
-        </div>
-        <div className="absolute top-1/2 left-1/6 w-2 h-2 bg-orange-500/50 rounded-full animate-light-float delay-900 shadow-lg shadow-orange-500/30">
-          <div className="w-full h-full bg-orange-400 rounded-full animate-ping delay-900"></div>
-        </div>
-      </div>
-
-      {/* Glowing orbs with circuit patterns - Dark mode */}
-      <div className="absolute inset-0 overflow-hidden dark:block hidden">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl animate-dark-float"></div>
-        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-indigo-500/4 rounded-full blur-3xl animate-drift"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-cyan-500/3 rounded-full blur-3xl animate-dark-float delay-1000"></div>
-      </div>
-
-      {/* Light mode subtle gradients */}
-      <div className="absolute inset-0 overflow-hidden block dark:hidden">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-400/8 rounded-full blur-3xl animate-light-float shadow-2xl shadow-blue-400/20"></div>
-        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-purple-400/6 rounded-full blur-3xl animate-drift shadow-2xl shadow-purple-400/20"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-cyan-400/8 rounded-full blur-3xl animate-light-float delay-1000 shadow-2xl shadow-cyan-400/20"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-indigo-400/5 rounded-full blur-3xl animate-light-float delay-500 shadow-2xl shadow-indigo-400/20"></div>
-        <div className="absolute bottom-1/6 right-1/3 w-56 h-56 bg-green-400/7 rounded-full blur-3xl animate-light-float delay-1200 shadow-2xl shadow-green-400/20"></div>
-      </div>
-
-      {/* Circuit board pattern - Dark mode */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iY2lyY3VpdCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDMwIDAgTCAzMCAzMCBMIDYwIDMwIE0gMCAzMCBMIDMwIDMwIE0gMzAgMzAgTCAzMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LCAxMzAsIDI0NiwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjIiIGZpbGw9InJnYmEoNTksIDEzMCwgMjQ2LCAwLjEpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2NpcmN1aXQpIi8+PC9zdmc+')] opacity-15 dark:block hidden"></div>
-
-      {/* Light mode dot pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZG90cyIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48Y2lyY2xlIGN4PSIxNSIgY3k9IjE1IiByPSIxLjUiIGZpbGw9InJnYmEoNTksIDEzMCwgMjQ2LCAwLjIpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2RvdHMpIi8+PC9zdmc+')] opacity-20 block dark:hidden"></div>
-
-      <div className="container mx-auto px-6 text-center relative z-10 max-w-5xl">
-        <div className="animate-fade-in flex flex-col items-center">
-          {/* Add extra space above the profile picture */}
-          <div className="h-10 md:h-28" />
-          {/* Profile Picture with Upload - centered and larger */}
-          <div className="relative mb-10 flex justify-center w-full">
-            <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-blue-400/50 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer" onClick={triggerFileInput}>
-              {profileImage ? (
-                <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground group-hover:bg-blue-400/10 transition-colors duration-300">
-                  <span className="text-sm font-medium">Upload Image</span>
-                </div>
-              )}
-              <input
-                type="file"
-                ref={fileInputRef}
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageUpload}
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-500/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </div>
-          {/* Main Hero Content - centered below image */}
-          <div className="flex-1 flex flex-col items-center w-full">
-            {/* Hero Section */}
-            <h1 className="hero-title text-5xl md:text-6xl mb-4 text-foreground leading-tight font-bold md:text-left">
-              <span className="inline-block animate-pulse">Shubham Chougale</span>
-            </h1>
-            
-            <h2 className="hero-subtitle text-2xl md:text-3xl mb-4 text-foreground md:text-left">
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
-                AI Engineer
+      <div className="relative container mx-auto px-6 max-w-6xl">
+        {/* Top: intro + portrait */}
+        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 lg:gap-16 items-center mb-16">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
+            {/* Availability */}
+            <div className="inline-flex items-center gap-2.5 bg-white/[0.04] border border-white/10 rounded-full pl-3 pr-4 py-1.5 mb-7">
+              <span className="relative flex h-2 w-2">
+                <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-            </h2>
-            
-            <p className="font-source-sans text-lg md:text-xl mb-6 text-muted-foreground font-medium max-w-3xl md:text-left">
-             AI Agents - Computer Vision - LLM
-            </p>
-            
-            {/* Location and Education */}
-            <div className="flex flex-col sm:flex-row items-center md:items-start md:justify-start gap-6 mb-8 text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <MapPin size={18} />
-                <span className="font-times">Pune, India</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <GraduationCap size={18} />
-                <span className="font-times">MCA in Data Science</span>
-              </div>
+              <span className="text-white/85 text-sm font-medium">Open to opportunities</span>
+              <span className="hidden sm:inline text-slate-400 text-sm">
+                Freelance · Contract · Full-time
+              </span>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center mb-12">
+            <h1 className="text-5xl md:text-6xl lg:text-[68px] font-bold text-white leading-[1.02] tracking-tight mb-4">
+              Shubham
+              <br />
+              Chougale
+            </h1>
+
+            <p className="text-2xl md:text-[28px] font-semibold mb-4 leading-tight">
+              <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+                Production AI Systems Engineer
+              </span>
+            </p>
+
+            <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-slate-400 text-base mb-7">
+              <span>Claude</span>
+              <span className="text-slate-700">·</span>
+              <span>MCP</span>
+              <span className="text-slate-700">·</span>
+              <span>Multi-Agent Orchestration</span>
+            </p>
+
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-8 text-slate-400 text-sm">
+              <span className="inline-flex items-center gap-2">
+                <MapPin size={15} className="text-slate-500" />
+                Pune, India
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <GraduationCap size={15} className="text-slate-500" />
+                MCA in Data Science
+              </span>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
               <a
                 href="#projects"
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative overflow-hidden group"
+                className="group inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-violet-500 hover:from-blue-400 hover:to-violet-400 text-white px-6 py-3 rounded-lg font-semibold text-[15px] transition-all duration-200 hover:-translate-y-0.5"
+                style={{ boxShadow: '0 4px 24px rgba(79,140,255,0.25)' }}
               >
-                <span className="relative z-10">View My Work</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                View My Work
+                <ArrowRight
+                  size={16}
+                  className="transition-transform duration-200 group-hover:translate-x-1"
+                />
               </a>
               <a
                 href="#contact"
-                className="border border-border hover:border-blue-400 text-muted-foreground hover:text-blue-300 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
+                className="inline-flex items-center gap-2 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-blue-400/40 text-white px-6 py-3 rounded-lg font-semibold text-[15px] transition-all duration-200 hover:-translate-y-0.5"
               >
-                <span className="relative z-10">Get In Touch</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                Get In Touch
               </a>
               <a
                 href="/Shubham_AI.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 border border-border hover:border-green-400 text-muted-foreground hover:text-green-300 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-muted/50 backdrop-blur-sm relative group"
+                className="inline-flex items-center gap-2 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-emerald-400/40 text-slate-300 hover:text-white px-6 py-3 rounded-lg font-semibold text-[15px] transition-all duration-200 hover:-translate-y-0.5"
               >
-                <Download size={18} />
-                <span className="relative z-10">Download Resume</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400/10 to-emerald-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <Download size={16} />
+                Resume
               </a>
             </div>
-            
-            {/* Brief Intro Paragraph */}
-            <div className="mb-12 max-w-4xl mx-auto md:mx-0 px-4 md:px-0">
-              {summaryText}
-            </div>
-            
-            {/* What I Specialize In */}
-            <div className="mb-12 specialization-section max-w-4xl mx-auto md:mx-0 px-4 md:px-0">
-              <h3 className="section-header text-2xl md:text-3xl font-bold mb-8 text-foreground">What I Specialize In</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-blue-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
-                  <div className="card-icon text-blue-500 mb-3">
-                    <Brain size={32} />
-                  </div>
-                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">AI Agents & LLMs</h4>
-                  <p className="card-description text-muted-foreground text-sm leading-relaxed">Langchain, RAG, OpenAI API, contextual memory</p>
-                </div>
-                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-purple-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
-                  <div className="card-icon text-purple-500 mb-3">
-                    <Eye size={32} />
-                  </div>
-                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Computer Vision</h4>
-                  <p className="card-description text-muted-foreground text-sm leading-relaxed">YOLOv8, AVFoundation, CoreML, image/video inference</p>
-                </div>
-                <div className="specialization-card bg-card/50 p-6 rounded-xl border border-border hover:border-cyan-400/50 transition-all duration-300 shadow-sm hover:shadow-md">
-                  <div className="card-icon text-cyan-500 mb-3">
-                    <Mic size={32} />
-                  </div>
-                  <h4 className="card-title text-lg font-semibold mb-2 text-foreground">Voice Interfaces</h4>
-                  <p className="card-description text-muted-foreground text-sm leading-relaxed">Deepgram STT, TTS, Whisper — for smart assistants</p>
-                </div>
+          </div>
+
+          {/* Portrait */}
+          <div className="relative flex justify-center lg:justify-end animate-in fade-in zoom-in-95 duration-700 delay-150 fill-mode-both">
+            <div className="relative w-60 h-60 sm:w-72 sm:h-72">
+              {/* Glow */}
+              <div
+                className="absolute -inset-6 rounded-full blur-2xl opacity-60"
+                aria-hidden="true"
+                style={{
+                  background:
+                    'conic-gradient(from 180deg, rgba(79,140,255,0.35), rgba(155,92,255,0.3), rgba(34,211,238,0.25), rgba(79,140,255,0.35))',
+                }}
+              />
+              {/* Ring */}
+              <div
+                className="absolute -inset-1.5 rounded-full"
+                aria-hidden="true"
+                style={{
+                  background:
+                    'linear-gradient(140deg, rgba(79,140,255,0.7), rgba(155,92,255,0.5), rgba(34,211,238,0.45))',
+                }}
+              />
+              <div className="absolute inset-0 rounded-full overflow-hidden border-4 border-[#030712]">
+                <img
+                  src={ProfileImage}
+                  alt="Shubham Chougale"
+                  className="w-full h-full object-cover"
+                />
               </div>
-            </div>
-            
-            {/* Mini Highlights */}
-            <div className="mb-20 max-w-4xl mx-auto md:mx-0 px-4 md:px-0">
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center text-sm text-muted-foreground">
-                <div className="highlight-item flex items-center gap-2">
-                  <span className="highlight-icon text-green-400">
-                    <Zap size={20} />
-                  </span>
-                  <span className="font-times">92% accurate real-time defect detection on iOS</span>
-                </div>
-                <div className="highlight-item flex items-center gap-2">
-                  <span className="highlight-icon text-blue-400">
-                    <Link size={20} />
-                  </span>
-                  <span className="font-times">Seamless integration between backend, frontend, and AI Agents</span>
-                </div>
-                <div className="highlight-item flex items-center gap-2">
-                  <span className="highlight-icon text-purple-400">
-                    <Package size={20} />
-                  </span>
-                  <span className="font-times">Containerized ML workflows for easy deployment</span>
-                </div>
-              </div>
+
+              {/* Floating stack tags */}
+              {ORBIT_TAGS.map((tag, i) => (
+                <span
+                  key={tag.label}
+                  className={`absolute hidden sm:block px-2.5 py-1 rounded-lg text-[11px] font-medium border backdrop-blur-sm motion-safe:animate-float ${tag.className}`}
+                  style={{ animationDelay: `${i * 700}ms` }}
+                >
+                  {tag.label}
+                </span>
+              ))}
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Animated scroll indicator */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="flex flex-col items-center gap-2">
-          <ArrowDown className="text-muted-foreground animate-pulse" size={24} />
-          <div className="w-1 h-8 bg-gradient-to-b from-blue-400 to-transparent rounded-full animate-pulse"></div>
+        {/* Metrics strip — counts up on first view */}
+        <div
+          ref={metricsRef}
+          className="flex flex-wrap gap-y-6 gap-x-4 bg-white/[0.035] border border-white/[0.08] rounded-2xl px-6 py-6 md:px-8 mb-16"
+        >
+          {METRICS.map((metric) => (
+            <Metric key={metric.label} {...metric} active={metricsVisible} />
+          ))}
+        </div>
+
+        {/* Intro */}
+        <div className="max-w-3xl mb-16 space-y-5">
+          <p className="text-slate-300 text-base md:text-lg leading-relaxed">
+            Hi! I'm Shubham — a Production AI Systems Engineer. I build AI systems that survive
+            production, not demos that survive a screen-share: over 3+ years I've shipped LLM
+            platforms serving 10,000+ daily users at 99.2% uptime, architected 10+ custom MCP
+            servers expanding what a single AI platform can do 5x, and designed multi-agent
+            workflows (LangGraph, CrewAI) that cut manual work by 65% at scale.
+          </p>
+          <p className="text-slate-400 text-base md:text-lg leading-relaxed">
+            I specialize in Claude-native architecture — RAG pipelines, agentic tool-calling, and
+            MCP integrations that hold up under real traffic, not just a happy-path demo. Whether
+            you're hiring full-time, staffing a contract engagement, or need a freelance architect
+            for a specific build — if you need someone to architect (not just wire together) a
+            production-grade agent system, MCP server, or RAG platform, that's the work I want to
+            be doing.
+          </p>
+        </div>
+
+        {/* Specializations */}
+        <div>
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-white text-xl md:text-2xl font-bold">What I Specialize In</h2>
+            <span className="flex-1 h-px bg-white/[0.07]" />
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {SPECIALIZATIONS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article
+                  key={item.title}
+                  className={`group flex flex-col bg-white/[0.035] border border-white/[0.08] rounded-2xl p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/[0.055] ${item.hover}`}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-xl border bg-gradient-to-br flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-105 ${item.tile}`}
+                  >
+                    <Icon size={22} />
+                  </div>
+                  <h3 className="text-white font-semibold text-[16px] leading-snug mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-slate-400 text-[13px] leading-relaxed mb-2.5">{item.stack}</p>
+                  <p className="text-slate-500 text-[12px] italic leading-relaxed mb-4">
+                    {item.note}
+                  </p>
+                  <p className="mt-auto pt-3.5 border-t border-white/[0.06] text-slate-400 text-[12px] leading-relaxed">
+                    <span className="text-blue-400">→ </span>
+                    {item.proof}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Scroll cue */}
+        <div className="flex justify-center mt-16">
+          <a
+            href="#about"
+            aria-label="Scroll to about"
+            className="group flex flex-col items-center gap-2 text-slate-500 hover:text-blue-400 transition-colors"
+          >
+            <span className="text-[11px] tracking-[0.2em] uppercase">Scroll</span>
+            <ArrowDown size={18} className="motion-safe:animate-bounce" />
+          </a>
         </div>
       </div>
     </section>

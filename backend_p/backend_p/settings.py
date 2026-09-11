@@ -57,7 +57,16 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://portfolio-frontend-7qkq4q1fk-shubham-s-projects-b0658d3e.vercel.app",
-    "https://portfolio-frontend-six-self.vercel.app",  
+    "https://portfolio-frontend-six-self.vercel.app",
+]
+
+# Local development. The Vite dev server takes whatever port is free (8080,
+# 8081, 8082 ...), so match any localhost port rather than pinning one —
+# without this the browser blocks every call from a dev build, which is what
+# left the chatbot and the contact form silently dead locally.
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^http://localhost:\d+$",
+    r"^http://127\.0\.0\.1:\d+$",
 ]
 
 ROOT_URLCONF = 'backend_p.urls'
@@ -140,7 +149,3 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy-insecure-dev-key')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ['*']
-CORS_ALLOW_METHODS = ['*']

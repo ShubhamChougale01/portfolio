@@ -9,6 +9,7 @@ backend/venv/
 dist/
 dist-ssr/
 *.local
+*.tsbuildinfo
 
 # Logs
 logs/
