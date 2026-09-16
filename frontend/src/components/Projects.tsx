@@ -14,6 +14,7 @@ import ClaimVerificationImg from '@/assets/project/claim-verification.webp';
 import MetricStreamImg from '@/assets/project/metricstream.webp';
 import CommerceSupportImg from '@/assets/project/commerce-support-agent.webp';
 import CloudBuildersImg from '@/assets/project/cloudbuilders.webp';
+import SecrisaImg from '@/assets/project/secrisa.webp';
 import AgentHarnessImg from '@/assets/project/agent-harness.webp';
 import OrgKnowledgeHubImg from '@/assets/project/org-knowledge-hub.webp';
 import EngineerOsImg from '@/assets/project/engineer-os.webp';
@@ -56,6 +57,7 @@ const imageMap: Record<string, string> = {
   metricstream: MetricStreamImg,
   commercesupport: CommerceSupportImg,
   cloudbuilders: CloudBuildersImg,
+  secrisa: SecrisaImg,
   agentharness: AgentHarnessImg,
   orgknowledgehub: OrgKnowledgeHubImg,
   engineeros: EngineerOsImg,
