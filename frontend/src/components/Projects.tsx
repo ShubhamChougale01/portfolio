@@ -10,6 +10,20 @@ import DetImg from '@/assets/project/CNN.webp';
 import TurfImg from '@/assets/project/turftown.webp';
 import DanceImg from '@/assets/project/dance.webp';
 import BuenosImg from '@/assets/project/buenos_aires.webp';
+import ClaimVerificationImg from '@/assets/project/claim-verification.webp';
+import MetricStreamImg from '@/assets/project/metricstream.webp';
+import CommerceSupportImg from '@/assets/project/commerce-support-agent.webp';
+import CloudBuildersImg from '@/assets/project/cloudbuilders.webp';
+import AgentHarnessImg from '@/assets/project/agent-harness.webp';
+import OrgKnowledgeHubImg from '@/assets/project/org-knowledge-hub.webp';
+import EngineerOsImg from '@/assets/project/engineer-os.webp';
+import TerminalMindImg from '@/assets/project/terminalmind.webp';
+import BigQueryMcpImg from '@/assets/project/bigquery-mcp.webp';
+import RagPipelineImg from '@/assets/project/rag-pipeline.webp';
+import GenAiBotImg from '@/assets/project/genai-bot.webp';
+import VoiceAssistantImg from '@/assets/project/voice-assistant.webp';
+import ClaudeCodeHooksImg from '@/assets/project/claude-code-hooks.webp';
+import ClaudeSkillsImg from '@/assets/project/claude-skills.webp';
 
 interface Repo {
   label: string;
@@ -38,6 +52,20 @@ const imageMap: Record<string, string> = {
   dance: DanceImg,
   turftown: TurfImg,
   buenosaires: BuenosImg,
+  claimverification: ClaimVerificationImg,
+  metricstream: MetricStreamImg,
+  commercesupport: CommerceSupportImg,
+  cloudbuilders: CloudBuildersImg,
+  agentharness: AgentHarnessImg,
+  orgknowledgehub: OrgKnowledgeHubImg,
+  engineeros: EngineerOsImg,
+  terminalmind: TerminalMindImg,
+  bigquerymcp: BigQueryMcpImg,
+  ragpipeline: RagPipelineImg,
+  genaibot: GenAiBotImg,
+  voiceassistant: VoiceAssistantImg,
+  claudecodehooks: ClaudeCodeHooksImg,
+  claudeskills: ClaudeSkillsImg,
   placeholder: '/placeholder.svg',
 };
 
