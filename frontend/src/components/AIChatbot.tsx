@@ -50,6 +50,13 @@ const AIChatbot = () => {
     const text = question.trim();
     if (!text || loading) return;
 
+    // Snapshot the turns so far, before this question is appended — the
+    // backend needs them to resolve follow-ups like "what tech did that use?".
+    // The canned greeting is ours, not the model's, so it is dropped.
+    const history = messages
+      .slice(1)
+      .map((m) => ({ role: m.type === 'user' ? 'user' : 'assistant', content: m.text }));
+
     setMessages((prev) => [...prev, { type: 'user', text }]);
     setInputMessage('');
     setLoading(true);
@@ -58,7 +65,10 @@ const AIChatbot = () => {
     const hintTimer = window.setTimeout(() => setSlowHint(true), COLD_START_HINT_MS);
 
     try {
-      const { response, data } = await postJSON<{ answer?: string }>('/rag', { question: text });
+      const { response, data } = await postJSON<{ answer?: string }>('/rag', {
+        question: text,
+        history,
+      });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       setMessages((prev) => [
         ...prev,
