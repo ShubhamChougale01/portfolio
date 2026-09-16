@@ -50,7 +50,7 @@
     ],
     "imageKey": "vizismart",
     "client": "Client Project — 64 Squares",
-    "featured": false
+    "featured": true
   },
   {
     "title": "DevOps Intern – Tata Consultancy Services",
@@ -181,7 +181,7 @@
     ],
     "imageKey": "commercesupport",
     "github": "https://github.com/ShubhamChougale01/commerce-support-agent",
-    "featured": true
+    "featured": false
   },
   {
     "title": "Intelligent Call Routing for AI Voice Platform",

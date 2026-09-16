@@ -25,6 +25,7 @@ import GenAiBotImg from '@/assets/project/genai-bot.webp';
 import VoiceAssistantImg from '@/assets/project/voice-assistant.webp';
 import ClaudeCodeHooksImg from '@/assets/project/claude-code-hooks.webp';
 import ClaudeSkillsImg from '@/assets/project/claude-skills.webp';
+import SectionAmbience from './SectionAmbience';
 
 interface Repo {
   label: string;
@@ -182,18 +183,7 @@ const Projects = () => {
 
   return (
     <section id="projects" className="relative overflow-hidden py-20 md:py-24 bg-[#030712]">
-      {/* Ambient background — decorative only */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(640px circle at 92% 6%, rgba(79,140,255,0.12), transparent 60%),' +
-              'radial-gradient(600px circle at 6% 40%, rgba(155,92,255,0.09), transparent 60%),' +
-              'radial-gradient(700px circle at 70% 96%, rgba(34,211,238,0.06), transparent 60%)',
-          }}
-        />
-      </div>
+      <SectionAmbience />
 
       <div className="relative container mx-auto px-6 max-w-6xl">
         {/* Header */}
