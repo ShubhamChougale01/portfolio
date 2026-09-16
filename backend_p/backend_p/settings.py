@@ -13,20 +13,43 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
+from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&bp8mnoxtt#&@j8=_!$l8hydsl(1f=l=p$#&+xbnym^9a^b)14'
+# The environment is the only source (.env locally, Render env vars in
+# production). There is deliberately no fallback: a missing key fails loudly
+# at startup rather than signing sessions with a value committed to git.
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ImproperlyConfigured(
+        'DJANGO_SECRET_KEY is not set. Generate one with '
+        '`python manage.py shell -c "from django.core.management.utils '
+        'import get_random_secret_key; print(get_random_secret_key())"`.'
+    )
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+# Only the hosts we actually answer on. '*' accepted any Host header, which
+# lets an attacker poison absolute URLs the app builds from the request.
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get(
+        'DJANGO_ALLOWED_HOSTS',
+        'portfolio-backend-g68o.onrender.com,localhost,127.0.0.1',
+    ).split(',')
+    if host.strip()
+]
 
 
 
@@ -143,9 +166,34 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy-insecure-dev-key')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+
+# --- Contact form notifications ----------------------------------------------
+# Credentials come from the environment only; .env is gitignored and Render
+# supplies these as env vars. For Gmail this must be an App Password, not the
+# account password.
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_TIMEOUT = 15
+
+# Where enquiries land.
+CONTACT_NOTIFY_EMAIL = os.environ.get('CONTACT_NOTIFY_EMAIL', 'shubham.chougale001@gmail.com')
+DEFAULT_FROM_EMAIL = os.environ.get(
+    'DEFAULT_FROM_EMAIL', EMAIL_HOST_USER or 'portfolio@localhost'
+)
+
+# Without credentials, print the message to the server log instead of failing
+# to connect — so local development still exercises the whole path.
+EMAIL_BACKEND = (
+    'django.core.mail.backends.smtp.EmailBackend'
+    if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD
+    else 'django.core.mail.backends.console.EmailBackend'
+)
