@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
+from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,12 +26,30 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&bp8mnoxtt#&@j8=_!$l8hydsl(1f=l=p$#&+xbnym^9a^b)14'
+# The environment is the only source (.env locally, Render env vars in
+# production). There is deliberately no fallback: a missing key fails loudly
+# at startup rather than signing sessions with a value committed to git.
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ImproperlyConfigured(
+        'DJANGO_SECRET_KEY is not set. Generate one with '
+        '`python manage.py shell -c "from django.core.management.utils '
+        'import get_random_secret_key; print(get_random_secret_key())"`.'
+    )
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+# Only the hosts we actually answer on. '*' accepted any Host header, which
+# lets an attacker poison absolute URLs the app builds from the request.
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get(
+        'DJANGO_ALLOWED_HOSTS',
+        'portfolio-backend-g68o.onrender.com,localhost,127.0.0.1',
+    ).split(',')
+    if host.strip()
+]
 
 
 
@@ -147,7 +166,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy-insecure-dev-key')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

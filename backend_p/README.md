@@ -22,8 +22,19 @@ Create a `.env` file in `backend_p/` (not committed — see `.gitignore`):
 
 ```env
 GROQ_API_KEY=your_groq_api_key_here
-DJANGO_SECRET_KEY=change-me-in-production
+DJANGO_SECRET_KEY=your_generated_secret_key
 ```
+
+`DJANGO_SECRET_KEY` is required — there is no fallback, so the app raises
+`ImproperlyConfigured` at startup if it is missing. Generate one with:
+
+```bash
+python manage.py shell -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+`ALLOWED_HOSTS` defaults to the Render host plus `localhost`/`127.0.0.1`; set
+`DJANGO_ALLOWED_HOSTS` (comma-separated) when deploying to a different domain.
+See `.env.example` for the full list.
 
 ## Usage
 
