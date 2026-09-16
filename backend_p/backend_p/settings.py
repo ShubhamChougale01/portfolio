@@ -185,7 +185,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_TIMEOUT = 15
 
 # Where enquiries land.
-CONTACT_NOTIFY_EMAIL = os.environ.get('CONTACT_NOTIFY_EMAIL', 'shubham.chougale001@gmail.com')
+CONTACT_NOTIFY_EMAIL = os.environ.get('CONTACT_NOTIFY_EMAIL', 'shubhh1012@gmail.com')
 DEFAULT_FROM_EMAIL = os.environ.get(
     'DEFAULT_FROM_EMAIL', EMAIL_HOST_USER or 'portfolio@localhost'
 )
