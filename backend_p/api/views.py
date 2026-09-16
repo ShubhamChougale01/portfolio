@@ -2,6 +2,8 @@ import logging
 import os
 import numpy as np
 import faiss
+from email.utils import formataddr
+
 from django.core.mail import EmailMessage
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -123,6 +125,18 @@ def chat_endpoint(request):
     response = f"You said: {user_message}"
     return Response({"response": response})
 
+def _sender_display(name, email):
+    """Name the visitor in the From line, over our own sending address.
+
+    The address itself has to stay DEFAULT_FROM_EMAIL — Gmail only lets the
+    authenticated account send, and rewrites anything else — but it does keep
+    the display name, so the inbox shows who wrote in without opening the mail.
+    Replying still goes to the visitor via reply_to.
+    """
+    label = " ".join((name or email or "Portfolio visitor").split())[:60]
+    return formataddr((f"{label} (portfolio)", settings.DEFAULT_FROM_EMAIL))
+
+
 def _send_contact_notification(name, email, subject, message):
     """Email the enquiry on, with the sender as reply-to so a reply goes
     straight back to them.
@@ -142,7 +156,7 @@ def _send_contact_notification(name, email, subject, message):
         mail = EmailMessage(
             subject=f"Portfolio enquiry — {subject or 'no subject'}",
             body=body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
+            from_email=_sender_display(name, email),
             to=[settings.CONTACT_NOTIFY_EMAIL],
             reply_to=[email] if email else None,
         )
