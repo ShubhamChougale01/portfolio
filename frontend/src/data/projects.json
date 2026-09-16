@@ -123,6 +123,17 @@
     "featured": true
   },
   {
+    "title": "SECRISA — AI Manufacturing Chatbot",
+    "description": "Domain-specific manufacturing chatbot built with RAG and LangChain for pricing, SKU lookup, budgeting, and product categorization, delivered as a freelance engagement for a Spain-based manufacturer.",
+    "details": "- Launched a domain-specific manufacturing chatbot (RAG + LangChain) for pricing, SKU lookup, budgeting, and product categorization\n- Reduced manual lookup time by 70% across 200+ daily operations\n- Implemented Tool Calling and Function Calling APIs with dynamic agent routing\n- Enabled accurate multi-turn query execution across heterogeneous product and financial datasets\n- Note: screenshots pending — confidential/client project",
+    "category": "AI Project",
+    "tech": ["LangChain", "RAG", "ChromaDB", "Tool Calling", "FastAPI", "Python"],
+    "imageKey": "placeholder",
+    "github": "#",
+    "client": "Freelance Project — SECRISA (Spain)",
+    "featured": false
+  },
+  {
     "title": "Agent-Harness",
     "description": "Governance-first framework orchestrating Planner, Code, Test, and Reviewer AI agents for autonomous software development.",
     "details": "- Multi-agent orchestration with task queueing\n- Role-based access control (RBAC) and structured governance\n- Immutable audit logging for all actions\n- Integration with Claude Code CLI\n- Type-safe Python, strict mypy enforcement",
