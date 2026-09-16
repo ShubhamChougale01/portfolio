@@ -1,4 +1,5 @@
 import { Target, Building2, ShieldCheck, Eye, Network, Brain } from 'lucide-react';
+import SectionAmbience from './SectionAmbience';
 
 // Three phases drawn from the narrative below — no invented dates, just the
 // arc the copy already describes.
@@ -55,17 +56,7 @@ const PRINCIPLES = [
 const About = () => {
   return (
     <section id="about" className="relative overflow-hidden py-20 md:py-24 bg-[#030712]">
-      {/* Ambient background — decorative only */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(620px circle at 10% 8%, rgba(155,92,255,0.10), transparent 60%),' +
-              'radial-gradient(660px circle at 94% 70%, rgba(79,140,255,0.10), transparent 60%)',
-          }}
-        />
-      </div>
+      <SectionAmbience />
 
       <div className="relative container mx-auto px-6 max-w-6xl">
         {/* Header */}

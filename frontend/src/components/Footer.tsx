@@ -32,7 +32,7 @@ const Footer = () => {
           <polygon fill="currentColor" opacity="0.6" points="0,260 220,150 380,210 560,120 750,200 950,130 1200,220 1200,260" />
         </svg>
 
-        <div className="relative container mx-auto px-6 py-16 md:py-20">
+        <div className="relative container mx-auto px-6 max-w-6xl py-16 md:py-20">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
             <div className="text-center lg:text-left">
               <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
@@ -72,7 +72,7 @@ const Footer = () => {
 
       {/* Identity + nav + socials */}
       <div className="border-t border-border">
-        <div className="container mx-auto px-6 py-8">
+        <div className="container mx-auto px-6 max-w-6xl py-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             {/* Brand */}
             <div className="flex items-center gap-4 justify-center lg:justify-start">
@@ -144,7 +144,7 @@ const Footer = () => {
 
       {/* Legal row */}
       <div className="border-t border-border ">
-        <div className="container mx-auto px-6 py-3 flex items-center justify-center text-center">
+        <div className="container mx-auto px-6 max-w-6xl py-3 flex items-center justify-center text-center">
           <p className="text-muted-foreground/80 text-sm flex items-center gap-1.5">
             <span>© 2024–2026 Shubham Chougale. All rights reserved.</span>
             <span aria-hidden="true" className="text-lg leading-none">·</span>

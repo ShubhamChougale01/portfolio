@@ -36,7 +36,7 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm">
-      <nav className="container mx-auto px-6 py-4">
+      <nav className="container mx-auto px-6 max-w-6xl py-4">
         <div className="flex items-center justify-between">
           {/* Profile and Social Links */}
           <div className="flex items-center space-x-4">

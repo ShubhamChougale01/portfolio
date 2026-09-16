@@ -35,6 +35,7 @@ import NationalLevelTechEvent from '@/assets/Certificates/National-level-tech-ev
 import NewHorizon from '@/assets/Certificates/New-horizon-2k20.webp';
 import OneDayInternational from '@/assets/Certificates/One-day-international-competition.webp';
 import ResearchPublication from '@/assets/Certificates/Research Publication Certificate – AJANTA Journal (ISSN 2277-5730).webp';
+import SectionAmbience from './SectionAmbience';
 
 // Skill card accents. Each entry is a full class string so Tailwind's scanner
 // picks them up — don't build these by interpolation.
@@ -595,23 +596,7 @@ const Skills = () => {
   return (
     <>
     <section id="skills" className="relative overflow-hidden py-20 md:py-24 bg-[#030712]">
-      {/* Ambient background — decorative only, sits behind all content */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(620px circle at 4% 4%, rgba(79,140,255,0.11), transparent 60%),' +
-              'radial-gradient(680px circle at 96% 12%, rgba(155,92,255,0.09), transparent 60%),' +
-              'radial-gradient(700px circle at 60% 100%, rgba(34,211,238,0.06), transparent 60%)',
-          }}
-        />
-        <svg className="absolute -top-24 right-[-120px] w-[560px] h-[560px] opacity-[0.06]" viewBox="0 0 400 400">
-          <circle cx="200" cy="200" r="190" fill="none" stroke="#4F8CFF" strokeWidth="1" />
-          <circle cx="200" cy="200" r="140" fill="none" stroke="#9B5CFF" strokeWidth="1" />
-          <circle cx="200" cy="200" r="90" fill="none" stroke="#22D3EE" strokeWidth="1" />
-        </svg>
-      </div>
+      <SectionAmbience />
 
       <div className="relative container mx-auto px-6 max-w-6xl">
         {/* Header */}
@@ -760,17 +745,8 @@ const Skills = () => {
 
     {/* Certifications Section — its own full-bleed dark section, no boxed border */}
     <section className="relative overflow-hidden py-20 md:py-24 bg-[#030712]">
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(560px circle at 8% 10%, rgba(79,140,255,0.12), transparent 62%),' +
-              'radial-gradient(600px circle at 92% 85%, rgba(139,92,246,0.10), transparent 62%)',
-          }}
-        />
-      </div>
-      <div className="relative container mx-auto px-6">
+      <SectionAmbience />
+      <div className="relative container mx-auto px-6 max-w-6xl">
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="hidden sm:block w-8 h-px bg-gradient-to-r from-transparent to-blue-400" />
             <span className="text-xs font-semibold tracking-[0.2em] text-blue-300/80 uppercase">
