@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
@@ -192,8 +193,33 @@ DEFAULT_FROM_EMAIL = os.environ.get(
 
 # Without credentials, print the message to the server log instead of failing
 # to connect — so local development still exercises the whole path.
+EMAIL_IS_CONFIGURED = bool(EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
 EMAIL_BACKEND = (
     'django.core.mail.backends.smtp.EmailBackend'
-    if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD
+    if EMAIL_IS_CONFIGURED
     else 'django.core.mail.backends.console.EmailBackend'
 )
+
+if not EMAIL_IS_CONFIGURED:
+    # Say so, loudly and on stderr. This fallback is a convenience locally and a
+    # silent outage in production: enquiries get printed to the log, the API
+    # still answers 200, and nobody finds out until someone asks why they never
+    # heard back. Logging is not configured this early, so write directly.
+    _missing = [
+        name
+        for name, value in (
+            ('EMAIL_HOST_USER', EMAIL_HOST_USER),
+            ('EMAIL_HOST_PASSWORD', EMAIL_HOST_PASSWORD),
+        )
+        if not value
+    ]
+    sys.stderr.write(
+        "\n"
+        "*** CONTACT EMAIL IS NOT BEING SENT ***\n"
+        f"    Missing: {', '.join(_missing)}\n"
+        "    Enquiries will be printed to this log instead of delivered, and\n"
+        "    /api/contact/ will report \"notified\": false.\n"
+        "    Set these on the Render service (or in .env locally) and restart.\n"
+        "    Gmail needs a 16-character App Password, not the account password.\n"
+        "\n"
+    )
