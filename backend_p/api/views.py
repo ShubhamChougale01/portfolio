@@ -308,6 +308,17 @@ def _send_contact_notification(name, email, subject, message):
     must not turn a successful submission into an error for the visitor. It is
     logged and reported back as `notified: false` instead.
     """
+    if not settings.EMAIL_IS_CONFIGURED:
+        # The console backend "sends" successfully, so without this check the
+        # endpoint reports notified: true while the enquiry only ever reached
+        # the server log. Report the truth; the submission is still stored.
+        logger.error(
+            "Contact enquiry from %s was NOT emailed: SMTP credentials are not "
+            "configured, so it was only written to the log. Set EMAIL_HOST_USER "
+            "and EMAIL_HOST_PASSWORD.",
+            email,
+        )
+
     body = (
         f"New portfolio enquiry\n\n"
         f"Name:    {name}\n"
@@ -324,7 +335,8 @@ def _send_contact_notification(name, email, subject, message):
             reply_to=[email] if email else None,
         )
         mail.send(fail_silently=False)
-        return True
+        # Still print it locally, but never claim it was delivered.
+        return settings.EMAIL_IS_CONFIGURED
     except Exception:
         logger.exception("Contact notification email failed for %s", email)
         return False
